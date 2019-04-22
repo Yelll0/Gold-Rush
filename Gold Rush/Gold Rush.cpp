@@ -1,19 +1,20 @@
-// Gold Rush.cpp : This file contains the 'main' function. Program execution begins and ends there.
+#pragma once
 
 #include "stdafx.h"
 
-int main( int argc, char *argv[] )
-{
-    std::cout << "Hello World!\n"; 
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
-	{
-		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
-	}
-	return 0;
-}
 
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
+int main ( int argc, char *argv[] )
+{
+	Game Game;
+	if ( Game.Init() ) {
+		std::cout << "Failed to initialize game." << std::endl;
+		return -1;
+	}
+	Game.RunLoop();
+	Game.Quit();
+	std::cout << "Success!" << std::endl;
+	return 0; // 0 = Success, <0 = Error
+}
 
 // Tips for Getting Started: 
 //   1. Use the Solution Explorer window to add/manage files
