@@ -1,10 +1,10 @@
 #pragma once
 
-#include "stdafx.h"
+#include "Game.h"
 
 Game::Game()
 {
-	SetState(1);
+	mState = 1;
 }
 
 Game::~Game()
@@ -38,7 +38,7 @@ int Game::Init()
 
 void Game::RunLoop()
 {
-	while (mGameState == 1)
+	while (mState == 1)
 	{
 		ProcessInput();
 		UpdateGame();
