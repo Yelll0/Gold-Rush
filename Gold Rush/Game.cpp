@@ -4,7 +4,7 @@
 
 Game::Game()
 {
-
+	SetState(1);
 }
 
 Game::~Game()
@@ -25,9 +25,9 @@ int Game::Init()
 		"Gold Rush",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		640,
-		480,
-		SDL_WINDOW_MAXIMIZED
+		500,
+		650,
+		SDL_WINDOW_OPENGL
 		);
 	if (!mWindow) {
 		std::cout << "Could not create window: "  << SDL_GetError() << std::endl;
@@ -40,7 +40,9 @@ void Game::RunLoop()
 {
 	while (mGameState == 1)
 	{
-
+		ProcessInput();
+		UpdateGame();
+		GenerateOutput();
 	}
 	return;
 }
