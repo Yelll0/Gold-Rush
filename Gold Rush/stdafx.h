@@ -4,6 +4,6 @@
 #include <iostream>
 #include <SDL.h>
 #include <GL/glew.h>
-// Headers & classes
+// Other headers & classes
 #include "Player.h"
 #include "Game.h"

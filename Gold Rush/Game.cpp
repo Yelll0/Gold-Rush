@@ -25,8 +25,8 @@ int Game::Init()
 		"Gold Rush",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		500,
-		500,
+		576, // Sprites are 16*16 pixels, and are scaled up *4
+		576,
 		SDL_WINDOW_OPENGL
 		);
 	if (!mWindow) {
