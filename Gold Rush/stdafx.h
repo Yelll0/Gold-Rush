@@ -1,9 +1,9 @@
 // Precompiled header file
 #pragma once
-// Libraries
+// Libraries & frameworks
 #include <iostream>
 #include <SDL.h>
-#include <SDL_image.h>
+#include <GL/glew.h>
 // Headers & classes
 #include "Player.h"
 #include "Game.h"

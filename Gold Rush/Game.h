@@ -22,6 +22,6 @@ private:
 	void GenerateOutput();
 	// Other member variables
 	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
-	Player* mPlayer;
+	class Player* mPlayer;
 	SDL_Window* mWindow;
 };

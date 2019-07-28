@@ -26,7 +26,7 @@ int Game::Init()
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
 		500,
-		650,
+		500,
 		SDL_WINDOW_OPENGL
 		);
 	if (!mWindow) {
