@@ -95,5 +95,13 @@ void Game::UpdateGame()
 
 void Game::GenerateOutput()
 {
+	// Set clear color to grey
+	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	// Clear color buffer
+	glClear(GL_COLOR_BUFFER_BIT);
 
+	// TODO: Draw scene
+
+	// Swap buffers
+	SDL_GL_SwapWindow(mWindow);
 }
