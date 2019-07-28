@@ -24,4 +24,5 @@ private:
 	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
 	class Player* mPlayer;
 	SDL_Window* mWindow;
+	SDL_GLContext mContext;
 };

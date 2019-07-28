@@ -11,13 +11,14 @@ Game::~Game()
 {
 
 }
-
+// TODO: OpenGL set attributes (pg 129),
+// Render frames in GenerateOutput()
 int Game::Init()
 {
 	// Initialize SDL
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
-		std::cout << "SDL could not initialize! SDL_Error: " << SDL_GetError() << std::endl;
+		std::cout << "SDL unable to initialize. SDL_Error: " << SDL_GetError() << std::endl;
 		return 1;
 	}
 	// Create the window
@@ -29,10 +30,20 @@ int Game::Init()
 		576,
 		SDL_WINDOW_OPENGL
 		);
-	if (!mWindow) {
-		std::cout << "Could not create window: "  << SDL_GetError() << std::endl;
+	if (!mWindow) 
+	{
+		std::cout << "Unable to create window: "  << SDL_GetError() << std::endl;
 		return 1;
 	}
+	// Create OpenGL context and initialize GLEW
+	mContext = SDL_GL_CreateContext(mWindow);
+	glewExperimental = true;
+	if (glewInit() != GLEW_OK) 
+	{
+		SDL_Log("Failed to initialize GLEW.");
+		return 1;
+	}
+	glGetError();
 	return 0;
 }
 
@@ -44,12 +55,12 @@ void Game::RunLoop()
 		UpdateGame();
 		GenerateOutput();
 	}
-	return;
 }
 
 void Game::Quit()
 {
 	// Quit SDL
+	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 	return;
