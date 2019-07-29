@@ -14,7 +14,7 @@ public:
 	void Quit();
 	// Get and set functions
 	int GetState() { return mState; }
-	void SetState( int nState ) { mState = nState; }
+	void SetState(int nState) { mState = nState; }
 private:
 	// Game loop helper functions
 	void ProcessInput();
@@ -22,7 +22,8 @@ private:
 	void GenerateOutput();
 	// Other member variables
 	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
-	class Player* mPlayer;
+	Uint32 mTickCount;
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;
+	class Player* mPlayer;
 };

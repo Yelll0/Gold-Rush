@@ -13,6 +13,5 @@ int main ( int argc, char *argv[] )
 	}
 	Game.RunLoop();
 	Game.Quit();
-	std::cout << "Success!" << std::endl;
 	return 0; // 0 = Success, <0 = Error
 }

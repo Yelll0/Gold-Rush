@@ -90,7 +90,12 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
-
+	// Limit FPS to 60
+	
+	// Calculate delta time
+	float deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+	// Update tick count
+	mTickCount = SDL_GetTicks();
 }
 
 void Game::GenerateOutput()
