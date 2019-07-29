@@ -8,7 +8,8 @@ Game::Game()
 	mTickCount = 0;
 	mWindow = NULL;
 	mContext = NULL;
-	mPlayer = NULL;
+	mRenderer = new Renderer(this);
+	mPlayer = new Player();
 }
 
 Game::~Game()

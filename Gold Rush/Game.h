@@ -8,22 +8,28 @@ public:
 	// Constructor and destructor
 	Game();
 	~Game();
+
 	// Game loop functions
 	int Init();
 	void RunLoop();
 	void Quit();
-	// Get and set functions
+
+	// Getters and setters
 	int GetState() { return mState; }
 	void SetState(int nState) { mState = nState; }
+
+
 private:
 	// Game loop helper functions
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
+
 	// Other member variables
 	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
 	Uint32 mTickCount;
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;
 	class Player* mPlayer;
+	class Renderer* mRenderer;
 };

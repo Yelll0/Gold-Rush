@@ -8,6 +8,7 @@ public:
 	// Constructor and destructor
 	Player();
 	~Player();
+
 private:
 	// Position
 	float mPosX;
