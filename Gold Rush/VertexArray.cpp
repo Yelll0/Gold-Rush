@@ -1,5 +1,3 @@
-#pragma once
-
 #include "VertexArray.h"
 
 VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsigned int* indices, unsigned int numIndices)

@@ -9,7 +9,14 @@ public:
 	Renderer(class Game* game);
 	~Renderer();
 
+	// Initialize renderer
+	bool Init();
+
+	void Draw();
+
 private:
-	// Owner game
+	// Member variables
 	class Game* mGame;
+	class Shader* mShader;
+	class VertexArray* mVertArray;
 };

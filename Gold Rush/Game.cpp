@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Game.h"
 
 Game::Game()
@@ -62,10 +60,18 @@ int Game::Init()
 	glewExperimental = true;
 	if (glewInit() != GLEW_OK) 
 	{
-		SDL_Log("Failed to initialize GLEW.");
+		SDL_Log("Unable to initialize GLEW.");
 		return 1;
 	}
 	glGetError();
+
+	// Initialize renderer
+	if (!mRenderer->Init())
+	{
+		SDL_Log("Unable to initialize renderer.");
+		return 1;
+	}
+
 	return 0;
 }
 
@@ -117,7 +123,8 @@ void Game::GenerateOutput()
 	// Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 
-	// TODO: Draw scene
+	// Draw scene
+	mRenderer->Draw();
 
 	// Swap buffers
 	SDL_GL_SwapWindow(mWindow);

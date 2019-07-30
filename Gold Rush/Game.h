@@ -18,7 +18,6 @@ public:
 	int GetState() { return mState; }
 	void SetState(int nState) { mState = nState; }
 
-
 private:
 	// Game loop helper functions
 	void ProcessInput();

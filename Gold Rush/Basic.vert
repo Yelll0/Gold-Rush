@@ -2,7 +2,7 @@
 #version 330
 
 // Vertex attributes
-in vec3 inPosition
+in vec3 inPosition;
 
 void main()
 {
