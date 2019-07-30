@@ -5,8 +5,9 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <SDL.h>
-#include <GL/glew.h>
+#include "SDL.h"
+#include "SOIL2.h"
+#include "GL/glew.h"
 // Other headers & classes
 #include "Shader.h"
 #include "VertexArray.h"

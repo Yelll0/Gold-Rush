@@ -22,10 +22,10 @@ bool Renderer::Init()
 	
 	// [TEMP] Vertex arrays and buffers
 	float vertexBuffer[] = {
-		-0.5, 0.5, 0.0,
-		0.5, 0.5, 0.0,
-		0.5, -0.5, 0.0,
-		-0.5, -0.5, 0.0
+		-0.11f, 0.11f, 0.0f,
+		0.11f, 0.11f, 0.0f,
+		0.11f, -0.11f, 0.0f,
+		-0.11f, -0.11f, 0.0f
 	};
 	unsigned int indexBuffer[] = {
 		0, 1, 2,
