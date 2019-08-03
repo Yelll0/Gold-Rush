@@ -19,5 +19,4 @@ private:
 	class Game* mGame;
 	class Shader* mShader;
 	class VertexArray* mVertArray;
-	std::map<int, class Texture*> mPlayerTex;
 };

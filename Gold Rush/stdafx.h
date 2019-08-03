@@ -5,15 +5,11 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include <map>
-#include <iterator>
-#include <algorithm>
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
 // Other headers & classes
 #include "Shader.h"
-#include "Texture.h"
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Player.h"

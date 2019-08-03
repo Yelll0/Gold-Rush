@@ -4,7 +4,7 @@ Game::Game()
 {
 	mState = 1;
 	mTickCount = 0;
-	mWindow = nullptr;
+	mWindow = NULL;
 	mContext = NULL;
 	mRenderer = new Renderer(this);
 	mPlayer = new Player();
@@ -43,10 +43,10 @@ int Game::Init()
 	// Create the window
 	mWindow = SDL_CreateWindow(
 		"Gold Rush",
-		SDL_WINDOWPOS_UNDEFINED,
-		SDL_WINDOWPOS_UNDEFINED,
-		540, // Sprites are 20*20 pixels, and are scaled up *3
-		540,
+		SDL_WINDOWPOS_CENTERED,
+		SDL_WINDOWPOS_CENTERED,
+		576, // Sprites are 16*16 pixels, and are scaled up *4
+		576,
 		SDL_WINDOW_OPENGL
 		);
 	if (!mWindow) 

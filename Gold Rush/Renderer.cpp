@@ -3,8 +3,6 @@
 Renderer::Renderer(Game* game)
 {
 	mGame = game;
-	mShader = nullptr;
-	mVertArray = nullptr;
 }
 
 Renderer::~Renderer()
@@ -23,11 +21,11 @@ bool Renderer::Init()
 	mShader->SetActive();
 	
 	// [TEMP] Vertex arrays and buffers
-	float playerVertexBuffer[] = {
-		-0.11f,  0.11f, 0.f, 0.f, 0.f, 
-		 0.11f,  0.11f, 0.f, 1.f, 0.f,
-		 0.11f, -0.11f, 0.f, 1.f, 1.f,
-		-0.11f, -0.11f, 0.f, 0.f, 1.f
+	float vertexBuffer[] = {
+		-0.11f, 0.11f, 0.0f,
+		0.11f, 0.11f, 0.0f,
+		0.11f, -0.11f, 0.0f,
+		-0.11f, -0.11f, 0.0f
 	};
 	unsigned int indexBuffer[] = {
 		0, 1, 2,
@@ -35,7 +33,7 @@ bool Renderer::Init()
 	};
 
 	// Load vertex array
-	mVertArray = new VertexArray(playerVertexBuffer, 4, indexBuffer, 6);
+	mVertArray = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
 
 	return true;
 }
@@ -45,12 +43,6 @@ void Renderer::Draw()
 	// Activate vertex array and shader program
 	mShader->SetActive();
 	mVertArray->SetActive();
-
-	// Draw player
-	
-
-	// TODO: Draw map
-
 	// Draw scene
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
