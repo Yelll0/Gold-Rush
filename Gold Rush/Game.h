@@ -17,6 +17,7 @@ public:
 	// Getters and setters
 	int GetState() { return mState; }
 	void SetState(int nState) { mState = nState; }
+	class Player* GetPlayer() { return mPlayer; }
 
 private:
 	// Game loop helper functions

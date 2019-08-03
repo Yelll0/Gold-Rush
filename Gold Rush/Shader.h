@@ -15,6 +15,8 @@ public:
 	void SetActive();
 	// Unload this shader
 	void Unload();
+	
+	void SetMatrixUniform(const char* name, const Matrix4& matrix);
 
 private:
 	// Compile GLSL code

@@ -6,6 +6,6 @@ in vec3 inPosition;
 
 void main()
 {
-	// Pass inPosition into gll_Position
+	// Pass inPosition into gl_Position
 	gl_Position = vec4(inPosition, 1.0);
 }
