@@ -7,7 +7,7 @@ Game::Game()
 	mWindow = nullptr;
 	mContext = NULL;
 	mRenderer = new Renderer(this);
-	mPlayer = new Player(this);
+	mPlayer = new Player();
 }
 
 Game::~Game()
@@ -104,7 +104,7 @@ void Game::UpdateGame()
 	// Limit FPS to 60
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
-	float deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+	double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 	// Update tick count
 	mTickCount = SDL_GetTicks();
 	// Limit delta time value
@@ -114,9 +114,6 @@ void Game::UpdateGame()
 	}
 	// Log FPS value
 	std::cout << "FPS: " << 1 / deltaTime << std::endl;
-	
-	// Update player
-	mPlayer->Update(deltaTime);
 }
 
 void Game::GenerateOutput()

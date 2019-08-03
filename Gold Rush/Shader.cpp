@@ -106,11 +106,3 @@ void Shader::Unload()
 	glDeleteShader(mVertexShader);
 	glDeleteShader(mFragShader);
 }
-
-void Shader::SetMatrixUniform(const char* name, const Matrix4& matrix)
-{
-	// Find uniform
-	GLuint loc = glGetUniformLocation(mShaderProgram, name);
-	// Copy input matrix to uniform
-	glUniformMatrix4fv(loc, 1, GL_TRUE, matrix.GetAsFloatPtr());
-}

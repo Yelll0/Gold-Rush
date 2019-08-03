@@ -39,12 +39,6 @@
     <ClCompile Include="Texture.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Math.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="World.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -68,12 +62,6 @@
     <ClInclude Include="Texture.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Math.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="World.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="Basic.vert">
@@ -86,9 +74,6 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Sprite.frag">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="Transform.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

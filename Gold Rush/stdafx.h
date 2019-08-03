@@ -11,7 +11,6 @@
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
-#include "Math.h"
 // Other headers & classes
 #include "Shader.h"
 #include "Texture.h"
