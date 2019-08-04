@@ -3,7 +3,7 @@
 Player::Player(class Game* game) 
 {
 	mGame = game;
-	mPos = Vector2(6300.f, 16260.f);
+	mPos = Vector2(0.f, 0.f);
 	mScale = 3.f;
 	mFacing = true;
 	mRecomputeWorldTransform = true;

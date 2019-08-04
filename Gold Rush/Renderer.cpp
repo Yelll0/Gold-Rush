@@ -16,7 +16,7 @@ bool Renderer::Init()
 {
 	// Load shaders
 	mShader = new Shader();
-	if (!mShader->Load("Shaders/Transform.vert", "Shaders/Basic.frag"))
+	if (!mShader->Load("Shaders/Sprite.vert", "Shaders/Sprite.frag"))
 	{
 		return false;
 	}
@@ -24,6 +24,9 @@ bool Renderer::Init()
 
 	// Load vertex array
 	mVertArray = new VertexArray(mQuadVerts, 4, mQuadBuffer, 6);
+
+	mPlayerTex = new Texture();
+	mPlayerTex->Load("Sprites/miner.png");
 
 	return true;
 }
@@ -42,9 +45,12 @@ void Renderer::ComputeViewTransform()
 
 void Renderer::Draw() 
 {
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 	// Activate vertex array and shader program
 	mShader->SetActive();
 	mVertArray->SetActive();
+	mPlayerTex->SetActive();
 	
 	ComputeViewTransform();
 	Matrix4 worldTransform = mPlayer->GetWorldTransform();

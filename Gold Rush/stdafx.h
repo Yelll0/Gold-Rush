@@ -11,6 +11,7 @@
 #include "Math.h"
 // Other headers & classes
 #include "Shader.h"
+#include "Texture.h"
 #include "VertexArray.h"
 #include "Renderer.h"
 #include "Player.h"
