@@ -6,8 +6,8 @@ Game::Game()
 	mTickCount = 0;
 	mWindow = NULL;
 	mContext = NULL;
-	mRenderer = new Renderer(this);
-	mPlayer = new Player();
+	mPlayer = new Player(this);
+	mRenderer = new Renderer(this, mPlayer);
 }
 
 Game::~Game()
@@ -114,6 +114,8 @@ void Game::UpdateGame()
 	}
 	// Log FPS value
 	std::cout << "FPS: " << 1 / deltaTime << std::endl;
+
+	mPlayer->Update(deltaTime);
 }
 
 void Game::GenerateOutput()
