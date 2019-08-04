@@ -4,7 +4,7 @@ Player::Player(class Game* game)
 	: mGame(game),
 	mPos(Vector2(6300.f, 31800.f)),
 	mScale(3.f),
-	mFacing(true),
+	mFacing(false),
 	mRecomputeWorldTransform(true)
 {
 }

@@ -16,6 +16,7 @@ public:
 
 	// Getters and Setters
 	Vector2 GetPos() const { return mPos; }
+	bool GetFacing() const { return mFacing; }
 
 private:
 	// Member variables

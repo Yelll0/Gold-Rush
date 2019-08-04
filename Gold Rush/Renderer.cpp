@@ -58,6 +58,15 @@ void Renderer::Draw()
 	Matrix4 worldTransform = mPlayer->GetWorldTransform();
 	mShader->SetMatrixUniform("uWorldTransform", worldTransform);
 
+	if (!(mPlayer->GetFacing()))
+	{
+		mVertArray->SetVertexBuffer(mQuadVertsM, 4);
+	}
+	else
+	{
+		mVertArray->SetVertexBuffer(mQuadVerts, 4);
+	}
+
 	// Draw quads
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

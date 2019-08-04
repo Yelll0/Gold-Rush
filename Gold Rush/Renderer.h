@@ -32,6 +32,12 @@ private:
 		 10.f, -10.f, 0.0f, 1.f, 1.f,
 		-10.f, -10.f, 0.0f, 0.f, 1.f
 	};
+	float mQuadVertsM[20] = {
+		-10.f,  10.f, 0.0f, 1.f, 0.f,
+		 10.f,  10.f, 0.0f, 0.f, 0.f,
+		 10.f, -10.f, 0.0f, 0.f, 1.f,
+		-10.f, -10.f, 0.0f, 1.f, 1.f
+	};
 	unsigned int mQuadBuffer[6] = {
 		0, 1, 2,
 		2, 3, 0
