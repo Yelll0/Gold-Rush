@@ -1,15 +1,17 @@
 #include "Renderer.h"
 
 Renderer::Renderer(class Game* game, class Player* player)
+	: mGame(game),
+	mPlayer(player),
+	mRecomputeViewTransform(true),
+	mPlayerTex(nullptr),
+	mShader(nullptr),
+	mVertArray(nullptr)
 {
-	mGame = game;
-	mPlayer = player;
-	mRecomputeViewTransform = true;
 }
 
 Renderer::~Renderer()
 {
-
 }
 
 bool Renderer::Init()

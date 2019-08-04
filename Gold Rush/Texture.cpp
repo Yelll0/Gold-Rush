@@ -1,10 +1,10 @@
 #include "Texture.h"
 
 Texture::Texture()
+	: mWidth(NULL),
+	mHeight(NULL),
+	mTextureID(NULL)
 {
-	mWidth = 0;
-	mHeight = 0;
-	mTextureID = 0;
 }
 
 

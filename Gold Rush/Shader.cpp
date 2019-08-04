@@ -2,12 +2,10 @@
 
 Shader::Shader()
 {
-
 }
 
 Shader::~Shader()
 {
-
 }
 
 bool Shader::CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader)

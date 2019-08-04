@@ -1,6 +1,8 @@
 #include "VertexArray.h"
 
 VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsigned int* indices, unsigned int numIndices)
+	: mNumVerts(numVerts),
+	mNumIndices(numIndices)
 {
 	// Create and bind vertex array
 	glGenVertexArrays(1, &mVertexArray);
@@ -23,10 +25,6 @@ VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsign
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
-
-	// Initialize member variables
-	mNumVerts = numVerts;
-	mNumIndices = numIndices;
 }
 
 VertexArray::~VertexArray()

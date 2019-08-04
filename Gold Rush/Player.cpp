@@ -1,17 +1,16 @@
 #include "Player.h"
 
 Player::Player(class Game* game) 
+	: mGame(game),
+	mPos(Vector2(6300.f, 31800.f)),
+	mScale(3.f),
+	mFacing(true),
+	mRecomputeWorldTransform(true)
 {
-	mGame = game;
-	mPos = Vector2(6300.f, 32160.f);
-	mScale = 3.f;
-	mFacing = true;
-	mRecomputeWorldTransform = true;
 }
 
 Player::~Player()
 {
-
 }
 
 void Player::Update(float deltaTime)

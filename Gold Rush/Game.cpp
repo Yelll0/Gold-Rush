@@ -1,18 +1,17 @@
 #include "Game.h"
 
-Game::Game()
+Game::Game() 
+	: mState(1), 
+	mTickCount(0), 
+	mWindow(nullptr), 
+	mContext(NULL), 
+	mPlayer(new Player(this)), 
+	mRenderer(new Renderer(this, mPlayer))
 {
-	mState = 1;
-	mTickCount = 0;
-	mWindow = NULL;
-	mContext = NULL;
-	mPlayer = new Player(this);
-	mRenderer = new Renderer(this, mPlayer);
 }
 
 Game::~Game()
 {
-
 }
 
 int Game::Init()
