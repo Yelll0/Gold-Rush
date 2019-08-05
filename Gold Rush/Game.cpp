@@ -84,16 +84,17 @@ int Game::Init()
 
 void Game::RunLoop()
 {
+	// Run game
 	while (mState == 1)
 	{
 		ProcessInput();
+		// Pause game
+		while (mState == 0) { ProcessInput(); }
 		UpdateGame();
 		GenerateOutput();
 	}
-	if (mState == -1)
-	{
-		Quit();
-	}
+	// Quit game
+	if (mState == -1) { Quit(); }
 }
 
 void Game::Quit()

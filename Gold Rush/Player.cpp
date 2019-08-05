@@ -5,9 +5,12 @@ Player::Player(class Game* game, class Controller* controller)
 	mController(controller),
 	mPos(Vector2(6300.f, 31800.f)),
 	mScale(3.f),
-	mFacing(false),
+	mFacing(true),
 	mRecomputeWorldTransform(true)
 {
+	mControls.emplace('R', SDL_SCANCODE_RIGHT);
+	mControls.emplace('L', SDL_SCANCODE_LEFT);
+	mControls.emplace('D', SDL_SCANCODE_DOWN);
 }
 
 Player::~Player()
@@ -17,12 +20,12 @@ Player::~Player()
 void Player::Update(float deltaTime)
 {
 	// Move according to keys pressed
-	if (mController->GetKeyValue(SDL_SCANCODE_RIGHT))
+	if (mController->GetKeyValue(mControls['R']))
 	{
 		SetFacing(true);
 		mPos.x += 90.f * deltaTime;
 	} 
-	else if (mController->GetKeyValue(SDL_SCANCODE_LEFT))
+	else if (mController->GetKeyValue(mControls['L']))
 	{
 		SetFacing(false);
 		mPos.x -= 90.f * deltaTime;
