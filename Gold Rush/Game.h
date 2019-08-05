@@ -32,4 +32,5 @@ private:
 	class Controller* mController;
 	class Player* mPlayer;
 	class Renderer* mRenderer;
+	class World* mWorld;
 };
