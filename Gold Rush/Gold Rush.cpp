@@ -10,7 +10,6 @@ int main ( int argc, char *argv[] )
 		return -1;
 	}
 	Game.RunLoop();
-	Game.Quit();
 	Game.~Game();
 	return 0; // 0 = Success, <0 = Error
 }

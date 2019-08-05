@@ -16,3 +16,4 @@
 #include "Renderer.h"
 #include "Player.h"
 #include "Game.h"
+#include "Controller.h"

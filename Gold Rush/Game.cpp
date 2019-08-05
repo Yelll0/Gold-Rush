@@ -5,7 +5,8 @@ Game::Game()
 	mTickCount(0), 
 	mWindow(nullptr), 
 	mContext(NULL), 
-	mPlayer(new Player(this)), 
+	mController(new Controller(this)),
+	mPlayer(new Player(this, mController)),
 	mRenderer(new Renderer(this, mPlayer))
 {
 }
@@ -54,6 +55,13 @@ int Game::Init()
 		return 1;
 	}
 
+	// Initialize controller
+	if (!mController->Init())
+	{
+		SDL_Log("Unable to initialize controller.");
+		return 1;
+	}
+
 	// Create OpenGL context and initialize GLEW
 	mContext = SDL_GL_CreateContext(mWindow);
 	glewExperimental = true;
@@ -82,6 +90,10 @@ void Game::RunLoop()
 		UpdateGame();
 		GenerateOutput();
 	}
+	if (mState == -1)
+	{
+		Quit();
+	}
 }
 
 void Game::Quit()
@@ -95,7 +107,7 @@ void Game::Quit()
 
 void Game::ProcessInput()
 {
-
+	mController->Update();
 }
 
 void Game::UpdateGame()
@@ -111,8 +123,6 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05;
 	}
-	// Log FPS value
-	std::cout << "FPS: " << 1 / deltaTime << std::endl;
 
 	mPlayer->Update(deltaTime);
 }

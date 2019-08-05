@@ -29,6 +29,7 @@ private:
 	Uint32 mTickCount;
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;
+	class Controller* mController;
 	class Player* mPlayer;
 	class Renderer* mRenderer;
 };

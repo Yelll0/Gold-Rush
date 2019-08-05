@@ -6,7 +6,7 @@ class Player
 {
 public: 
 	// Constructor and destructor
-	Player(class Game* game);
+	Player(class Game* game, class Controller* controller);
 	~Player();
 
 	void Update(float deltaTime);
@@ -17,10 +17,12 @@ public:
 	// Getters and Setters
 	Vector2 GetPos() const { return mPos; }
 	bool GetFacing() const { return mFacing; }
+	void SetFacing(bool facing) { mFacing = facing; }
 
 private:
 	// Member variables
 	class Game* mGame;
+	class Controller* mController;
 	Vector2 mPos;
 	float mScale;
 	bool mFacing; // True = right
