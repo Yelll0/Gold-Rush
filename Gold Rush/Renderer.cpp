@@ -49,23 +49,20 @@ void Renderer::Draw()
 {
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// Flip the player according to its face direction
+	mVertArray->SetVertexBuffer(mQuadVertsM, 4, mQuadBuffer, 6);
+	if (mPlayer->GetFacing()) 
+	{
+		mVertArray->SetVertexBuffer(mQuadVerts, 4, mQuadBuffer, 6);
+	}
 	// Activate vertex array and shader program
-	mShader->SetActive();
 	mVertArray->SetActive();
+	mShader->SetActive();
 	mPlayerTex->SetActive();
 	
 	ComputeViewTransform();
 	Matrix4 worldTransform = mPlayer->GetWorldTransform();
 	mShader->SetMatrixUniform("uWorldTransform", worldTransform);
-
-	if (!(mPlayer->GetFacing()))
-	{
-		mVertArray->SetVertexBuffer(mQuadVertsM, 4);
-	}
-	else
-	{
-		mVertArray->SetVertexBuffer(mQuadVerts, 4);
-	}
 
 	// Draw quads
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);

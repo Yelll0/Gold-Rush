@@ -12,7 +12,7 @@ public:
 	// Activate vertex array to draw
 	void SetActive();
 
-	void SetVertexBuffer(const float* verts, unsigned int numVerts);
+	void SetVertexBuffer(const float* verts, unsigned int numVerts, const unsigned int* indices, unsigned int numIndicies);
 
 	// Getters and setters
 	unsigned int GetNumIndicies() const { return mNumIndices; }
