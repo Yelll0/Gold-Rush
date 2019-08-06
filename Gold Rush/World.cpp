@@ -2,7 +2,8 @@
 
 World::World(class Game* game, class Player* player)
 	: mGame(game), 
-	mPlayer(player)
+	mPlayer(player),
+	mBlockScale(3.f)
 {
 	Generate();
 }
@@ -11,7 +12,22 @@ World::~World()
 {
 }
 
+// 0 = Air
+// 1 = Grass/dirt
+// 2 = Stone
+// 3 = Coal
+// 4 = Copper
+// 5 = Iron
+// 6 = Titanium
+// 7 = Mithril
+// 8 = Gold
 void World::Generate()
 {
-
+	for (int i = 6; i < 536; i++)
+	{
+		for (int j = 0; j < 199; j++)
+		{
+			SetBlock(i, j, 2);
+		}
+	}
 }

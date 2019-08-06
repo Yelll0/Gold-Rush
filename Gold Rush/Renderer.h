@@ -6,7 +6,7 @@ class Renderer
 {
 public: 
 	// Constructor and destructor
-	Renderer(class Game* game, class Player* player);
+	Renderer(class Game* game, class Player* player, class World* world);
 	~Renderer();
 
 	// Initialize renderer
@@ -14,16 +14,18 @@ public:
 
 	void Draw();
 
+	void ComputeWorldTransform(float scale, Vector2 pixPos, Matrix4& worldTransform);
 	void ComputeViewTransform();
 
 private:
 	// Member variables
 	class Game* mGame;
 	class Player* mPlayer;
+	class World* mWorld;
 	class Shader* mShader;
 	class Texture* mPlayerTex;
+	class Texture* mStoneTex;
 	class VertexArray* mVertArray;
-	bool mRecomputeViewTransform;
 	Matrix4 mViewTransform;
 	// Quad vertex arrays and buffers
 	float mQuadVerts[20] = {

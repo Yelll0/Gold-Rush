@@ -8,7 +8,7 @@ Game::Game()
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
 	mWorld(new World(this, mPlayer)),
-	mRenderer(new Renderer(this, mPlayer))
+	mRenderer(new Renderer(this, mPlayer, mWorld))
 {
 }
 

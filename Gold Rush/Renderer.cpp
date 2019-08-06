@@ -1,9 +1,9 @@
 #include "Renderer.h"
 
-Renderer::Renderer(class Game* game, class Player* player)
+Renderer::Renderer(class Game* game, class Player* player, class World* world)
 	: mGame(game),
 	mPlayer(player),
-	mRecomputeViewTransform(true),
+	mWorld(world),
 	mPlayerTex(nullptr),
 	mShader(nullptr),
 	mVertArray(nullptr)
@@ -30,19 +30,23 @@ bool Renderer::Init()
 	mPlayerTex = new Texture();
 	mPlayerTex->Load("Sprites/miner.png");
 
+	mStoneTex = new Texture();
+	mStoneTex->Load("Sprites/stone.png");
+
 	return true;
+}
+
+void Renderer::ComputeWorldTransform(float scale, Vector2 pixPos, Matrix4& worldTransform)
+{
+	worldTransform = Matrix4::CreateScale(scale);
+	worldTransform *= Matrix4::CreateTranslation(Vector3(pixPos.x, pixPos.y, 0.f));
 }
 
 void Renderer::ComputeViewTransform()
 {
-	if (mRecomputeViewTransform)
-	{
-		mRecomputeViewTransform = false;
-		// Recenter around player
-		Vector2 p = mPlayer->GetPos();
-		mViewTransform = Matrix4::CreateTranslation(Vector3(-1.f * p.x, -1.f * p.y, 0.f)) * Matrix4::CreateSimpleViewProj(540.f, 540.f);
-		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-	}
+	// Recenter around player
+	Vector2 p = mPlayer->GetPixPos();
+	mViewTransform = Matrix4::CreateTranslation(Vector3(-1.f * p.x, -1.f * p.y, 0.f)) * Matrix4::CreateSimpleViewProj(540.f, 540.f);
 }
 
 void Renderer::Draw() 
@@ -60,10 +64,21 @@ void Renderer::Draw()
 	mShader->SetActive();
 	mPlayerTex->SetActive();
 	
+	// Apply matrices
 	ComputeViewTransform();
-	Matrix4 worldTransform = mPlayer->GetWorldTransform();
-	mShader->SetMatrixUniform("uWorldTransform", worldTransform);
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mPlayer->GetWorldTransform());
 
 	// Draw quads
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	
+	mVertArray->SetActive();
+	mShader->SetActive();
+	mStoneTex->SetActive();
+	Matrix4 tempWorldTransform;
+	ComputeWorldTransform(3.f, Vector2(6300.f, 31740.f), tempWorldTransform);
+	ComputeViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }
