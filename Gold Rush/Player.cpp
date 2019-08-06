@@ -12,6 +12,7 @@ Player::Player(class Game* game, class Controller* controller)
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
 	mControls.emplace('L', SDL_SCANCODE_LEFT);
 	mControls.emplace('D', SDL_SCANCODE_DOWN);
+	mControls.emplace('U', SDL_SCANCODE_UP);
 }
 
 Player::~Player()
@@ -21,7 +22,33 @@ Player::~Player()
 void Player::Update(float deltaTime)
 {
 	// Move according to keys pressed
-	if (mController->GetKeyValue(mControls['R']))
+	if (mController->GetKeyValue(mControls['D']))
+	{
+		// Mine block if it's not air
+		if (mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y - 0.6)) != 0.f)
+		{
+			if (mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y - 0.6)) >= 1.f) {
+				mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y - 0.6), 0);
+			}
+			else {
+				mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y - 0.6), 5 * deltaTime);
+			}
+		}
+	}
+	else if (mController->GetKeyValue(mControls['U']))
+	{
+		// Mine block if it's not air
+		if (mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6)) != 0.f)
+		{
+			if (mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6)) >= 1.f) {
+				mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y + 0.6), 0);
+			}
+			else {
+				mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y + 0.6), 5 * deltaTime);
+			}
+		}
+	}
+	else if (mController->GetKeyValue(mControls['R']))
 	{
 		// Face right
 		SetFacing(true);
@@ -75,26 +102,13 @@ void Player::Update(float deltaTime)
 
 		mRecomputeWorldTransform = true;
 	} 
-	else if (mController->GetKeyValue(mControls['D']))
-	{
-		// Mine block if it's not air
-		if (mGame->GetWorld()->GetBlock(mPos.x, round(mPos.y - 0.6)) != 0.f)
-		{
-			if (mGame->GetWorld()->GetBlockDamage(mPos.x, round(mPos.y - 0.6)) >= 1.f) {
-				mGame->GetWorld()->SetBlock(mPos.x, round(mPos.y - 0.6), 0);
-			}
-			else {
-				mGame->GetWorld()->DamageBlock(mPos.x, round(mPos.y - 0.6), 5 * deltaTime);
-			}
-		}
-	}
 
 	// Query for blocks underneath player
 	int underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x), ceil(mPos.y - 1));
 	int underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x), ceil(mPos.y - 1));
 
 	// Gravity
-	if (underBlockR == 0) 
+	if (underBlockR == 0 && underBlockL == 0)
 	{
 		// Accelerate by 2*g until 10m/s (terminal velocity)
 		if (mVel.y < 10.f) {
@@ -108,7 +122,7 @@ void Player::Update(float deltaTime)
 	underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x), ceil(mPos.y - 1));
 	underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x), ceil(mPos.y - 1));
 	// Stop if it's not air
-	if (underBlockR != 0) 
+	if (underBlockR != 0 && underBlockL !=0) 
 	{ 
 		mPos.y = round(mPos.y); 
 
