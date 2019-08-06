@@ -3,7 +3,8 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
-	mPos(Vector2(105.f, 530.f)),
+	mPos(Vector2(105.f, 531.f)),
+	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
 	mRecomputeWorldTransform(true)
@@ -32,6 +33,15 @@ void Player::Update(float deltaTime)
 		mPos.x -= 3.5f * deltaTime;
 		mRecomputeWorldTransform = true;
 	}
+
+	if (mGame->GetWorld()->GetBlock(static_cast<int>(mPos.x), static_cast<int>(mPos.y)) == 0) {
+		if (mVel.y < 10.f) {
+			mVel.y -= 9.8f * deltaTime;
+		}
+		mPos += mVel * deltaTime;
+		mRecomputeWorldTransform = true;
+	}
+
 	// Make sure player doens't exit world boundaries
 	if (mPos.x > 199) { mPos.x = 199; } else if (mPos.x < 0) { mPos.x = 0; }
 	// [TEMP] Log position

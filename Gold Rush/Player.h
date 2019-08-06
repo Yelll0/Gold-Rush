@@ -27,6 +27,7 @@ private:
 	class Controller* mController;
 	Vector2 mPos;
 	Vector2 mPixPos;
+	Vector2 mVel;
 	float mScale;
 	bool mFacing; // True = right
 	bool mRecomputeWorldTransform;
