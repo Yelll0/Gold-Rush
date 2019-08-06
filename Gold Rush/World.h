@@ -20,7 +20,7 @@ private:
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;
-	int mMap[542][210];
+	int mMap[210][542];
 	Matrix4 mWorldTransform;
 };
 

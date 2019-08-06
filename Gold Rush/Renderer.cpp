@@ -76,7 +76,7 @@ void Renderer::Draw()
 	mShader->SetActive();
 	mStoneTex->SetActive();
 	Matrix4 tempWorldTransform;
-	ComputeWorldTransform(3.f, Vector2(6300.f, 31740.f), tempWorldTransform);
+	ComputeWorldTransform(3.f, Vector2(6300.f, 32160.f), tempWorldTransform);
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 	mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);

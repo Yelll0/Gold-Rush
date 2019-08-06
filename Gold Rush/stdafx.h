@@ -6,6 +6,7 @@
 #include <sstream>
 #include <string>
 #include <map>
+#include <cmath>
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
