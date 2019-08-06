@@ -132,7 +132,7 @@ void Game::UpdateGame()
 void Game::GenerateOutput()
 {
 	// Set clear color to grey
-	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	// Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 

@@ -53,8 +53,6 @@ void Renderer::ComputeViewTransform()
 
 void Renderer::Draw() 
 {
-	World* w = mGame->GetWorld();
-
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

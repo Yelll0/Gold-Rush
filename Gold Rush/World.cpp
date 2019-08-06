@@ -37,4 +37,11 @@ void World::Generate()
 			SetBlock(j, i, 2);
 		}
 	}
+	for (int i = 0; i <= 541; i++)
+	{
+		for (int j = 0; j <= 209; j++)
+		{
+			mDamageMap[j][i] = 0.f;
+		}
+	}
 }

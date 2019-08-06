@@ -21,7 +21,6 @@ Player::~Player()
 void Player::Update(float deltaTime)
 {
 	// Move according to keys pressed
-	// TODO: More reliable mining (replace mMineTime)
 	if (mController->GetKeyValue(mControls['R']))
 	{
 		// Face right
@@ -30,20 +29,20 @@ void Player::Update(float deltaTime)
 		mPos.x += 4.5f * deltaTime;
 		// Query for block in front of player
 		int rightBlock = mGame->GetWorld()->GetBlock(round(mPos.x + 0.6), mPos.y);
+		int rightBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + 0.6), mPos.y);
 		// Stop moving if it's not air
-		if (rightBlock != 0)
+		if (rightBlock != 0.f)
 		{
 			mPos.x = round(mPos.x);
 		}
 		// Mine block if it's not air
 		if (rightBlock != 0)
 		{
-			if (mMineTime > 0.2) {
+			if (rightBlockDamage >= 1.f) {
 				mGame->GetWorld()->SetBlock(mPos.x + 1, mPos.y, 0);
-				mMineTime = 0.f;
 			}
 			else {
-				mMineTime += deltaTime;
+				mGame->GetWorld()->DamageBlock(mPos.x + 1, mPos.y, 5 * deltaTime);
 			}
 		}
 
@@ -57,37 +56,35 @@ void Player::Update(float deltaTime)
 		mPos.x -= 4.5f * deltaTime;
 		// Query for block in front of player
 		int leftBlock = mGame->GetWorld()->GetBlock(round(mPos.x - 0.6), mPos.y);
+		int leftBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x - 0.6), mPos.y);
 		// Stop moving if it's not air
-		if (leftBlock != 0)
+		if (leftBlock != 0.f)
 		{
 			mPos.x = round(mPos.x);
 		}
 		// Mine block if it's not air
 		if (leftBlock != 0)
 		{
-			if (mMineTime > 0.2) {
+			if (leftBlockDamage >= 1.f) {
 				mGame->GetWorld()->SetBlock(mPos.x - 1, mPos.y, 0);
-				mMineTime = 0.f;
 			}
 			else {
-				mMineTime += deltaTime;
+				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, 5 * deltaTime);
 			}
 		}
 
 		mRecomputeWorldTransform = true;
-	}
-
-	if (mController->GetKeyValue(mControls['D']))
+	} 
+	else if (mController->GetKeyValue(mControls['D']))
 	{
 		// Mine block if it's not air
-		if (mGame->GetWorld()->GetBlock(mPos.x, round(mPos.y - 0.6)) != 0)
+		if (mGame->GetWorld()->GetBlock(mPos.x, round(mPos.y - 0.6)) != 0.f)
 		{
-			if (mMineTime > 0.2) {
-				mGame->GetWorld()->SetBlock(mPos.x, round(mPos.y - 1), 0);
-				mMineTime = 0.f;
+			if (mGame->GetWorld()->GetBlockDamage(mPos.x, round(mPos.y - 0.6)) >= 1.f) {
+				mGame->GetWorld()->SetBlock(mPos.x, round(mPos.y - 0.6), 0);
 			}
 			else {
-				mMineTime += deltaTime;
+				mGame->GetWorld()->DamageBlock(mPos.x, round(mPos.y - 0.6), 5 * deltaTime);
 			}
 		}
 	}
