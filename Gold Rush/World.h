@@ -14,14 +14,12 @@ public:
 	// Getters and setters
 	int GetBlock(int x, int y) const { return mMap[x][y]; }
 	void SetBlock(int x, int y, int block) { mMap[x][y] = block; }
-	Matrix4 GetWorldTransform() { return mWorldTransform; }
+	int mMap[210][542];
 
 private:
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;
-	int mMap[210][542];
-	Matrix4 mWorldTransform;
 };
 
 // TODO: Convert coordinates to blocks instead of pixels

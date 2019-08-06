@@ -23,7 +23,7 @@ World::~World()
 // 8 = Gold
 void World::Generate()
 {
-	for (int i = 0; i <= 5; i++)
+	for (int i = 0; i <= 541; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
@@ -35,13 +35,6 @@ void World::Generate()
 		for (int j = 0; j <= 209; j++)
 		{
 			SetBlock(j, i, 2);
-		}
-	}
-	for (int i = 537; i <= 541; i++)
-	{
-		for (int j = 0; j <= 209; j++)
-		{
-			SetBlock(j, i, 0);
 		}
 	}
 }

@@ -3,7 +3,7 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
-	mPos(Vector2(105.f, 540.f)),
+	mPos(Vector2(105.f, 537.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
@@ -21,18 +21,24 @@ Player::~Player()
 void Player::Update(float deltaTime)
 {
 	// Move according to keys pressed
-	// TODO: More reliable mining and collision detection
+	// TODO: More reliable mining (replace mMineTime)
 	if (mController->GetKeyValue(mControls['R']))
 	{
+		// Face right
 		SetFacing(true);
-		mPos.x += 3.5f * deltaTime;
-		if (mGame->GetWorld()->GetBlock(floor(mPos.x + 1), mPos.y) != 0)
+		// Move player according to delta time
+		mPos.x += 4.5f * deltaTime;
+		// Query for block in front of player
+		int rightBlock = mGame->GetWorld()->GetBlock(round(mPos.x + 0.6), mPos.y);
+		// Stop moving if it's not air
+		if (rightBlock != 0)
 		{
 			mPos.x = round(mPos.x);
 		}
-		if (mGame->GetWorld()->GetBlock(mPos.x + 1, mPos.y) != 0)
+		// Mine block if it's not air
+		if (rightBlock != 0)
 		{
-			if (mMineTime > 0.5) {
+			if (mMineTime > 0.2) {
 				mGame->GetWorld()->SetBlock(mPos.x + 1, mPos.y, 0);
 				mMineTime = 0.f;
 			}
@@ -40,19 +46,26 @@ void Player::Update(float deltaTime)
 				mMineTime += deltaTime;
 			}
 		}
+
 		mRecomputeWorldTransform = true;
 	} 
 	else if (mController->GetKeyValue(mControls['L']))
 	{
+		// Face left
 		SetFacing(false);
-		mPos.x -= 3.5f * deltaTime;
-		if (mGame->GetWorld()->GetBlock(ceil(mPos.x - 1), mPos.y) != 0)
+		// Move player according to delta time
+		mPos.x -= 4.5f * deltaTime;
+		// Query for block in front of player
+		int leftBlock = mGame->GetWorld()->GetBlock(round(mPos.x - 0.6), mPos.y);
+		// Stop moving if it's not air
+		if (leftBlock != 0)
 		{
 			mPos.x = round(mPos.x);
 		}
-		if (mGame->GetWorld()->GetBlock(mPos.x - 1, mPos.y) != 0)
+		// Mine block if it's not air
+		if (leftBlock != 0)
 		{
-			if (mMineTime > 0.5) {
+			if (mMineTime > 0.2) {
 				mGame->GetWorld()->SetBlock(mPos.x - 1, mPos.y, 0);
 				mMineTime = 0.f;
 			}
@@ -60,14 +73,17 @@ void Player::Update(float deltaTime)
 				mMineTime += deltaTime;
 			}
 		}
+
 		mRecomputeWorldTransform = true;
 	}
+
 	if (mController->GetKeyValue(mControls['D']))
 	{
-		if (mGame->GetWorld()->GetBlock(mPos.x, mPos.y - 1) != 0)
+		// Mine block if it's not air
+		if (mGame->GetWorld()->GetBlock(mPos.x, round(mPos.y - 0.6)) != 0)
 		{
-			if (mMineTime > 0.5) {
-				mGame->GetWorld()->SetBlock(mPos.x, mPos.y - 1, 0);
+			if (mMineTime > 0.2) {
+				mGame->GetWorld()->SetBlock(mPos.x, round(mPos.y - 1), 0);
 				mMineTime = 0.f;
 			}
 			else {
@@ -76,17 +92,29 @@ void Player::Update(float deltaTime)
 		}
 	}
 
+	// Query for blocks underneath player
+	int underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x), ceil(mPos.y - 1));
+	int underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x), ceil(mPos.y - 1));
+
 	// Gravity
-	if (mGame->GetWorld()->GetBlock(mPos.x, ceil(mPos.y - 1)) == 0) {
+	if (underBlockR == 0) 
+	{
+		// Accelerate by 2*g until 10m/s (terminal velocity)
 		if (mVel.y < 10.f) {
-			mVel.y -= 9.8f * deltaTime;
+			mVel.y -= 19.6f * deltaTime;
 		}
 		mPos += mVel * deltaTime;
+
 		mRecomputeWorldTransform = true;
-	} 
-	if (mGame->GetWorld()->GetBlock(mPos.x, ceil(mPos.y - 1)) != 0) 
+	} else { mVel *= 0; }
+	// Re query for blocks underneath player
+	underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x), ceil(mPos.y - 1));
+	underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x), ceil(mPos.y - 1));
+	// Stop if it's not air
+	if (underBlockR != 0) 
 	{ 
 		mPos.y = round(mPos.y); 
+
 		mRecomputeWorldTransform = true; 
 	}
 

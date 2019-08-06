@@ -6,7 +6,7 @@ class Renderer
 {
 public: 
 	// Constructor and destructor
-	Renderer(class Game* game, class Player* player, class World* world);
+	Renderer(class Game* game, class Player* player);
 	~Renderer();
 
 	// Initialize renderer
@@ -25,6 +25,7 @@ private:
 	class Shader* mShader;
 	class Texture* mPlayerTex;
 	class Texture* mStoneTex;
+	class Texture* mAirTex;
 	class VertexArray* mVertArray;
 	Matrix4 mViewTransform;
 	// Quad vertex arrays and buffers

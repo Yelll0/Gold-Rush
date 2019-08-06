@@ -1,9 +1,8 @@
 #include "Renderer.h"
 
-Renderer::Renderer(class Game* game, class Player* player, class World* world)
+Renderer::Renderer(class Game* game, class Player* player)
 	: mGame(game),
 	mPlayer(player),
-	mWorld(world),
 	mPlayerTex(nullptr),
 	mShader(nullptr),
 	mVertArray(nullptr)
@@ -33,6 +32,9 @@ bool Renderer::Init()
 	mStoneTex = new Texture();
 	mStoneTex->Load("Sprites/stone.png");
 
+	mAirTex = new Texture();
+	mAirTex->Load("Sprites/air.png");
+
 	return true;
 }
 
@@ -51,19 +53,52 @@ void Renderer::ComputeViewTransform()
 
 void Renderer::Draw() 
 {
+	World* w = mGame->GetWorld();
+
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+	// Draw world
+	// Activate vertex array and shader program
+	// TODO: Comments
+	// TODO: Create a texture map
+	mVertArray->SetActive();
+	mShader->SetActive();
+	Matrix4 tempWorldTransform;
+	Vector2 playerPos = mPlayer->GetPos();
+
+	for (int y = playerPos.y - 5; y <= playerPos.y + 5; y++)
+	{
+		for (int x = playerPos.x - 5; x <= playerPos.x + 5; x++)
+		{
+			switch (mGame->GetWorld()->GetBlock(x, y))
+			{
+			case 2:
+				mStoneTex->SetActive();
+				break;
+			case 0:
+				mAirTex->SetActive();
+				break;
+			default:
+				break;
+			}
+			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), tempWorldTransform);
+			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+			mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		}
+	}
+
+	// Draw player
 	// Flip the player according to its face direction
 	mVertArray->SetVertexBuffer(mQuadVertsM, 4, mQuadBuffer, 6);
-	if (mPlayer->GetFacing()) 
+	if (mPlayer->GetFacing())
 	{
 		mVertArray->SetVertexBuffer(mQuadVerts, 4, mQuadBuffer, 6);
 	}
-	// Activate vertex array and shader program
-	mVertArray->SetActive();
-	mShader->SetActive();
+	// Activate player texture
 	mPlayerTex->SetActive();
-	
+
 	// Apply matrices
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
@@ -71,14 +106,5 @@ void Renderer::Draw()
 
 	// Draw quads
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-	
-	mVertArray->SetActive();
-	mShader->SetActive();
-	mStoneTex->SetActive();
-	Matrix4 tempWorldTransform;
-	ComputeWorldTransform(3.f, Vector2(6300.f, 32160.f), tempWorldTransform);
-	ComputeViewTransform();
-	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-	mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 }
