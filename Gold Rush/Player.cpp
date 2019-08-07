@@ -8,7 +8,7 @@ Player::Player(class Game* game, class Controller* controller)
 	mScale(3.f),
 	mFacing(true),
 	mRecomputeWorldTransform(true),
-	mOxygen(60.f),
+	mOxygen(10.f),
 	mAtCheckpoint(true)
 {
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
@@ -138,7 +138,7 @@ void Player::Update(float deltaTime)
 	ComputeWorldTransform();
 
 	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
-	if (mAtCheckpoint) { mOxygen = 60.f; } else { mOxygen -= deltaTime; }
+	if (mAtCheckpoint) { mOxygen = 10.f; } else { mOxygen -= deltaTime; }
 	std::cout << mOxygen << std::endl;
 	if (mOxygen <= 0.f) { mGame->SetState(-1); }
 

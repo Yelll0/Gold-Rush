@@ -59,6 +59,12 @@ void World::Generate()
 			}
 		}
 	}
+
+	for (int i = 0; i <= 209; i++)
+	{
+		SetBlock(i, 536, 1);
+	}
+
 	for (int i = 0; i <= 541; i++)
 	{
 		for (int j = 0; j <= 209; j++)
