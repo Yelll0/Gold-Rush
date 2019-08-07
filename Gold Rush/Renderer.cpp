@@ -26,14 +26,19 @@ bool Renderer::Init()
 	// Load vertex array
 	mVertArray = new VertexArray(mQuadVerts, 4, mQuadBuffer, 6);
 
-	mPlayerTex = new Texture();
-	mPlayerTex->Load("Sprites/miner.png");
-
-	mStoneTex = new Texture();
-	mStoneTex->Load("Sprites/stone.png");
-
-	mAirTex = new Texture();
-	mAirTex->Load("Sprites/air.png");
+	mPlayerTex = new Texture("Sprites/miner.png");
+	// 0 = Air
+	// 1 = Grass/dirt
+	// 2 = Stone
+	// 3 = Coal
+	// 4 = Copper
+	// 5 = Iron
+	// 6 = Titanium
+	// 7 = Mithril
+	// 8 = Gold
+	mTex.emplace(0, new Texture("Sprites/air.png"));
+	mTex.emplace(2, new Texture("Sprites/stone.png"));
+	mTex.emplace(8, new Texture("Sprites/gold.png"));
 
 	return true;
 }
@@ -59,27 +64,19 @@ void Renderer::Draw()
 	// Draw world
 	// Activate vertex array and shader program
 	// TODO: Comments
-	// TODO: Create a texture map
 	mVertArray->SetActive();
 	mShader->SetActive();
 	Matrix4 tempWorldTransform;
 	Vector2 playerPos = mPlayer->GetPos();
 
+	int texID;
 	for (int y = playerPos.y - 5; y <= playerPos.y + 5; y++)
 	{
 		for (int x = playerPos.x - 5; x <= playerPos.x + 5; x++)
 		{
-			switch (mGame->GetWorld()->GetBlock(x, y))
-			{
-			case 2:
-				mStoneTex->SetActive();
-				break;
-			case 0:
-				mAirTex->SetActive();
-				break;
-			default:
-				break;
-			}
+			texID = mGame->GetWorld()->GetBlock(x, y);
+			mTex[texID]->SetActive();
+			
 			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), tempWorldTransform);
 			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 			mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);

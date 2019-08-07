@@ -24,8 +24,7 @@ private:
 	class World* mWorld;
 	class Shader* mShader;
 	class Texture* mPlayerTex;
-	class Texture* mStoneTex;
-	class Texture* mAirTex;
+	std::map<int, class Texture*> mTex;
 	class VertexArray* mVertArray;
 	Matrix4 mViewTransform;
 	// Quad vertex arrays and buffers

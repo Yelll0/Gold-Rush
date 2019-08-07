@@ -33,6 +33,4 @@ private:
 	bool mRecomputeWorldTransform;
 	Matrix4 mWorldTransform;
 	std::map<char, SDL_Scancode> mControls;
-	// TEMP
-	float mMineTime;
 };

@@ -1,10 +1,11 @@
 #include "Texture.h"
 
-Texture::Texture()
+Texture::Texture(const std::string& texName)
 	: mWidth(NULL),
 	mHeight(NULL),
 	mTextureID(NULL)
 {
+	Load(texName);
 }
 
 
