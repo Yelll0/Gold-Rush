@@ -23,6 +23,18 @@ World::~World()
 // 8 = Gold
 void World::Generate()
 {
+	mCheckpoints[0] = 537;
+	mCheckpoints[1] = 527;
+	int lastCheckpoint;
+	int checkpointSize;
+	int lastCheckpointSize = 10;
+	for (int i = 2; i <= 20; i++)
+	{
+		lastCheckpoint = mCheckpoints[i - 1];
+		checkpointSize = lastCheckpointSize * 1.1;
+		mCheckpoints[i] = round(lastCheckpoint - checkpointSize);
+		lastCheckpointSize = checkpointSize;
+	}
 	for (int i = 0; i <= 541; i++)
 	{
 		for (int j = 0; j <= 209; j++)
@@ -32,9 +44,19 @@ void World::Generate()
 	}
 	for (int i = 6; i <= 536; i++)
 	{
-		for (int j = 0; j <= 209; j++)
+		if (GetIsCheckpoint(i))
 		{
-			SetBlock(j, i, 2);
+			for (int j = 0; j <= 209; j++)
+			{
+				SetBlock(j, i, 0);
+			}
+		}
+		else 
+		{
+			for (int j = 0; j <= 209; j++)
+			{
+				SetBlock(j, i, 2);
+			}
 		}
 	}
 	for (int i = 0; i <= 541; i++)

@@ -33,4 +33,3 @@ private:
 	const Uint8* mCurrentState;
 	Uint8 mPreviousState[SDL_NUM_SCANCODES];
 };
-

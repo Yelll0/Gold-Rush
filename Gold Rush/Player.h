@@ -29,8 +29,10 @@ private:
 	Vector2 mPixPos;
 	Vector2 mVel;
 	float mScale;
-	bool mFacing; // True = right
+	bool mFacing; // true = right
 	bool mRecomputeWorldTransform;
 	Matrix4 mWorldTransform;
 	std::map<char, SDL_Scancode> mControls;
+	bool mAtCheckpoint;
+	float mOxygen;
 };

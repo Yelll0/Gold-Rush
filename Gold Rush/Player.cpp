@@ -7,7 +7,9 @@ Player::Player(class Game* game, class Controller* controller)
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
-	mRecomputeWorldTransform(true)
+	mRecomputeWorldTransform(true),
+	mOxygen(60.f),
+	mAtCheckpoint(true)
 {
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
 	mControls.emplace('L', SDL_SCANCODE_LEFT);
@@ -131,11 +133,16 @@ void Player::Update(float deltaTime)
 
 	// Make sure player doens't exit world boundaries
 	if (mPos.x > 204) { mPos.x = 204; } else if (mPos.x < 5) { mPos.x = 5; }
-	// [TEMP] Log position
-	std::cout << mPos.x << std::endl << mPos.y << std::endl;
 	// Calculate world transform
 	mPixPos = mPos * 60.f;
 	ComputeWorldTransform();
+
+	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
+	if (mAtCheckpoint) { mOxygen = 60.f; } else { mOxygen -= deltaTime; }
+	std::cout << mOxygen << std::endl;
+	if (mOxygen <= 0.f) { mGame->SetState(-1); }
+
+	if (mPos.y < 205.f) { mGame->SetState(-1); }
 }
 
 void Player::ComputeWorldTransform()

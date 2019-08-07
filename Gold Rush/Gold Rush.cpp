@@ -1,6 +1,5 @@
 #include "stdafx.h"
 
-
 int main ( int argc, char *argv[] )
 {
 	Game Game;
@@ -13,5 +12,3 @@ int main ( int argc, char *argv[] )
 	Game.~Game();
 	return 0; // 0 = Success, <0 = Error
 }
-
-// TODO: Draw sprites instead of solid colors

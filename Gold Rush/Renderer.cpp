@@ -27,6 +27,7 @@ bool Renderer::Init()
 	mVertArray = new VertexArray(mQuadVerts, 4, mQuadBuffer, 6);
 
 	mPlayerTex = new Texture("Sprites/miner.png");
+
 	// 0 = Air
 	// 1 = Grass/dirt
 	// 2 = Stone
@@ -37,6 +38,7 @@ bool Renderer::Init()
 	// 7 = Mithril
 	// 8 = Gold
 	mTex.emplace(0, new Texture("Sprites/air.png"));
+	mTex.emplace(1, new Texture("Sprites/grass.png"));
 	mTex.emplace(2, new Texture("Sprites/stone.png"));
 	mTex.emplace(8, new Texture("Sprites/gold.png"));
 
