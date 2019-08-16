@@ -1,4 +1,4 @@
-#include "World.h"
+#include "stdafx.h"
 
 World::World(class Game* game, class Player* player)
 	: mGame(game), 

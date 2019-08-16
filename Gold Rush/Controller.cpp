@@ -1,4 +1,4 @@
-#include "Controller.h"
+#include "stdafx.h"
 
 Controller::Controller(class Game* game)
 	: mGame(game)

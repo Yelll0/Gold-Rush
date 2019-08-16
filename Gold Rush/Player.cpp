@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "stdafx.h"
 
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
@@ -137,11 +137,14 @@ void Player::Update(float deltaTime)
 	mPixPos = mPos * 60.f;
 	ComputeWorldTransform();
 
+	// Restore oxygen if at checkpoint
 	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
 	if (mAtCheckpoint) { mOxygen = 60.f; } else { mOxygen -= deltaTime; }
 	std::cout << mOxygen << std::endl;
+	// Kill player if oxygen < 0
 	if (mOxygen <= 0.f) { mGame->SetState(-1); }
 
+	// Kill player if they fall out of world boundaries
 	if (mPos.y < 205.f) { mGame->SetState(-1); }
 }
 
