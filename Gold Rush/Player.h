@@ -20,6 +20,7 @@ public:
 	bool GetRecomputeWorldTransform() const { return mRecomputeWorldTransform; }
 	bool GetFacing() const { return mFacing; }
 	void SetFacing(bool facing) { mFacing = facing; }
+	int GetOxygen() const { return mOxygen; }
 
 private:
 	// Member variables

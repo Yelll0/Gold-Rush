@@ -1,4 +1,4 @@
-#include "Player.h"
+#include "stdafx.h"
 
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
@@ -138,7 +138,7 @@ void Player::Update(float deltaTime)
 	ComputeWorldTransform();
 
 	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
-	if (mAtCheckpoint) { mOxygen = 60.f; } else { mOxygen -= deltaTime; }
+	if (mAtCheckpoint) { mOxygen = 40.f; } else { mOxygen -= deltaTime; }
 	std::cout << mOxygen << std::endl;
 	if (mOxygen <= 0.f) { mGame->SetState(-1); }
 

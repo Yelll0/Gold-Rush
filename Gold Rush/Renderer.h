@@ -15,6 +15,7 @@ public:
 	void Draw();
 
 	void ComputeWorldTransform(float scale, Vector2 pixPos, Matrix4& worldTransform);
+	void ComputeObjViewTransform();
 	void ComputeViewTransform();
 
 private:
@@ -25,6 +26,8 @@ private:
 	class Shader* mShader;
 	class Texture* mPlayerTex;
 	std::map<int, class Texture*> mTex;
+	class Texture* mOxygenTex;
+	class Texture* mOxygenTextTex;
 	class VertexArray* mVertArray;
 	Matrix4 mViewTransform;
 	// Quad vertex arrays and buffers
@@ -39,6 +42,12 @@ private:
 		 10.f,  10.f, 0.0f, 0.f, 0.f,
 		 10.f, -10.f, 0.0f, 0.f, 1.f,
 		-10.f, -10.f, 0.0f, 1.f, 1.f
+	};
+	float mSmallQuadVerts[20] = {
+		-5.f,  5.f, 0.0f, 0.f, 0.f,
+		 5.f,  5.f, 0.0f, 1.f, 0.f,
+		 5.f, -5.f, 0.0f, 1.f, 1.f,
+		-5.f, -5.f, 0.0f, 0.f, 1.f
 	};
 	unsigned int mQuadBuffer[6] = {
 		0, 1, 2,
