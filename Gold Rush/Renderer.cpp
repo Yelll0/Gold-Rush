@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "Renderer.h"
 
 Renderer::Renderer(class Game* game, class Player* player)
 	: mGame(game),
