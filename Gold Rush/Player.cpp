@@ -39,14 +39,17 @@ void Player::Update(float deltaTime)
 	}
 	else if (mController->GetKeyValue(mControls['U']))
 	{
-		// Mine block if it's not air
-		if (mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6)) != 0.f)
+		if (!mAtCheckpoint) 
 		{
-			if (mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6)) >= 1.f) {
-				mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y + 0.6), 0);
-			}
-			else {
-				mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y + 0.6), 5 * deltaTime);
+			// Mine block if it's not air
+			if (mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6)) != 0.f)
+			{
+				if (mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6)) >= 1.f) {
+					mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y + 0.6), 0);
+				}
+				else {
+					mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y + 0.6), 5 * deltaTime);
+				}
 			}
 		}
 	}
@@ -139,10 +142,12 @@ void Player::Update(float deltaTime)
 
 	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
 	if (mAtCheckpoint) { mOxygen = 40.f; } else { mOxygen -= deltaTime; }
-	std::cout << mOxygen << std::endl;
 	if (mOxygen <= 0.f) { mGame->SetState(-1); }
 
 	if (mPos.y < 205.f) { mGame->SetState(-1); }
+
+	if (!mAtCheckpoint) { mTime += deltaTime; }
+	std::cout << mTime << std::endl;
 }
 
 void Player::ComputeWorldTransform()

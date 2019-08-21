@@ -36,4 +36,6 @@ private:
 	std::map<char, SDL_Scancode> mControls;
 	bool mAtCheckpoint;
 	float mOxygen;
+	int mGold = 0;
+	float mTime = 0.f;
 };

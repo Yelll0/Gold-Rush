@@ -99,20 +99,19 @@ void Renderer::Draw()
 	{
 		mOxygenTex->SetActive();
 
-		ComputeWorldTransform(3.f, Vector2(-209.f, -194.f + i*30), tempWorldTransform);
+		ComputeWorldTransform(3.f, Vector2(-219.f, -204.f + i*30), tempWorldTransform);
 		ComputeViewTransform();
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);
 
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
-	
+	// Draw oxygen icon
 	mOxygenTextTex->SetActive();
-	ComputeWorldTransform(3.f, Vector2(-209.f, -224.f), tempWorldTransform);
+	ComputeWorldTransform(3.f, Vector2(-219.f, -234.f), tempWorldTransform);
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 	mShader->SetMatrixUniform("uWorldTransform", tempWorldTransform);
-
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 	// Draw player
