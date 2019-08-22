@@ -38,4 +38,5 @@ private:
 	float mOxygen;
 	int mGold = 0;
 	float mTime = 0.f;
+	float mMineSpeed; // How many blocks mined in 1 second
 };

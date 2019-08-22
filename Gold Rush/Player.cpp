@@ -3,14 +3,16 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
-	mPos(Vector2(105.f, 20.f)),
+	mPos(Vector2(105.f, 110.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
 	mRecomputeWorldTransform(true),
 	mOxygen(60.f),
-	mAtCheckpoint(true)
+	mAtCheckpoint(true),
+	mMineSpeed(20.f) // TEMP
 {
+	// Bind default controls
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
 	mControls.emplace('L', SDL_SCANCODE_LEFT);
 	mControls.emplace('D', SDL_SCANCODE_DOWN);
@@ -33,7 +35,7 @@ void Player::Update(float deltaTime)
 				mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y - 0.6), 0);
 			}
 			else {
-				mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y - 0.6), 5 * deltaTime);
+				mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y - 0.6), mMineSpeed * deltaTime);
 			}
 		}
 	}
@@ -48,7 +50,7 @@ void Player::Update(float deltaTime)
 					mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y + 0.6), 0);
 				}
 				else {
-					mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y + 0.6), 5 * deltaTime);
+					mGame->GetWorld()->DamageBlock(round(mPos.x), round(mPos.y + 0.6), mMineSpeed * deltaTime);
 				}
 			}
 		}
@@ -74,7 +76,7 @@ void Player::Update(float deltaTime)
 				mGame->GetWorld()->SetBlock(mPos.x + 1, mPos.y, 0);
 			}
 			else {
-				mGame->GetWorld()->DamageBlock(mPos.x + 1, mPos.y, 5 * deltaTime);
+				mGame->GetWorld()->DamageBlock(mPos.x + 1, mPos.y, mMineSpeed * deltaTime);
 			}
 		}
 
@@ -101,7 +103,7 @@ void Player::Update(float deltaTime)
 				mGame->GetWorld()->SetBlock(mPos.x - 1, mPos.y, 0);
 			}
 			else {
-				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, 5 * deltaTime);
+				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, mMineSpeed * deltaTime);
 			}
 		}
 
@@ -127,7 +129,7 @@ void Player::Update(float deltaTime)
 	underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x), ceil(mPos.y - 1));
 	underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x), ceil(mPos.y - 1));
 	// Stop if it's not air
-	if (underBlockR != 0 && underBlockL !=0) 
+	if (underBlockR != 0 && underBlockL != 0) 
 	{ 
 		mPos.y = round(mPos.y); 
 

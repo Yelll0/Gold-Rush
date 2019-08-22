@@ -90,7 +90,9 @@ void Game::RunLoop()
 	{
 		ProcessInput();
 		// Pause game
-		while (mState == 0) { ProcessInput(); }
+		while (mState == 0) { 
+			ProcessInput(); 
+		}
 		UpdateGame();
 		GenerateOutput();
 	}
@@ -104,6 +106,9 @@ void Game::Quit()
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
+	delete mController;
+	delete mPlayer;
+	delete mRenderer;
 	return;
 }
 

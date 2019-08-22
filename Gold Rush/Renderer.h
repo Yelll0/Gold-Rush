@@ -29,7 +29,10 @@ private:
 	class Texture* mOxygenTex;
 	class Texture* mOxygenTextTex;
 	class VertexArray* mVertArray;
+	class VertexArray* mVertArrayM;
+	class VertexArray* mVertArrayS;
 	Matrix4 mViewTransform;
+	Matrix4 mTempWorldTransform;
 	// Quad vertex arrays and buffers
 	float mQuadVerts[20] = {
 		-10.f,  10.f, 0.0f, 0.f, 0.f,
