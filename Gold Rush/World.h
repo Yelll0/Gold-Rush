@@ -29,7 +29,7 @@ public:
 	void DamageBlock(int x, int y, float damage) { mDamageMap[x][y] += damage; }
 
 private:
-	int mMap[210][542];
+	int mMap[210][621];
 	int mCheckpoints[21];
 	float mDamageMap[210][542];
 	class Game* mGame;

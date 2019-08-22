@@ -3,7 +3,7 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
-	mPos(Vector2(105.f, 537.f)),
+	mPos(Vector2(105.f, 20.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
@@ -141,13 +141,13 @@ void Player::Update(float deltaTime)
 	ComputeWorldTransform();
 
 	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; } else { mAtCheckpoint = false; }
-	if (mAtCheckpoint) { mOxygen = 40.f; } else { mOxygen -= deltaTime; }
+	if (mAtCheckpoint) { mOxygen = 60.f; } else { mOxygen -= deltaTime; }
 	if (mOxygen <= 0.f) { mGame->SetState(-1); }
 
-	if (mPos.y < 205.f) { mGame->SetState(-1); }
+	if (mPos.y < 5.f) { mGame->SetState(-1); }
 
 	if (!mAtCheckpoint) { mTime += deltaTime; }
-	std::cout << mTime << std::endl;
+	std::cout << mPos.y << std::endl;
 }
 
 void Player::ComputeWorldTransform()

@@ -23,26 +23,29 @@ World::~World()
 // 8 = Gold
 void World::Generate()
 {
-	mCheckpoints[0] = 537;
-	mCheckpoints[1] = 527;
+	// Set checkpoints
+	mCheckpoints[0] = 616;
+	mCheckpoints[1] = 606;
 	int lastCheckpoint;
 	int checkpointSize;
 	int lastCheckpointSize = 10;
-	for (int i = 2; i <= 20; i++)
+	for (int i = 2; i <= 16; i++)
 	{
 		lastCheckpoint = mCheckpoints[i - 1];
-		checkpointSize = lastCheckpointSize * 1.1;
-		mCheckpoints[i] = round(lastCheckpoint - checkpointSize);
+		checkpointSize = floor(lastCheckpointSize * 1.2);
+		mCheckpoints[i] = lastCheckpoint - checkpointSize;
 		lastCheckpointSize = checkpointSize;
 	}
-	for (int i = 0; i <= 541; i++)
+
+	// Generate blocks 
+	for (int i = 0; i <= 621; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
 			SetBlock(j, i, 0);
 		}
 	}
-	for (int i = 6; i <= 536; i++)
+	for (int i = 6; i <= 615; i++)
 	{
 		if (GetIsCheckpoint(i))
 		{
@@ -59,13 +62,14 @@ void World::Generate()
 			}
 		}
 	}
-
+	// Grass layer
 	for (int i = 0; i <= 209; i++)
 	{
-		SetBlock(i, 536, 1);
+		SetBlock(i, 615, 1);
 	}
 
-	for (int i = 0; i <= 541; i++)
+	// Damage map
+	for (int i = 0; i <= 621; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
