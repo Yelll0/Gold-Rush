@@ -23,6 +23,10 @@ public:
 	int GetOxygen() const { return mOxygen; }
 
 private:
+	// Helper functions
+	void Control(float deltaTime);
+	void Gravity(float deltaTime);
+	void UpdateOxygen(float deltaTime);
 	// Member variables
 	class Game* mGame;
 	class Controller* mController;
