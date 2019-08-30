@@ -7,6 +7,7 @@
 #include <string>
 #include <map>
 #include <cmath>
+#include <vector>
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
@@ -20,3 +21,5 @@
 #include "Game.h"
 #include "Controller.h"
 #include "World.h"
+#include "Button.h"
+#include "MenuScreen.h"
