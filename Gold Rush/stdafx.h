@@ -21,5 +21,3 @@
 #include "Game.h"
 #include "Controller.h"
 #include "World.h"
-#include "Button.h"
-#include "MenuScreen.h"

@@ -29,10 +29,16 @@ public:
 	void DamageBlock(int x, int y, float damage) { mDamageMap[x][y] += damage; }
 
 private:
+	// Helper functions
+	float mPerlNoise(int x, int y);
+
+	// Member variables
 	int mMap[210][621];
 	int mCheckpoints[21];
 	float mDamageMap[210][542];
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;
+	Vector2[4] = {Vector2()}
+	int mSeed;
 };

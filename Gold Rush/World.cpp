@@ -12,6 +12,11 @@ World::~World()
 {
 }
 
+float World::mPerlNoise(int x, int y)
+{
+
+}
+
 // 0 = Air
 // 1 = Grass/dirt
 // 2 = Stone
@@ -37,7 +42,7 @@ void World::Generate()
 		lastCheckpointSize = checkpointSize;
 	}
 
-	// Generate blocks 
+	// Fill with stone
 	for (int i = 0; i <= 621; i++)
 	{
 		for (int j = 0; j <= 209; j++)
@@ -45,6 +50,10 @@ void World::Generate()
 			SetBlock(j, i, 0);
 		}
 	}
+
+	// TODO: Generate all ores using perlin noise according to seed
+
+	// Set checkpoints
 	for (int i = 6; i <= 615; i++)
 	{
 		if (GetIsCheckpoint(i))
