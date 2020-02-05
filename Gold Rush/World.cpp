@@ -1,10 +1,23 @@
 #include "stdafx.h"
 
-World::World(class Game* game, class Player* player)
+World::World(class Game* game, class Player* player, int seed)
 	: mGame(game), 
 	mPlayer(player),
-	mBlockScale(3.f)
+	mBlockScale(3.f),
+	mSeed(seed)
 {
+	// Randomly generate seed if no seed
+	if (!seed) {}
+	// Set all possible gradient vectors
+	// TODO: Refactor to make less cluttered
+	mGradientVectors[0].x = 10;
+	mGradientVectors[0].y = 10;
+	mGradientVectors[1].x = 10;
+	mGradientVectors[1].y = -10;
+	mGradientVectors[2].x = -10;
+	mGradientVectors[2].y = -10;
+	mGradientVectors[3].x = -10;
+	mGradientVectors[3].y = 10;
 	Generate();
 }
 
@@ -14,7 +27,17 @@ World::~World()
 
 float World::mPerlNoise(int x, int y)
 {
-
+	// Find nearest grid points
+		// Divide both coords by 10
+		// Round each coordinate to 1, store, and subtract/add 1 to the result depending on whether it is rounded up or down from the original
+		// Alt: If possible, floor and ceil the quotient, and combine to determine and store the 4 grid points
+	// Determine gradient vectors based on mSeed
+	// Find distance vectors
+		// 
+	// Calculate dot products of each point
+	// Bilinearly interpolate value of point
+	// Return value
+	return 1.f;
 }
 
 // 0 = Air

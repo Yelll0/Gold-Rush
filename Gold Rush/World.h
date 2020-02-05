@@ -5,7 +5,7 @@
 class World
 {
 public:
-	World(class Game* game, class Player* player);
+	World(class Game* game, class Player* player, int seed);
 	~World();
 
 	// Generate the world
@@ -39,6 +39,6 @@ private:
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;
-	Vector2[4] = {Vector2()}
+	Vector2 mGradientVectors[4];
 	int mSeed;
 };
