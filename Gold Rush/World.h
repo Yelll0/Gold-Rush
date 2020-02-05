@@ -41,4 +41,8 @@ private:
 	float mBlockScale;
 	Vector2 mGradientVectors[4];
 	int mSeed;
+	int J = 4294967296,
+		O = 1664525,
+		Y = 1;
+	int L;
 };

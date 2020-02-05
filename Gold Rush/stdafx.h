@@ -8,6 +8,7 @@
 #include <map>
 #include <cmath>
 #include <vector>
+#include <cstdlib>
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
