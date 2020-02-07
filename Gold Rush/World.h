@@ -25,24 +25,22 @@ public:
 		}
 		return false;
 	}
-	void SetBlock(int x, int y, int block) { mMap[x][y] = block; }
 	void DamageBlock(int x, int y, float damage) { mDamageMap[x][y] += damage; }
+	void SetBlock(int x, int y, int block) { mMap[x][y] = block; }
 
 private:
 	// Helper functions
-	float mPerlNoise(int x, int y);
+	void mGenerateGradVectorGrid();
+	float mGetPerlNoise(int x, int y);
 
 	// Member variables
 	int mMap[210][621];
 	int mCheckpoints[21];
 	float mDamageMap[210][542];
+	Vector2 mGradVectorGrid[22][62];
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;
 	Vector2 mGradientVectors[4];
 	int mSeed;
-	int J = 4294967296,
-		O = 1664525,
-		Y = 1;
-	int L;
 };

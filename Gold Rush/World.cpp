@@ -25,41 +25,62 @@ World::~World()
 {
 }
 
-float World::mPerlNoise(int x, int y)
+void World::mGenerateGradVectorGrid()
 {
-// Find nearest grid points
-	Vector2 pA, pB, pC, pD;
-	// Left side
-	pA.x = floor(x / 10) * 10;
-	pC.x = pA.x;
-	// Right side
-	pB.x = ceil(x / 10) * 10;
-	pD.x = pB.x;
-	// Top side
-	pA.y = floor(y / 10) * 10;
-	pB.y = pA.y;
-	// Bottom side
-	pC.y = ceil(y / 10) * 10;
-	pD.y = pC.y;
-
-// Determine gradient vectors based on mSeed
-	Vector2 gA, gB, gC, gD;
-	L = mSeed / (floor(x / 10) * 10) / (floor(y / 10) * 10);
-	for (int i = 0; i <= 3; i++)
-	{
-		switch (i)
+	unsigned int B = mSeed;
+	for (int i = 0; i <= 61; i++) {
+		for (int j = 0; j < 21; j++)
 		{
-		case 0: 
-			L = (O * L + Y) % J;
-			round(L / 0.25);
-			break;
-		default:
-			break;
+			srand(B);
+			int pointVal = floor(rand() % 100 / 25);
+			std::cout << pointVal << std::endl;
+			mGradVectorGrid[j][i] = mGradientVectors[pointVal];
+			if (B < 2887174368)
+			{
+				B *= 78;
+			}
+			else
+			{
+				B /= 13;
+			}
 		}
 	}
+}
+
+float World::mGetPerlNoise(int x, int y)
+{
+// Get gradient vectors
+	Vector2 localGradVectors[4];
+	int tempX = x, 
+		tempY = y;
+	if (!(x % 10)) { tempX -= 1; }
+	if (!(y % 10)) { tempY -= 1; }
+	int left = floor(tempX / 10),
+		right = ceil(tempX / 10),
+		top = floor(tempY / 10),
+		bottom = ceil(tempY / 10);
+	localGradVectors[0] = mGradVectorGrid[left][top];
+	localGradVectors[1] = mGradVectorGrid[right][top];
+	localGradVectors[2] = mGradVectorGrid[right][bottom];
+	localGradVectors[3] = mGradVectorGrid[left][bottom];
 // Find distance vectors
+	Vector2 distanceVectors[4];
+	distanceVectors[0].x = x - left * 10 + 0.5;
+	distanceVectors[0].y = y - top * 10 + 0.5;
+	distanceVectors[1].x = x - right * 10 - 0.5;
+	distanceVectors[1].y = distanceVectors[0].y;
+	distanceVectors[2].x = distanceVectors[1].x;
+	distanceVectors[2].y = y - bottom * 10 - 0.5;
+	distanceVectors[3].x = distanceVectors[0].x;
+	distanceVectors[3].y = distanceVectors[2].y;
 // Calculate dot products of each point
+	float dotProd[4];
+	for (int i = 0; i <= 3; i++)
+	{
+		dotProd[i] = Vector2::Dot(localGradVectors[i], distanceVectors[i]);
+	}
 // Bilinearly interpolate value of point
+
 // Return value
 	return 1.f;
 }
@@ -88,6 +109,9 @@ void World::Generate()
 		mCheckpoints[i] = lastCheckpoint - checkpointSize;
 		lastCheckpointSize = checkpointSize;
 	}
+
+	// Generate gradient vectors
+	mGenerateGradVectorGrid();
 
 	// Fill with stone
 	for (int i = 0; i <= 621; i++)
