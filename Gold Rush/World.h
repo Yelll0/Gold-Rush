@@ -31,6 +31,7 @@ public:
 private:
 	// Helper functions
 	void mGenerateGradVectorGrid();
+	float BilinearInterpolation(float q11, float q12, float q21, float q22, float x1, float x2, float y1, float y2, float x, float y);
 	float mGetPerlNoise(int x, int y);
 
 	// Member variables
@@ -38,6 +39,7 @@ private:
 	int mCheckpoints[21];
 	float mDamageMap[210][542];
 	Vector2 mGradVectorGrid[22][62];
+	float mGenerationMap[210][542];
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;

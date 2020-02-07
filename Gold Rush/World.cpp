@@ -47,18 +47,35 @@ void World::mGenerateGradVectorGrid()
 	}
 }
 
+float World::BilinearInterpolation(float q11, float q12, float q21, float q22, float x1, float x2, float y1, float y2, float x, float y)
+{
+	float x2x1, y2y1, x2x, y2y, yy1, xx1;
+	x2x1 = x2 - x1;
+	y2y1 = y2 - y1;
+	x2x = x2 - x;
+	y2y = y2 - y;
+	yy1 = y - y1;
+	xx1 = x - x1;
+	return 1.0 / (x2x1 * y2y1) * (
+		q11 * x2x * y2y +
+		q21 * xx1 * y2y +
+		q12 * x2x * yy1 +
+		q22 * xx1 * yy1
+		);
+}
+
 float World::mGetPerlNoise(int x, int y)
 {
 // Get gradient vectors
 	Vector2 localGradVectors[4];
 	int tempX = x, 
 		tempY = y;
-	if (!(x % 10)) { tempX -= 1; }
-	if (!(y % 10)) { tempY -= 1; }
-	int left = floor(tempX / 10),
-		right = ceil(tempX / 10),
-		top = floor(tempY / 10),
-		bottom = ceil(tempY / 10);
+	if (!(x % 10)) { tempX += 1; }
+	if (!(y % 10)) { tempY += 1; }
+	int left = floor(tempX * 0.1),
+		right = ceil(tempX * 0.1),
+		top = floor(tempY * 0.1),
+		bottom = ceil(tempY * 0.1);
 	localGradVectors[0] = mGradVectorGrid[left][top];
 	localGradVectors[1] = mGradVectorGrid[right][top];
 	localGradVectors[2] = mGradVectorGrid[right][bottom];
@@ -80,9 +97,7 @@ float World::mGetPerlNoise(int x, int y)
 		dotProd[i] = Vector2::Dot(localGradVectors[i], distanceVectors[i]);
 	}
 // Bilinearly interpolate value of point
-
-// Return value
-	return 1.f;
+	return BilinearInterpolation(dotProd[0], dotProd[3], dotProd[1], dotProd[2], left*10-0.5, right*10-0.5, top*10-0.5, bottom*10-0.5, x, y);
 }
 
 // 0 = Air
@@ -109,10 +124,6 @@ void World::Generate()
 		mCheckpoints[i] = lastCheckpoint - checkpointSize;
 		lastCheckpointSize = checkpointSize;
 	}
-
-	// Generate gradient vectors
-	mGenerateGradVectorGrid();
-
 	// Fill with stone
 	for (int i = 0; i <= 621; i++)
 	{
@@ -123,6 +134,17 @@ void World::Generate()
 	}
 
 	// TODO: Generate all ores using perlin noise according to seed
+	// Generate gradient vectors
+	mGenerateGradVectorGrid();
+	for (int i = 0; i <= 621; i++)
+	{
+		for (int j = 0; j <= 209; j++)
+		{
+			mGenerationMap[j][i] = mGetPerlNoise(j, i);
+			std::cout << mGenerationMap[j][i] << ", ";
+		}
+		std::cout << std::endl;
+	}
 
 	// Set checkpoints
 	for (int i = 6; i <= 615; i++)

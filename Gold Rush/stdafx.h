@@ -6,7 +6,7 @@
 #include <sstream>
 #include <string>
 #include <map>
-#include <cmath>
+#include <ctgmath>
 #include <vector>
 #include <cstdlib>
 #include "SDL.h"
