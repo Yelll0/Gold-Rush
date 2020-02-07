@@ -45,6 +45,11 @@ bool Renderer::Init()
 	mTex.emplace(0, new Texture("Sprites/air.png"));
 	mTex.emplace(1, new Texture("Sprites/grass.png"));
 	mTex.emplace(2, new Texture("Sprites/stone.png"));
+	mTex.emplace(3, new Texture("Sprites/coal.png"));
+	mTex.emplace(4, new Texture("Sprites/copper.png"));
+	mTex.emplace(5, new Texture("Sprites/iron.png"));
+	mTex.emplace(6, new Texture("Sprites/titanium.png"));
+	mTex.emplace(7, new Texture("Sprites/mithril.png"));
 	mTex.emplace(8, new Texture("Sprites/gold.png"));
 
 	mOxygenTex = new Texture("Sprites/oxygen.png");
