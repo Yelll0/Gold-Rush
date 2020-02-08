@@ -27,6 +27,8 @@ public:
 	}
 	void DamageBlock(int x, int y, float damage) { mDamageMap[x][y] += damage; }
 	void SetBlock(int x, int y, int block) { mMap[x][y] = block; }
+	int GetItemForBlock(int block) { return BlockToItem[block]; }
+	std::map<int, int> BlockToItem;
 
 private:
 	// Helper functions

@@ -18,6 +18,16 @@ World::World(class Game* game, class Player* player, int seed)
 	mGradientVectors[2].y = -10;
 	mGradientVectors[3].x = -10;
 	mGradientVectors[3].y = 10;
+	// Set all block to item conversions
+	BlockToItem.emplace(0, NULL); // Air
+	BlockToItem.emplace(1, NULL); // Grass
+	BlockToItem.emplace(2, NULL); // Stone
+	BlockToItem.emplace(3, 1); // Coal
+	BlockToItem.emplace(4, 2); // Copper
+	BlockToItem.emplace(5, 4); // Iron
+	BlockToItem.emplace(6, 6); // Titanium
+	BlockToItem.emplace(7, 7); // Mithril
+	BlockToItem.emplace(8, 0); // Gold
 	Generate();
 }
 
@@ -99,15 +109,6 @@ float World::mGetPerlNoise(int x, int y)
 	return BilinearInterpolation(dotProd[0], dotProd[3], dotProd[1], dotProd[2], left*10-0.5, right*10-0.5, top*10-0.5, bottom*10-0.5, x, y);
 }
 
-// 0 = Air
-// 1 = Grass/dirt
-// 2 = Stone
-// 3 = Coal
-// 4 = Copper
-// 5 = Iron
-// 6 = Titanium
-// 7 = Mithril
-// 8 = Gold
 void World::Generate()
 {
 	// Set checkpoints

@@ -10,8 +10,7 @@ Player::Player(class Game* game, class Controller* controller)
 	mFacing(true),
 	mRecomputeWorldTransform(true),
 	mOxygen(60.f),
-	mAtCheckpoint(true),
-	mMineSpeed(3.f) // TEMP
+	mAtCheckpoint(true)
 {
 	// Bind default controls
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
@@ -45,15 +44,23 @@ void Player::Update(float deltaTime)
 
 void Player::Control(float deltaTime)
 {
+	// TODO: Refactor up and down controls
 	// Move according to keys pressed
 	if (mController->GetKeyValue(mControls['D']))
 	{
 		float faceN;
 		if (mFacing) { faceN = 0.4; } else { faceN = -0.4; }
+		// Query for block below player
+		int downBlock = mGame->GetWorld()->GetBlock(round(mPos.x + faceN), round(mPos.y - 0.6));
+		float downBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + faceN), round(mPos.y - 0.6));
+
 		// Mine block if it's not air
-		if (mGame->GetWorld()->GetBlock(round(mPos.x + faceN), round(mPos.y - 0.6)) != 0.f)
+		if (downBlock != 0.f)
 		{
-			if (mGame->GetWorld()->GetBlockDamage(round(mPos.x + faceN), round(mPos.y - 0.6)) >= 1.f) {
+			if (downBlockDamage >= 1.f) {
+				// Add item to inventory
+				mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(downBlock), 1);
+				// Break block
 				mGame->GetWorld()->SetBlock(round(mPos.x + faceN), round(mPos.y - 0.6), 0);
 			}
 			else {
@@ -65,10 +72,15 @@ void Player::Control(float deltaTime)
 	{
 		if (!mAtCheckpoint)
 		{
+			// Query for block above player
+			int upBlock = mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6));
+			float upBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6));
 			// Mine block if it's not air
-			if (mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6)) != 0.f)
+			if (upBlock != 0.f)
 			{
-				if (mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6)) >= 1.f) {
+				if (upBlockDamage >= 1.f) {
+					// Add item to inventory
+					mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(upBlock), 1);
 					mGame->GetWorld()->SetBlock(round(mPos.x), round(mPos.y + 0.6), 0);
 				}
 				else {
@@ -85,7 +97,7 @@ void Player::Control(float deltaTime)
 		mPos.x += 4.5f * deltaTime;
 		// Query for block in front of player
 		int rightBlock = mGame->GetWorld()->GetBlock(round(mPos.x + 0.6), mPos.y);
-		int rightBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + 0.6), mPos.y);
+		float rightBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + 0.6), mPos.y);
 		// Stop moving if it's not air
 		if (rightBlock != 0)
 		{
@@ -95,6 +107,8 @@ void Player::Control(float deltaTime)
 		if (rightBlock != 0)
 		{
 			if (rightBlockDamage >= 1.f) {
+				// Add item to inventory
+				mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(rightBlock), 1);
 				mGame->GetWorld()->SetBlock(mPos.x + 1, mPos.y, 0);
 			}
 			else {
@@ -112,7 +126,7 @@ void Player::Control(float deltaTime)
 		mPos.x -= 4.5f * deltaTime;
 		// Query for block in front of player
 		int leftBlock = mGame->GetWorld()->GetBlock(round(mPos.x - 0.6), mPos.y);
-		int leftBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x - 0.6), mPos.y);
+		float leftBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x - 0.6), mPos.y);
 		// Stop moving if it's not air
 		if (leftBlock != 0)
 		{
@@ -122,6 +136,8 @@ void Player::Control(float deltaTime)
 		if (leftBlock != 0)
 		{
 			if (leftBlockDamage >= 1.f) {
+				// Add item to inventory
+				mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(leftBlock), 1);
 				mGame->GetWorld()->SetBlock(mPos.x - 1, mPos.y, 0);
 			}
 			else {
