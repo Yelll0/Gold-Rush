@@ -164,6 +164,7 @@
     <ClCompile Include="Controller.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Gold Rush.cpp" />
+    <ClCompile Include="Inventory.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -175,6 +176,7 @@
   <ItemGroup>
     <ClInclude Include="Controller.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="Inventory.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />

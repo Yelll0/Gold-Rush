@@ -132,7 +132,7 @@ void World::Generate()
 		}
 	}
 
-	// TODO: Generate all ores using perlin noise according to seed
+	// Generate all ores using perlin noise according to seed
 	for (int i = 6; i <= 615; i++)
 	{
 		// Fill with stone
@@ -171,15 +171,7 @@ void World::Generate()
 				mGenerationMap[n][i] = mGetPerlNoise(n, i);
 				if (mGenerationMap[n][i] <= -30) { SetBlock(n, i, 5); }
 			}
-		}
-		// Generate mithril
-		if (i >= 193) {
-			mGenerateGradVectorGrid(mSeed + 20);
-			for (int o = 0; o <= 209; o++)
-			{
-				mGenerationMap[o][i] = mGetPerlNoise(o, i);
-				if (mGenerationMap[o][i] <= -50) { SetBlock(o, i, 7); }
-			}
+
 		}
 		// Generate titanium
 		if (i >= 77) {
@@ -190,6 +182,16 @@ void World::Generate()
 				if (mGenerationMap[p][i] <= -40) { SetBlock(p, i, 6); }
 			}
 		}
+		// Generate mithril
+		if (i >= 193) {
+			mGenerateGradVectorGrid(mSeed + 20);
+			for (int o = 0; o <= 209; o++)
+			{
+				mGenerationMap[o][i] = mGetPerlNoise(o, i);
+				if (mGenerationMap[o][i] <= -50) { SetBlock(o, i, 7); }
+			}
+		}
+
 		// Set checkpoints
 		if (GetIsCheckpoint(i))
 		{

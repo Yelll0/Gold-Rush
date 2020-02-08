@@ -3,6 +3,7 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
+	mInventory(new Inventory(this, controller)),
 	mPos(Vector2(105.f, 616.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
@@ -10,7 +11,7 @@ Player::Player(class Game* game, class Controller* controller)
 	mRecomputeWorldTransform(true),
 	mOxygen(60.f),
 	mAtCheckpoint(true),
-	mMineSpeed(20.f) // TEMP
+	mMineSpeed(3.f) // TEMP
 {
 	// Bind default controls
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
@@ -39,6 +40,7 @@ void Player::Update(float deltaTime)
 
 	// Update oxygen stats
 	UpdateOxygen(deltaTime);
+	mTime += deltaTime;
 }
 
 void Player::Control(float deltaTime)

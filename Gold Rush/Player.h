@@ -21,6 +21,7 @@ public:
 	bool GetFacing() const { return mFacing; }
 	void SetFacing(bool facing) { mFacing = facing; }
 	int GetOxygen() const { return mOxygen; }
+	void SetMineSpeed(float mineSpeed) { mMineSpeed = mineSpeed; }
 
 private:
 	// Helper functions
@@ -30,6 +31,7 @@ private:
 	// Member variables
 	class Game* mGame;
 	class Controller* mController;
+	class Inventory* mInventory;
 	Vector2 mPos;
 	Vector2 mPixPos;
 	Vector2 mVel;
