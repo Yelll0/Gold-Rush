@@ -17,6 +17,7 @@ public:
 	void ComputeWorldTransform(float scale, Vector2 pixPos, Matrix4& worldTransform);
 	void ComputeObjViewTransform();
 	void ComputeViewTransform();
+	void DrawTexture(class Shader* shader, class Texture* texture, const Vector2& offset = Vector2::Zero, float scale = 1.f);
 
 private:
 	// Member variables

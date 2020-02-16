@@ -32,9 +32,9 @@ public:
 
 private:
 	// Helper functions
-	void mGenerateGradVectorGrid(int seed);
+	void GenerateGradVectorGrid(int seed);
 	float BilinearInterpolation(float q11, float q12, float q21, float q22, float x1, float x2, float y1, float y2, float x, float y);
-	float mGetPerlNoise(int x, int y);
+	float GetPerlNoise(int x, int y);
 
 	// Member variables
 	int mMap[210][621];

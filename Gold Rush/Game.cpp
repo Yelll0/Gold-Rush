@@ -7,7 +7,7 @@ Game::Game()
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
-	mWorld(new World(this, mPlayer, 51)),
+	mWorld(new World(this, mPlayer, 50)),
 	mRenderer(new Renderer(this, mPlayer))
 {
 }

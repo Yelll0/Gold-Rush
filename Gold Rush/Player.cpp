@@ -44,7 +44,6 @@ void Player::Update(float deltaTime)
 
 void Player::Control(float deltaTime)
 {
-	// TODO: Refactor up and down controls
 	// Move according to keys pressed
 	if (mController->GetKeyValue(mControls['D']))
 	{
