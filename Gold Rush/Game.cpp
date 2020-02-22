@@ -3,6 +3,7 @@
 Game::Game() 
 	: mState(1), 
 	mTickCount(0), 
+	mMute(false),
 	mWindow(nullptr), 
 	mContext(NULL), 
 	mController(new Controller(this)),
