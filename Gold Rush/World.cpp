@@ -28,6 +28,7 @@ World::World(class Game* game, class Player* player, int seed)
 	BlockToItem.emplace(6, 6); // Titanium
 	BlockToItem.emplace(7, 7); // Mithril
 	BlockToItem.emplace(8, 0); // Gold
+	// Generate world
 	Generate();
 }
 
@@ -35,7 +36,7 @@ World::~World()
 {
 }
 
-void World::mGenerateGradVectorGrid(int seed)
+void World::GenerateGradVectorGrid(int seed)
 {
 	unsigned int B = seed;
 	for (int i = 0; i <= 61; i++) {
@@ -73,7 +74,7 @@ float World::BilinearInterpolation(float q11, float q12, float q21, float q22, f
 		);
 }
 
-float World::mGetPerlNoise(int x, int y)
+float World::GetPerlNoise(int x, int y)
 {
 // Get gradient vectors
 	Vector2 localGradVectors[4];
@@ -142,54 +143,53 @@ void World::Generate()
 			SetBlock(j, i, 2);
 		}
 		// Generate gold
-		mGenerateGradVectorGrid(mSeed);
+		GenerateGradVectorGrid(mSeed);
 		for (int k = 0; k <= 209; k++)
 		{
-			mGenerationMap[k][i] = mGetPerlNoise(k, i);
+			mGenerationMap[k][i] = GetPerlNoise(k, i);
 			if (mGenerationMap[k][i] <= -45) { SetBlock(k, i, 8); }
 		}
 		// Generate coal
-		mGenerateGradVectorGrid(mSeed + 5);
+		GenerateGradVectorGrid(mSeed + 5);
 		for (int l = 0; l <= 209; l++)
 		{
-			mGenerationMap[l][i] = mGetPerlNoise(l, i);
+			mGenerationMap[l][i] = GetPerlNoise(l, i);
 			if (mGenerationMap[l][i] >= 15) { SetBlock(l, i, 3); }
 		}
-		// Generate copper
-		if (i >= 16) {
-			mGenerateGradVectorGrid(mSeed + 10);
-			for (int m = 0; m <= 209; m++)
+		// Generate mithril
+		if (i >= 193) {
+			GenerateGradVectorGrid(mSeed + 20);
+			for (int o = 0; o <= 209; o++)
 			{
-				mGenerationMap[m][i] = mGetPerlNoise(m, i);
-				if (mGenerationMap[m][i] <= -15) { SetBlock(m, i, 4); }
+				mGenerationMap[o][i] = GetPerlNoise(o, i);
+				if (mGenerationMap[o][i] <= -50) { SetBlock(o, i, 7); }
+			}
+		}
+		// Generate titanium
+		if (i >= 77) {
+			GenerateGradVectorGrid(mSeed + 25);
+			for (int p = 0; p <= 209; p++)
+			{
+				mGenerationMap[p][i] = GetPerlNoise(p, i);
+				if (mGenerationMap[p][i] <= -40) { SetBlock(p, i, 6); }
 			}
 		}
 		// Generate iron
 		if (i >= 42) {
-			mGenerateGradVectorGrid(mSeed + 15);
+			GenerateGradVectorGrid(mSeed + 15);
 			for (int n = 0; n <= 209; n++)
 			{
-				mGenerationMap[n][i] = mGetPerlNoise(n, i);
+				mGenerationMap[n][i] = GetPerlNoise(n, i);
 				if (mGenerationMap[n][i] <= -30) { SetBlock(n, i, 5); }
 			}
-
 		}
-		// Generate titanium
-		if (i >= 77) {
-			mGenerateGradVectorGrid(mSeed + 25);
-			for (int p = 0; p <= 209; p++)
+		// Generate copper
+		if (i >= 16) {
+			GenerateGradVectorGrid(mSeed + 10);
+			for (int m = 0; m <= 209; m++)
 			{
-				mGenerationMap[p][i] = mGetPerlNoise(p, i);
-				if (mGenerationMap[p][i] <= -40) { SetBlock(p, i, 6); }
-			}
-		}
-		// Generate mithril
-		if (i >= 193) {
-			mGenerateGradVectorGrid(mSeed + 20);
-			for (int o = 0; o <= 209; o++)
-			{
-				mGenerationMap[o][i] = mGetPerlNoise(o, i);
-				if (mGenerationMap[o][i] <= -50) { SetBlock(o, i, 7); }
+				mGenerationMap[m][i] = GetPerlNoise(m, i);
+				if (mGenerationMap[m][i] <= -15) { SetBlock(m, i, 4); }
 			}
 		}
 

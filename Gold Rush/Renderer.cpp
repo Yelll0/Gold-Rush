@@ -76,6 +76,10 @@ void Renderer::ComputeViewTransform()
 	mViewTransform = Matrix4::CreateSimpleViewProj(540.f, 540.f);
 }
 
+void Renderer::DrawTexture(Shader* shader, Texture* texture, const Vector2& offset, float scale)
+{
+}
+
 void Renderer::Draw() 
 {
 	// Activate shader program
