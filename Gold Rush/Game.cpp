@@ -120,7 +120,15 @@ void Game::UpdateGame()
 	// Pause game if paused
 	while (!mState)
 	{
-		
+		// Create pause menu UI
+		mPauseMenu = new PauseMenu(this, mController);
+		// Calculate delta time
+		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+		// Update tick count
+		mTickCount = SDL_GetTicks();
+		mPauseMenu->Update(deltaTime);
+		GenerateOutput();
+		if (mState) { delete mPauseMenu; }
 	}
 	// Limit FPS to 60
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));

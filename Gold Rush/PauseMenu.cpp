@@ -7,3 +7,8 @@ PauseMenu::PauseMenu(class Game* game, class Controller* controller) : mGame(gam
 PauseMenu::~PauseMenu()
 {
 }
+
+void PauseMenu::Update(float deltaTime)
+{
+	mController->Update();
+}
