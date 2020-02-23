@@ -1,9 +1,8 @@
 #include "stdafx.h"
 
-PauseMenu::PauseMenu()
+PauseMenu::PauseMenu(class Game* game, class Controller* controller) : mGame(game), mController(controller)
 {
 }
-
 
 PauseMenu::~PauseMenu()
 {

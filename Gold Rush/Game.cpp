@@ -5,6 +5,7 @@ Game::Game()
 	mTickCount(0), 
 	mMute(false),
 	mWindow(nullptr), 
+	mPauseMenu(nullptr),
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
@@ -90,10 +91,6 @@ void Game::RunLoop()
 	while (mState == 1)
 	{
 		ProcessInput();
-		// Pause game
-		while (mState == 0) { 
-			ProcessInput(); 
-		}
 		UpdateGame();
 		GenerateOutput();
 	}
@@ -120,6 +117,11 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+	// Pause game if paused
+	while (!mState)
+	{
+		
+	}
 	// Limit FPS to 60
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time

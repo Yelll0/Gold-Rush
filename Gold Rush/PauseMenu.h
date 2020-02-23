@@ -5,13 +5,13 @@
 class PauseMenu
 {
 public:
-	PauseMenu();
+	PauseMenu(class Game* game, class Controller* controller);
 	~PauseMenu();
 
-	void ProcessInput();
 	void Update(float deltaTime);
 
 private:
 	class Game* mGame;
+	class Controller* mController;
 };
 
