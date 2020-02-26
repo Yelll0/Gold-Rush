@@ -27,11 +27,10 @@ bool Renderer::Init()
 	mVertArray = new VertexArray(mQuadVertsM, 4, mQuadBuffer, 6);
 	mVertArrayM = new VertexArray(mQuadVerts, 4, mQuadBuffer, 6);
 	mVertArrayS = new VertexArray(mSmallQuadVerts, 4, mQuadBuffer, 6);
+	mVertArrayButton = new VertexArray(mButtonVerts, 4, mQuadBuffer, 6);
+	mVertArrayPauseMenu = new VertexArray(mPauseMenuVerts, 4, mQuadBuffer, 6);
 
 	mPlayerTex = new Texture("Sprites/miner.png");
-
-	glEnable(GL_BLEND);
-	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	// 0 = Air
 	// 1 = Grass/dirt
@@ -54,6 +53,10 @@ bool Renderer::Init()
 
 	mOxygenTex = new Texture("Sprites/oxygen.png");
 	mOxygenTextTex = new Texture("Sprites/oxygentxt.png");
+	mPauseMenu = new Texture("Sprites/pause-menu.png");
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 	return true;
 }
@@ -80,7 +83,7 @@ void Renderer::DrawTexture(Shader* shader, Texture* texture, const Vector2& offs
 {
 }
 
-void Renderer::Draw() 
+void Renderer::Draw()
 {
 	// Activate shader program
 	// TODO: Comments
@@ -94,7 +97,7 @@ void Renderer::Draw()
 		for (int x = playerPos.x - 5; x <= playerPos.x + 5; x++)
 		{
 			mTex[mGame->GetWorld()->GetBlock(x, y)]->SetActive();
-			
+
 			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
 			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
@@ -102,13 +105,28 @@ void Renderer::Draw()
 		}
 	}
 
+	// Draw player
+	// Flip the player according to its face direction
+	if (mPlayer->GetFacing())
+	{
+		mVertArrayM->SetActive();
+	}
+	// Activate player texture
+	mPlayerTex->SetActive();
+	// Apply matrices
+	ComputeObjViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mPlayer->GetWorldTransform());
+	// Draw quads
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 	// Draw oxygen bar
 	mVertArrayS->SetActive();
 	for (int i = floor(mPlayer->GetOxygen() / 5.f); i >= 0; i--)
 	{
 		mOxygenTex->SetActive();
 
-		ComputeWorldTransform(3.f, Vector2(-219.f, -204.f + i*30), mTempWorldTransform);
+		ComputeWorldTransform(3.f, Vector2(-219.f, -204.f + i * 30), mTempWorldTransform);
 		ComputeViewTransform();
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
@@ -123,20 +141,21 @@ void Renderer::Draw()
 	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
-	// Draw player
-	// Flip the player according to its face direction
-	mVertArray->SetActive();
-	if (mPlayer->GetFacing())
+	// Draw pause menu
+	if (!mGame->GetState())
 	{
-		mVertArrayM->SetActive();
+		mVertArrayPauseMenu->SetActive();
+		mPauseMenu->SetActive();
+		ComputeWorldTransform(3.f, Vector2(0.f, 0.f), mTempWorldTransform);
+		ComputeViewTransform();
+		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		for (int i = 0; i < 2; i++)
+		{
+			mGame->GetUI()->GetButton(i)->GetTex()->SetActive();
+
+		}
 	}
-	// Activate player texture
-	mPlayerTex->SetActive();
-	// Apply matrices
 	ComputeObjViewTransform();
-	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-	mShader->SetMatrixUniform("uWorldTransform", mPlayer->GetWorldTransform());
-	
-	// Draw quads
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

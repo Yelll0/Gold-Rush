@@ -15,9 +15,11 @@ public:
 	void Quit();
 
 	// Getters and setters
-	int GetState() { return mState; }
+	int GetState() const { return mState; }
 	void SetState(int state) { mState = state; }
-	class World* GetWorld() { return mWorld; }
+	void ToggleSound() { mMute = !mMute; }
+	class World* GetWorld() const { return mWorld; }
+	class PauseMenu* GetUI() const { return mPauseMenu; }
 
 private:
 	// Game loop helper functions

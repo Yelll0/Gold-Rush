@@ -126,6 +126,7 @@ void Game::UpdateGame()
 		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 		// Update tick count
 		mTickCount = SDL_GetTicks();
+
 		mPauseMenu->Update(deltaTime);
 		GenerateOutput();
 		if (mState) { delete mPauseMenu; }

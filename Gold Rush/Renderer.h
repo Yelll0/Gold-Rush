@@ -29,9 +29,19 @@ private:
 	std::map<int, class Texture*> mTex;
 	class Texture* mOxygenTex;
 	class Texture* mOxygenTextTex;
+	class Texture* mPauseMenu;
+	std::map<int, class Texture*> mHUDTex; // TODO: Make HUD
+	/*
+	HUD Texture codes:
+	0 - Oxygen bar
+	1 - Oxygen text
+	2 - Upgrade pickaxe button
+	*/
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;
 	class VertexArray* mVertArrayS;
+	class VertexArray* mVertArrayButton;
+	class VertexArray* mVertArrayPauseMenu;
 	Matrix4 mViewTransform;
 	Matrix4 mTempWorldTransform;
 	// Quad vertex arrays and buffers
@@ -52,6 +62,18 @@ private:
 		 5.f,  5.f, 0.0f, 1.f, 0.f,
 		 5.f, -5.f, 0.0f, 1.f, 1.f,
 		-5.f, -5.f, 0.0f, 0.f, 1.f
+	};
+	float mButtonVerts[20] = {
+		-12.f,  12.f, 0.0f, 0.f, 0.f,
+		 12.f,  12.f, 0.0f, 1.f, 0.f,
+		 12.f, -12.f, 0.0f, 1.f, 1.f,
+		-12.f, -12.f, 0.0f, 0.f, 1.f
+	};
+	float mPauseMenuVerts[20] = {
+		-43.f,  15.f, 0.0f, 0.f, 0.f,
+		 43.f,  15.f, 0.0f, 1.f, 0.f,
+		 43.f, -15.f, 0.0f, 1.f, 1.f,
+		-43.f, -15.f, 0.0f, 0.f, 1.f
 	};
 	unsigned int mQuadBuffer[6] = {
 		0, 1, 2,
