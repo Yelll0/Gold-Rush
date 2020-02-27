@@ -1,7 +1,7 @@
 #include "stdafx.h"
 
-Button::Button(class PauseMenu* menu, class Texture* tex, const Vector2& pos, const Vector2& dim, std::function<void()> fun) : mMenu(menu), 
-	mTex(tex),
+Button::Button(class PauseMenu* menu, int texC, const Vector2& pos, const Vector2& dim, std::function<void()> fun) : mMenu(menu), 
+	mTexCode(texC),
 	mPos(pos),
 	mDimensions(dim),
 	mFunction(fun)

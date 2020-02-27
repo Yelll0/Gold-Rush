@@ -27,12 +27,10 @@ private:
 	class Shader* mShader;
 	class Texture* mPlayerTex;
 	std::map<int, class Texture*> mTex;
-	class Texture* mOxygenTex;
-	class Texture* mOxygenTextTex;
 	class Texture* mPauseMenu;
 	std::map<int, class Texture*> mUITex; // TODO: Make HUD
 	/*
-	HUD Texture codes:
+	HUD Texture codes: 
 	0 - Oxygen bar
 	1 - Oxygen text
 	2 - Upgrade pickaxe button

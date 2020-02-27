@@ -6,7 +6,7 @@ class Button
 {
 public:
 	// Constructor and destructor
-	Button(class PauseMenu* menu, class Texture* tex, const Vector2& pos, const Vector2& dim, std::function<void()> fun);
+	Button(class PauseMenu* menu, int texC, const Vector2& pos, const Vector2& dim, std::function<void()> fun);
 	~Button();
 
 	bool ContainsPoint(const Vector2& pt);
@@ -15,13 +15,13 @@ public:
 	std::function<void()> mFunction;
 
 	// Getters and setters
-	class Texture* GetTex() const { return mTex; }
+	int GetTexCode() const { return mTexCode; }
 	Vector2 GetPos() const { return mPos; }
 	Vector2 GetDimensions() const { return mDimensions; }
 
 private:
 	class PauseMenu* mMenu;
-	class Texture* mTex;
+	int mTexCode;
 	Vector2 mPos;
 	Vector2 mDimensions;
 };

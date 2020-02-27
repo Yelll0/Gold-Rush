@@ -32,15 +32,6 @@ bool Renderer::Init()
 
 	mPlayerTex = new Texture("Sprites/miner.png");
 
-	// 0 = Air
-	// 1 = Grass/dirt
-	// 2 = Stone
-	// 3 = Coal
-	// 4 = Copper
-	// 5 = Iron
-	// 6 = Titanium
-	// 7 = Mithril
-	// 8 = Gold
 	mTex.emplace(0, new Texture("Sprites/air.png"));
 	mTex.emplace(1, new Texture("Sprites/grass.png"));
 	mTex.emplace(2, new Texture("Sprites/stone.png"));
@@ -50,9 +41,33 @@ bool Renderer::Init()
 	mTex.emplace(6, new Texture("Sprites/titanium.png"));
 	mTex.emplace(7, new Texture("Sprites/mithril.png"));
 	mTex.emplace(8, new Texture("Sprites/gold.png"));
+	/*
+	0 = Air
+	1 = Grass/dirt
+	2 = Stone
+	3 = Coal
+	4 = Copper
+	5 = Iron
+	6 = Titanium
+	7 = Mithril
+	8 = Gold
+	*/
+	mUITex.emplace(0, new Texture("Sprites/oxygen.png"));
+	mUITex.emplace(1, new Texture("Sprites/oxygentxt.png"));
+	mUITex.emplace(3, new Texture("Sprites/play.png"));
+	mUITex.emplace(4, new Texture("Sprites/sound.png"));
+	mUITex.emplace(5, new Texture("Sprites/mute.png"));
+	mUITex.emplace(6, new Texture("Sprites/home.png"));
+	/*
+	0 - Oxygen bar
+	1 - Oxygen text
+	2 - Upgrade pickaxe button
+	3 - Play button
+	4 - Sound button
+	5 - Mute button
+	6 - Home button
+	*/
 
-	mOxygenTex = new Texture("Sprites/oxygen.png");
-	mOxygenTextTex = new Texture("Sprites/oxygentxt.png");
 	mPauseMenu = new Texture("Sprites/pause-menu.png");
 
 	glEnable(GL_BLEND);
@@ -124,7 +139,7 @@ void Renderer::Draw()
 	mVertArrayS->SetActive();
 	for (int i = floor(mPlayer->GetOxygen() / 5.f); i >= 0; i--)
 	{
-		mOxygenTex->SetActive();
+		mUITex[0]->SetActive();
 
 		ComputeWorldTransform(3.f, Vector2(-219.f, -204.f + i * 30), mTempWorldTransform);
 		ComputeViewTransform();
@@ -134,7 +149,7 @@ void Renderer::Draw()
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
 	// Draw oxygen icon
-	mOxygenTextTex->SetActive();
+	mUITex[1]->SetActive();
 	ComputeWorldTransform(3.f, Vector2(-219.f, -234.f), mTempWorldTransform);
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
@@ -155,7 +170,7 @@ void Renderer::Draw()
 		for (int i = 0; i <= 2; i++)
 		{
 			class Button* b = mGame->GetUI()->GetButton(i);
-			b->GetTex()->SetActive();
+			mUITex[b->GetTexCode()]->SetActive();
 			ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
 			ComputeViewTransform();
 			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
