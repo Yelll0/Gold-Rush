@@ -104,9 +104,9 @@ void Game::Quit()
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
-	delete mController;
 	delete mPlayer;
 	delete mRenderer;
+	delete mController;
 	return;
 }
 
@@ -122,6 +122,7 @@ void Game::UpdateGame()
 	{
 		// Create pause menu UI
 		mPauseMenu = new PauseMenu(this, mController);
+		mController->SetUI(mPauseMenu);
 		// Calculate delta time
 		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 		// Update tick count
@@ -130,6 +131,7 @@ void Game::UpdateGame()
 		mPauseMenu->Update(deltaTime);
 		GenerateOutput();
 		if (mState) { delete mPauseMenu; }
+		mController->SetUI(nullptr);
 	}
 	// Limit FPS to 60
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));

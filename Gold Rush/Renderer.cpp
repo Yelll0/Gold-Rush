@@ -151,10 +151,16 @@ void Renderer::Draw()
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		for (int i = 0; i < 2; i++)
+		mVertArrayButton->SetActive();
+		for (int i = 0; i <= 2; i++)
 		{
-			mGame->GetUI()->GetButton(i)->GetTex()->SetActive();
-
+			class Button* b = mGame->GetUI()->GetButton(i);
+			b->GetTex()->SetActive();
+			ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
+			ComputeViewTransform();
+			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 	}
 	ComputeObjViewTransform();

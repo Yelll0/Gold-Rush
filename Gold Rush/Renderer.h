@@ -30,12 +30,16 @@ private:
 	class Texture* mOxygenTex;
 	class Texture* mOxygenTextTex;
 	class Texture* mPauseMenu;
-	std::map<int, class Texture*> mHUDTex; // TODO: Make HUD
+	std::map<int, class Texture*> mUITex; // TODO: Make HUD
 	/*
 	HUD Texture codes:
 	0 - Oxygen bar
 	1 - Oxygen text
 	2 - Upgrade pickaxe button
+	3 - Play button
+	4 - Sound button
+	5 - Mute button
+	6 - Home button
 	*/
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;

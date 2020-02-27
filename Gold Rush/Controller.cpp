@@ -17,6 +17,10 @@ bool Controller::Init()
 	return true;
 }
 
+void Controller::Shutdown()
+{
+}
+
 void Controller::Update()
 {
 	memcpy(mPreviousState, mCurrentState, SDL_NUM_SCANCODES);
@@ -29,19 +33,36 @@ void Controller::Update()
 		case SDL_QUIT:
 			mGame->SetState(-1);
 			break;
+		// On click, get position of mouse
+		case SDL_MOUSEBUTTONDOWN:
+			int x, y;
+			SDL_GetMouseState(&x, &y);
+			// Convert to (0, 0) center coordinates
+			Vector2 mousePos(x, y);
+			mousePos.x -= 270.f;
+			mousePos.y -= 270.f;
+			if (mUI)
+			{
+				for (int i = 0; i <= 2; i++)
+				{
+					if (mUI->GetButton(i)->ContainsPoint(mousePos))
+					{
+						mUI->GetButton(i)->mFunction();
+					}
+				}
+			}
 		}
 	}
 	// Pause/unpause game when escape is pressed
 	if (GetKeyState(SDL_SCANCODE_ESCAPE) == EPressed)
 	{
-		switch (mGame->GetState())
+		if (mGame->GetState())
 		{
-		case 1:
 			mGame->SetState(0);
-			break;
-		case 0:
+		}
+		else
+		{
 			mGame->SetState(1);
-			break;
 		}
 	}
 }
