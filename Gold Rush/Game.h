@@ -15,8 +15,11 @@ public:
 	void Quit();
 
 	// Getters and setters
-	int GetState() { return mState; }
-	void SetState(int nState) { mState = nState; }
+	int GetState() const { return mState; }
+	void SetState(int state) { mState = state; }
+	void ToggleSound() { mMute = !mMute; }
+	class World* GetWorld() const { return mWorld; }
+	class PauseMenu* GetUI() const { return mPauseMenu; }
 
 private:
 	// Game loop helper functions
@@ -26,10 +29,13 @@ private:
 
 	// Other member variables
 	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
+	bool mMute;
 	Uint32 mTickCount;
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;
 	class Controller* mController;
 	class Player* mPlayer;
 	class Renderer* mRenderer;
+	class World* mWorld;
+	class PauseMenu* mPauseMenu;
 };

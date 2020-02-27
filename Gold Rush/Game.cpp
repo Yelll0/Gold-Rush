@@ -1,12 +1,15 @@
-#include "Game.h"
+#include "stdafx.h"
 
 Game::Game() 
 	: mState(1), 
 	mTickCount(0), 
+	mMute(false),
 	mWindow(nullptr), 
+	mPauseMenu(nullptr),
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
+	mWorld(new World(this, mPlayer, 50)),
 	mRenderer(new Renderer(this, mPlayer))
 {
 }
@@ -88,8 +91,6 @@ void Game::RunLoop()
 	while (mState == 1)
 	{
 		ProcessInput();
-		// Pause game
-		while (mState == 0) { ProcessInput(); }
 		UpdateGame();
 		GenerateOutput();
 	}
@@ -103,6 +104,9 @@ void Game::Quit()
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
+	delete mController;
+	delete mPlayer;
+	delete mRenderer;
 	return;
 }
 
@@ -113,6 +117,20 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+	// Pause game if paused
+	while (!mState)
+	{
+		// Create pause menu UI
+		mPauseMenu = new PauseMenu(this, mController);
+		// Calculate delta time
+		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+		// Update tick count
+		mTickCount = SDL_GetTicks();
+
+		mPauseMenu->Update(deltaTime);
+		GenerateOutput();
+		if (mState) { delete mPauseMenu; }
+	}
 	// Limit FPS to 60
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
@@ -131,7 +149,7 @@ void Game::UpdateGame()
 void Game::GenerateOutput()
 {
 	// Set clear color to grey
-	glClearColor(0.8f, 0.8f, 0.8f, 1.0f);
+	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	// Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
 

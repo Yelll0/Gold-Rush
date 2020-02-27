@@ -5,7 +5,7 @@
 class Texture
 {
 public:
-	Texture();
+	Texture(const std::string& texName);
 	~Texture();
 
 	bool Load(const std::string& fileName);
@@ -24,4 +24,3 @@ private:
 	int mWidth;
 	int mHeight;
 };
-

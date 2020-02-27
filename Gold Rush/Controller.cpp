@@ -1,6 +1,4 @@
-#include "Controller.h"
-
-
+#include "stdafx.h"
 
 Controller::Controller(class Game* game)
 	: mGame(game)
@@ -61,4 +59,3 @@ ButtonState Controller::GetKeyState(SDL_Scancode keyCode) const
 		else { return EHeld; }
 	}
 }
-

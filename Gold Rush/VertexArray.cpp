@@ -1,26 +1,8 @@
-#include "VertexArray.h"
+#include "stdafx.h"
 
 VertexArray::VertexArray(const float* verts, unsigned int numVerts, const unsigned int* indices, unsigned int numIndices)
 	: mNumVerts(numVerts),
 	mNumIndices(numIndices)
-{
-	SetVertexBuffer(verts, numVerts, indices, numIndices);
-}
-
-VertexArray::~VertexArray()
-{
-	// Delete buffers and arrays
-	glDeleteBuffers(1, &mVertexBuffer);
-	glDeleteBuffers(1, &mIndexBuffer);
-	glDeleteVertexArrays(1, &mVertexArray);
-}
-
-void VertexArray::SetActive()
-{
-	glBindVertexArray(mVertexArray);
-}
-
-void VertexArray::SetVertexBuffer(const float* verts, unsigned int numVerts, const unsigned int* indices, unsigned int numIndices)
 {
 	// Create and bind vertex array
 	glGenVertexArrays(1, &mVertexArray);
@@ -43,4 +25,17 @@ void VertexArray::SetVertexBuffer(const float* verts, unsigned int numVerts, con
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), 0);
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
+}
+
+VertexArray::~VertexArray()
+{
+	// Delete buffers and arrays
+	glDeleteBuffers(1, &mVertexBuffer);
+	glDeleteBuffers(1, &mIndexBuffer);
+	glDeleteVertexArrays(1, &mVertexArray);
+}
+
+void VertexArray::SetActive()
+{
+	glBindVertexArray(mVertexArray);
 }
