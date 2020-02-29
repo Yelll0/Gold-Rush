@@ -4,7 +4,7 @@ Player::Player(class Game* game, class Controller* controller)
 	: mGame(game),
 	mController(controller),
 	mInventory(new Inventory(this, controller)),
-	mPos(Vector2(105.f, 616.f)),
+	mPos(Vector2(105.f, 617.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),
@@ -184,16 +184,19 @@ void Player::Gravity(float deltaTime)
 void Player::UpdateOxygen(float deltaTime)
 {
 	// Restore/deplete depending on whether the player is at a checkpoint
-	if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; }
-	else { mAtCheckpoint = false; }
-	if (mAtCheckpoint) { mOxygen = 60.f; }
-	else { mOxygen -= deltaTime; }
-	// Die
-	if (mOxygen <= 0.f) { mGame->SetState(-1); }
-	// Win
-	if (mPos.y < 5.f) { mGame->SetState(-1); }
+	if (mPos.y < 616.f)
+	{
+		if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; }
+		else { mAtCheckpoint = false; }
+		if (mAtCheckpoint) { mOxygen = 60.f; }
+		else { mOxygen -= deltaTime; }
+		// Die
+		if (mOxygen <= 0.f) { mGame->SetState(-1); }
+		// Win
+		if (mPos.y < 5.f) { mGame->SetState(-1); }
 
-	if (!mAtCheckpoint) { mTime += deltaTime; }
+		if (!mAtCheckpoint) { mTime += deltaTime; }
+	}
 }
 
 void Player::ComputeWorldTransform()

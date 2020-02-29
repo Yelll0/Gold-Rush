@@ -5,12 +5,13 @@ Game::Game()
 	mTickCount(0), 
 	mMute(false),
 	mWindow(nullptr), 
-	mActiveUI(nullptr),
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
-	mWorld(new World(this, mPlayer, 50)),
-	mRenderer(new Renderer(this, mPlayer))
+	mWorld(new World(this, mPlayer, 100)),
+	mRenderer(new Renderer(this, mPlayer)),
+	mHUD(new HUD(this, mController, mPlayer)),
+	mActiveUI(mHUD)
 {
 }
 
@@ -48,7 +49,7 @@ int Game::Init()
 		"Gold Rush",
 		SDL_WINDOWPOS_CENTERED,
 		SDL_WINDOWPOS_CENTERED,
-		576, // Sprites are 16*16 pixels, and are scaled up *4
+		576, // Sprites are 24*24 pixels, and are scaled up *3
 		576,
 		SDL_WINDOW_OPENGL
 		);
@@ -123,17 +124,27 @@ void Game::UpdateGame()
 		// Create pause menu UI
 		mActiveUI = new PauseMenu(this, mController);
 		mController->SetUI(mActiveUI);
+		// Limit FPS to 62.5
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 		// Calculate delta time
 		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 		// Update tick count
 		mTickCount = SDL_GetTicks();
+		// Limit delta time value
+		if (deltaTime > 0.05)
+		{
+			deltaTime = 0.05;
+		}
 
 		mActiveUI->Update(deltaTime);
 		GenerateOutput();
 		if (mState) { delete mActiveUI; }
 		mController->SetUI(nullptr);
+		std::cout << 1 / deltaTime << std::endl;
 	}
-	// Limit FPS to 60
+	mActiveUI = mHUD;
+	mController->SetUI(mActiveUI);
+	// Limit FPS to 62.5
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
 	double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
@@ -144,6 +155,7 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05;
 	}
+	std::cout << 1 / deltaTime << std::endl;
 
 	mPlayer->Update(deltaTime);
 }

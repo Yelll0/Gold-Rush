@@ -39,16 +39,13 @@ void Controller::Update()
 			SDL_GetMouseState(&x, &y);
 			// Convert to (0, 0) center coordinates
 			Vector2 mousePos(x, y);
-			mousePos.x -= 270.f;
-			mousePos.y -= 270.f;
-			if (mUI)
+			mousePos.x -= 288.f;
+			mousePos.y -= 288.f;
+			for (int i = 0; i < mUI->GetNumButtons(); i++)
 			{
-				for (int i = 0; i <= 2; i++)
+				if (mUI->GetButton(i)->ContainsPoint(mousePos))
 				{
-					if (mUI->GetButton(i)->ContainsPoint(mousePos))
-					{
-						mUI->GetButton(i)->mFunction();
-					}
+					if (mUI->GetButton(i)->mFunction) { mUI->GetButton(i)->mFunction(); }
 				}
 			}
 		}

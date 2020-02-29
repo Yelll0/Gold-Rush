@@ -20,6 +20,7 @@ public:
 	void ToggleSound() { mMute = !mMute; }
 	class World* GetWorld() const { return mWorld; }
 	class UIScreen* GetUI() const { return mActiveUI; }
+	class HUD* GetHUD() const { return mHUD; }
 
 private:
 	// Game loop helper functions
@@ -37,5 +38,6 @@ private:
 	class Player* mPlayer;
 	class Renderer* mRenderer;
 	class World* mWorld;
+	class HUD* mHUD;
 	class UIScreen* mActiveUI;
 };

@@ -6,7 +6,7 @@ class Button
 {
 public:
 	// Constructor and destructor
-	Button(class PauseMenu* menu, int texC, const Vector2& pos, const Vector2& dim, std::function<void()> fun);
+	Button(class UIScreen* menu, int texC, const Vector2& pos, const Vector2& dim, std::function<void()> fun);
 	~Button();
 
 	bool ContainsPoint(const Vector2& pt);
@@ -20,7 +20,7 @@ public:
 	Vector2 GetDimensions() const { return mDimensions; }
 
 private:
-	class PauseMenu* mMenu;
+	class UIScreen* mMenu;
 	int mTexCode;
 	Vector2 mPos;
 	Vector2 mDimensions;

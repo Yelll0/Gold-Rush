@@ -19,6 +19,7 @@ public:
 	Vector2 GetPixPos() const { return mPixPos; }
 	bool GetRecomputeWorldTransform() const { return mRecomputeWorldTransform; }
 	bool GetFacing() const { return mFacing; }
+	class Inventory* GetInv() const { return mInventory; }
 	void SetFacing(bool facing) { mFacing = facing; }
 	int GetOxygen() const { return mOxygen; }
 	void SetMineSpeed(float mineSpeed) { mMineSpeed = mineSpeed; }

@@ -26,4 +26,5 @@
 #include "Inventory.h"
 #include "UIScreen.h"
 #include "PauseMenu.h"
+#include "HUD.h"
 #include "Button.h"

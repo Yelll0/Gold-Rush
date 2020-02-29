@@ -54,10 +54,20 @@ bool Renderer::Init()
 	*/
 	mUITex.emplace(0, new Texture("Sprites/oxygen.png"));
 	mUITex.emplace(1, new Texture("Sprites/oxygentxt.png"));
+	mUITex.emplace(2, new Texture("Sprites/upgrade-pick.png"));
 	mUITex.emplace(3, new Texture("Sprites/play.png"));
 	mUITex.emplace(4, new Texture("Sprites/sound.png"));
 	mUITex.emplace(5, new Texture("Sprites/mute.png"));
 	mUITex.emplace(6, new Texture("Sprites/home.png"));
+	mUITex.emplace(7, new Texture("Sprites/craft-bomb.png"));
+	mUITex.emplace(8, new Texture("Sprites/bomb.png"));
+	mUITex.emplace(9, new Texture("Sprites/pause.png"));
+	mUITex.emplace(10, new Texture("Sprites/gold-ingot.png"));
+	mUITex.emplace(11, new Texture("Sprites/coal-frag.png"));
+	mUITex.emplace(12, new Texture("Sprites/copper-frag.png"));
+	mUITex.emplace(13, new Texture("Sprites/iron-ingot.png"));
+	mUITex.emplace(14, new Texture("Sprites/titanium-ingot.png"));
+	mUITex.emplace(15, new Texture("Sprites/mithril-frag.png"));
 	/*
 	0 - Oxygen bar
 	1 - Oxygen text
@@ -66,6 +76,15 @@ bool Renderer::Init()
 	4 - Sound button
 	5 - Mute button
 	6 - Home button
+	7 - Craft C4 button
+	8 - Use C4 button
+	9 - Pause button
+	10 - Gold icon
+	11 - Coal icon
+	12 - Copper icon
+	13 - Iron icon
+	14 - Titanium icon
+	15 - Mithril icon
 	*/
 
 	mPauseMenu = new Texture("Sprites/pause-menu.png");
@@ -86,12 +105,12 @@ void Renderer::ComputeObjViewTransform()
 {
 	// Recenter around player
 	Vector2 p = mPlayer->GetPixPos();
-	mViewTransform = Matrix4::CreateTranslation(Vector3(-1.f * p.x, -1.f * p.y, 0.f)) * Matrix4::CreateSimpleViewProj(540.f, 540.f);
+	mViewTransform = Matrix4::CreateTranslation(Vector3(-1.f * p.x, -1.f * p.y, 0.f)) * Matrix4::CreateSimpleViewProj(576.f, 576.f);
 }
 
 void Renderer::ComputeViewTransform()
 {
-	mViewTransform = Matrix4::CreateSimpleViewProj(540.f, 540.f);
+	mViewTransform = Matrix4::CreateSimpleViewProj(576.f, 576.f);
 }
 
 void Renderer::DrawTexture(Shader* shader, Texture* texture, const Vector2& offset, float scale)
@@ -107,9 +126,9 @@ void Renderer::Draw()
 	// Draw world
 	mVertArray->SetActive();
 	Vector2 playerPos = mPlayer->GetPos();
-	for (int y = playerPos.y - 5; y <= playerPos.y + 5; y++)
+	for (int y = playerPos.y - 6; y <= playerPos.y + 6; y++)
 	{
-		for (int x = playerPos.x - 5; x <= playerPos.x + 5; x++)
+		for (int x = playerPos.x - 6; x <= playerPos.x + 6; x++)
 		{
 			mTex[mGame->GetWorld()->GetBlock(x, y)]->SetActive();
 
@@ -135,6 +154,7 @@ void Renderer::Draw()
 	// Draw quads
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
+	// Draw HUD
 	// Draw oxygen bar
 	mVertArrayS->SetActive();
 	for (int i = floor(mPlayer->GetOxygen() / 5.f); i >= 0; i--)
@@ -155,6 +175,17 @@ void Renderer::Draw()
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	// Draw HUD buttons
+	for (int i = 0; i <= 8; i++)
+	{
+		class Button* b = mGame->GetHUD()->GetButton(i);
+		mUITex[b->GetTexCode()]->SetActive();
+		ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
+		ComputeViewTransform();
+		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	}
 
 	// Draw pause menu
 	if (!mGame->GetState())

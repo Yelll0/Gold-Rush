@@ -11,6 +11,7 @@ public:
 	virtual void Update(float deltaTime);
 
 	class Button* GetButton(int i) const { return mButtons[i]; }
+	int GetNumButtons() const { return mButtons.size(); }
 
 protected:
 	class Game* mGame;
