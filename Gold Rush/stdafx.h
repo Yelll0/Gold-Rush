@@ -24,5 +24,6 @@
 #include "Controller.h"
 #include "World.h"
 #include "Inventory.h"
+#include "UIScreen.h"
 #include "PauseMenu.h"
 #include "Button.h"

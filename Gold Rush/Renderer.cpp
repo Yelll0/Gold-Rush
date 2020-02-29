@@ -141,7 +141,7 @@ void Renderer::Draw()
 	{
 		mUITex[0]->SetActive();
 
-		ComputeWorldTransform(3.f, Vector2(-219.f, -204.f + i * 30), mTempWorldTransform);
+		ComputeWorldTransform(3.f, Vector2(219.f, -174.f + i * 30), mTempWorldTransform);
 		ComputeViewTransform();
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
@@ -150,7 +150,7 @@ void Renderer::Draw()
 	}
 	// Draw oxygen icon
 	mUITex[1]->SetActive();
-	ComputeWorldTransform(3.f, Vector2(-219.f, -234.f), mTempWorldTransform);
+	ComputeWorldTransform(3.f, Vector2(219.f, -204.f), mTempWorldTransform);
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);

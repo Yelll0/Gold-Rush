@@ -2,13 +2,13 @@
 
 #include "stdafx.h"
 
-class PauseMenu
+class UIScreen
 {
 public:
-	PauseMenu(class Game* game, class Controller* controller);
-	~PauseMenu();
+	UIScreen(class Game* game, class Controller* controller);
+	~UIScreen();
 
-	void Update(float deltaTime);
+	virtual void Update(float deltaTime);
 
 	class Button* GetButton(int i) const { return mButtons[i]; }
 
@@ -17,3 +17,4 @@ private:
 	class Controller* mController;
 	std::vector<class Button*> mButtons;
 };
+
