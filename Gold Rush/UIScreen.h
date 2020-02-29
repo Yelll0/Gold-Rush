@@ -12,7 +12,7 @@ public:
 
 	class Button* GetButton(int i) const { return mButtons[i]; }
 
-private:
+protected:
 	class Game* mGame;
 	class Controller* mController;
 	std::vector<class Button*> mButtons;

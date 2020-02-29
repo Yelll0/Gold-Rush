@@ -2,18 +2,9 @@
 
 #include "stdafx.h"
 
-class PauseMenu
+class PauseMenu: public UIScreen
 {
 public:
 	PauseMenu(class Game* game, class Controller* controller);
 	~PauseMenu();
-
-	void Update(float deltaTime);
-
-	class Button* GetButton(int i) const { return mButtons[i]; }
-
-private:
-	class Game* mGame;
-	class Controller* mController;
-	std::vector<class Button*> mButtons;
 };

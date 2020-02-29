@@ -5,7 +5,7 @@ Game::Game()
 	mTickCount(0), 
 	mMute(false),
 	mWindow(nullptr), 
-	mPauseMenu(nullptr),
+	mActiveUI(nullptr),
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
@@ -121,16 +121,16 @@ void Game::UpdateGame()
 	while (!mState)
 	{
 		// Create pause menu UI
-		mPauseMenu = new PauseMenu(this, mController);
-		mController->SetUI(mPauseMenu);
+		mActiveUI = new PauseMenu(this, mController);
+		mController->SetUI(mActiveUI);
 		// Calculate delta time
 		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 		// Update tick count
 		mTickCount = SDL_GetTicks();
 
-		mPauseMenu->Update(deltaTime);
+		mActiveUI->Update(deltaTime);
 		GenerateOutput();
-		if (mState) { delete mPauseMenu; }
+		if (mState) { delete mActiveUI; }
 		mController->SetUI(nullptr);
 	}
 	// Limit FPS to 60

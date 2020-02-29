@@ -19,7 +19,7 @@ public:
 	void SetState(int state) { mState = state; }
 	void ToggleSound() { mMute = !mMute; }
 	class World* GetWorld() const { return mWorld; }
-	class PauseMenu* GetUI() const { return mPauseMenu; }
+	class UIScreen* GetUI() const { return mActiveUI; }
 
 private:
 	// Game loop helper functions
@@ -37,5 +37,5 @@ private:
 	class Player* mPlayer;
 	class Renderer* mRenderer;
 	class World* mWorld;
-	class PauseMenu* mPauseMenu;
+	class UIScreen* mActiveUI;
 };

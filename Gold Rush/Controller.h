@@ -27,12 +27,12 @@ public:
 	
 	ButtonState GetKeyState(SDL_Scancode keyCode) const;
 
-	void SetUI(class PauseMenu* ui) { mUI = ui; }
+	void SetUI(class UIScreen* ui) { mUI = ui; }
 
 private:
 	class Game* mGame;
 	class Player* mPlayer;
-	class PauseMenu* mUI;
+	class UIScreen* mUI;
 	const Uint8* mCurrentState;
 	Uint8 mPreviousState[SDL_NUM_SCANCODES];
 };

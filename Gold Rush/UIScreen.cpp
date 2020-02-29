@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-UIScreen::UIScreen(class Game* game, class Controller* controller)
+UIScreen::UIScreen(class Game* game, class Controller* controller) : mGame(game), mController(controller)
 {
 }
 
