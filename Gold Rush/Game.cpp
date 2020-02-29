@@ -140,7 +140,6 @@ void Game::UpdateGame()
 		GenerateOutput();
 		if (mState) { delete mActiveUI; }
 		mController->SetUI(nullptr);
-		std::cout << 1 / deltaTime << std::endl;
 	}
 	mActiveUI = mHUD;
 	mController->SetUI(mActiveUI);

@@ -24,9 +24,9 @@ World::World(class Game* game, class Player* player, int seed)
 	BlockToItem.emplace(2, NULL); // Stone
 	BlockToItem.emplace(3, 1); // Coal
 	BlockToItem.emplace(4, 2); // Copper
-	BlockToItem.emplace(5, 4); // Iron
-	BlockToItem.emplace(6, 6); // Titanium
-	BlockToItem.emplace(7, 7); // Mithril
+	BlockToItem.emplace(5, 3); // Iron
+	BlockToItem.emplace(6, 4); // Titanium
+	BlockToItem.emplace(7, 5); // Mithril
 	BlockToItem.emplace(8, 0); // Gold
 	// Generate world
 	Generate();

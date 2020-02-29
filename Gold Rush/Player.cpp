@@ -3,7 +3,7 @@
 Player::Player(class Game* game, class Controller* controller) 
 	: mGame(game),
 	mController(controller),
-	mInventory(new Inventory(this, controller)),
+	mInventory(new Inventory(this, controller, mGame)),
 	mPos(Vector2(105.f, 617.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
@@ -17,6 +17,8 @@ Player::Player(class Game* game, class Controller* controller)
 	mControls.emplace('L', SDL_SCANCODE_LEFT);
 	mControls.emplace('D', SDL_SCANCODE_DOWN);
 	mControls.emplace('U', SDL_SCANCODE_UP);
+	mControls.emplace('P', SDL_SCANCODE_RSHIFT);
+	mControls.emplace('B', SDL_SCANCODE_RCTRL);
 }
 
 Player::~Player()
@@ -146,6 +148,8 @@ void Player::Control(float deltaTime)
 
 		mRecomputeWorldTransform = true;
 	}
+	if (mController->GetKeyState(mControls['P']) == EPressed) { mInventory->UpgradePick(); }
+	if (mController->GetKeyState(mControls['B']) == EPressed) { mInventory->C4Action(); }
 
 	// Make sure player doens't exit world boundaries
 	if (mPos.x > 204) { mPos.x = 204; }
