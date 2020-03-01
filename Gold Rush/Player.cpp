@@ -145,7 +145,6 @@ void Player::Control(float deltaTime)
 				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, mMineSpeed * deltaTime);
 			}
 		}
-
 		mRecomputeWorldTransform = true;
 	}
 	if (mController->GetKeyState(mControls['P']) == EPressed) { mInventory->UpgradePick(); }

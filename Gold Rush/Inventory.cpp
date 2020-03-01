@@ -31,13 +31,13 @@ Inventory::~Inventory()
 void Inventory::UpgradePick() {
 	int mat = mTool + 1;
 
-	if (mInventory[mat] > 0)
+	if (mInventory[mat] >= 50)
 	{
 		if (mTool < 5)
 		{
 			mTool += 1;
 			mPlayer->SetMineSpeed(mPickSpeeds[mTool]);
-			mInventory[mat] -= 1;
+			mInventory[mat] -= 50;
 			mGame->GetUI()->GetButton(10)->SetTexCode(mTool+20);
 		}
 	}
@@ -48,10 +48,10 @@ void Inventory::C4Action()
 	if (mPlayer->GetIsAtCheckpoint())
 	{
 		// Craft C4
-		if (mInventory[1] > 0)
+		if (mInventory[1] >=  10)
 		{
 			mInventory[6] += 1;
-			mInventory[1] -= 1;
+			mInventory[1] -= 10;
 		}
 	}
 	else
@@ -59,7 +59,7 @@ void Inventory::C4Action()
 		// Use C4
 		if (mInventory[6] > 0)
 		{
-			for (int i = mPlayer->GetPos().x - 1; i <= mPlayer->GetPos().x + 1; i++)
+			for (int i = round(mPlayer->GetPos().x - 1); i <= round(mPlayer->GetPos().x + 1); i++)
 			{
 				for (int j = mPlayer->GetPos().y - 1; j <= mPlayer->GetPos().y + 1; j++)
 				{

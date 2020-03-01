@@ -12,8 +12,8 @@ public:
 	void UpgradePick();
 	void C4Action();
 	int GetAmountOfItem(int id) { return mInventory[id]; }
-	void AddItem(int id, int amount) { if (id) { mInventory[id] += amount; } }
-	void DropItem(int id, int amount) { if (id) { mInventory[id] -= amount; } }
+	void AddItem(int id, int amount) { if (id < 10) { mInventory[id] += amount; } }
+	void DropItem(int id, int amount) { if (id < 10) { mInventory[id] -= amount; } }
 
 private:
 	class Player* mPlayer;
