@@ -14,7 +14,7 @@ Inventory::Inventory(class Player* player, class Controller* controller, class G
 	mPickSpeeds.emplace(5, 20);
 	// Initiate empty inventory
 	mInventory.emplace(0, 0);
-	mInventory.emplace(1, 5);
+	mInventory.emplace(1, 0);
 	mInventory.emplace(2, 0);
 	mInventory.emplace(3, 0);
 	mInventory.emplace(4, 0);
@@ -38,13 +38,14 @@ void Inventory::UpgradePick() {
 			mTool += 1;
 			mPlayer->SetMineSpeed(mPickSpeeds[mTool]);
 			mInventory[mat] -= 1;
+			mGame->GetUI()->GetButton(10)->SetTexCode(mTool+20);
 		}
 	}
 }
 
 void Inventory::C4Action()
 {
-	if (mGame->GetWorld()->GetIsCheckpoint(mPlayer->GetPos().y))
+	if (mPlayer->GetIsAtCheckpoint())
 	{
 		// Craft C4
 		if (mInventory[1] > 0)
@@ -67,7 +68,6 @@ void Inventory::C4Action()
 				}
 			}
 			mInventory[6] -= 1;
-			std::cout << mInventory[6] << std::endl;
 		}
 	}
 }

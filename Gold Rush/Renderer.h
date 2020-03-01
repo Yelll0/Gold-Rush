@@ -28,17 +28,8 @@ private:
 	class Texture* mPlayerTex;
 	std::map<int, class Texture*> mTex;
 	class Texture* mPauseMenu;
-	std::map<int, class Texture*> mUITex; // TODO: Make HUD
-	/*
-	HUD Texture codes: 
-	0 - Oxygen bar
-	1 - Oxygen text
-	2 - Upgrade pickaxe button
-	3 - Play button
-	4 - Sound button
-	5 - Mute button
-	6 - Home button
-	*/
+	std::map<int, class Texture*> mUITex; 
+	class Font* mFont;
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;
 	class VertexArray* mVertArrayS;

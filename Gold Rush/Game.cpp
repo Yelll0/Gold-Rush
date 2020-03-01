@@ -8,7 +8,7 @@ Game::Game()
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
-	mWorld(new World(this, mPlayer, 100)),
+	mWorld(new World(this, mPlayer, 101)),
 	mRenderer(new Renderer(this, mPlayer)),
 	mHUD(new HUD(this, mController, mPlayer)),
 	mActiveUI(mHUD)
@@ -105,6 +105,7 @@ void Game::Quit()
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
+	TTF_Quit();
 	delete mPlayer;
 	delete mRenderer;
 	delete mController;
@@ -141,6 +142,7 @@ void Game::UpdateGame()
 		if (mState) { delete mActiveUI; }
 		mController->SetUI(nullptr);
 	}
+
 	mActiveUI = mHUD;
 	mController->SetUI(mActiveUI);
 	// Limit FPS to 62.5
@@ -154,8 +156,8 @@ void Game::UpdateGame()
 	{
 		deltaTime = 0.05;
 	}
-	std::cout << 1 / deltaTime << std::endl;
 
+	mActiveUI->Update(deltaTime);
 	mPlayer->Update(deltaTime);
 }
 
