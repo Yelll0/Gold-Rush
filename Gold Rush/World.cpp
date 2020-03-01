@@ -19,9 +19,9 @@ World::World(class Game* game, class Player* player, int seed)
 	mGradientVectors[3].x = -10;
 	mGradientVectors[3].y = 10;
 	// Set all block to item conversions
-	BlockToItem.emplace(0, NULL); // Air
-	BlockToItem.emplace(1, NULL); // Grass
-	BlockToItem.emplace(2, NULL); // Stone
+	BlockToItem.emplace(0, 10); // Air
+	BlockToItem.emplace(1, 10); // Grass
+	BlockToItem.emplace(2, 10); // Stone
 	BlockToItem.emplace(3, 1); // Coal
 	BlockToItem.emplace(4, 2); // Copper
 	BlockToItem.emplace(5, 3); // Iron
@@ -157,7 +157,7 @@ void World::Generate()
 			if (mGenerationMap[l][i] >= 15) { SetBlock(l, i, 3); }
 		}
 		// Generate mithril
-		if (i >= 193) {
+		if (i <= 307) {
 			GenerateGradVectorGrid(mSeed + 20);
 			for (int o = 0; o <= 209; o++)
 			{
@@ -166,7 +166,7 @@ void World::Generate()
 			}
 		}
 		// Generate titanium
-		if (i >= 77) {
+		if (i <= 400) {
 			GenerateGradVectorGrid(mSeed + 25);
 			for (int p = 0; p <= 209; p++)
 			{
@@ -175,7 +175,7 @@ void World::Generate()
 			}
 		}
 		// Generate iron
-		if (i >= 42) {
+		if (i <= 500) {
 			GenerateGradVectorGrid(mSeed + 15);
 			for (int n = 0; n <= 209; n++)
 			{
@@ -184,7 +184,7 @@ void World::Generate()
 			}
 		}
 		// Generate copper
-		if (i >= 16) {
+		if (i <= 550) {
 			GenerateGradVectorGrid(mSeed + 10);
 			for (int m = 0; m <= 209; m++)
 			{

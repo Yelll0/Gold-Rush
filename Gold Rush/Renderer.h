@@ -35,6 +35,8 @@ private:
 	class VertexArray* mVertArrayS;
 	class VertexArray* mVertArrayButton;
 	class VertexArray* mVertArrayPauseMenu;
+	class VertexArray* mVertArrayOneNum;
+	class VertexArray* mVertArrayTwoNum;
 	Matrix4 mViewTransform;
 	Matrix4 mTempWorldTransform;
 	// Quad vertex arrays and buffers
@@ -55,6 +57,18 @@ private:
 		 5.f,  5.f, 0.0f, 1.f, 0.f,
 		 5.f, -5.f, 0.0f, 1.f, 1.f,
 		-5.f, -5.f, 0.0f, 0.f, 1.f
+	};
+	float mOneNumVerts[20] = {
+		-3.f,  4.f, 0.0f, 0.f, 0.f,
+		 3.f,  4.f, 0.0f, 1.f, 0.f,
+		 3.f, -4.f, 0.0f, 1.f, 1.f,
+		-3.f, -4.f, 0.0f, 0.f, 1.f
+	};
+	float mTwoNumVerts[20] = {
+		-6.f,  4.f, 0.0f, 0.f, 0.f,
+		 6.f,  4.f, 0.0f, 1.f, 0.f,
+		 6.f, -4.f, 0.0f, 1.f, 1.f,
+		-6.f, -4.f, 0.0f, 0.f, 1.f
 	};
 	float mButtonVerts[20] = {
 		-12.f,  12.f, 0.0f, 0.f, 0.f,

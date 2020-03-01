@@ -29,6 +29,8 @@ bool Renderer::Init()
 	mVertArrayS = new VertexArray(mSmallQuadVerts, 4, mQuadBuffer, 6);
 	mVertArrayButton = new VertexArray(mButtonVerts, 4, mQuadBuffer, 6);
 	mVertArrayPauseMenu = new VertexArray(mPauseMenuVerts, 4, mQuadBuffer, 6);
+	mVertArrayOneNum = new VertexArray(mOneNumVerts, 4, mQuadBuffer, 6);
+	mVertArrayTwoNum = new VertexArray(mTwoNumVerts, 4, mQuadBuffer, 6);
 
 	mPlayerTex = new Texture("Sprites/miner.png", true);
 
@@ -100,6 +102,9 @@ bool Renderer::Init()
 	*/
 
 	mPauseMenu = new Texture("Sprites/pause-menu.png", true);
+
+	mFont = new Font();
+	mFont->Load("Sprites/8_bit_pusab/8-bit-pusab.ttf");
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -198,7 +203,29 @@ void Renderer::Draw()
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	}
-
+	// Draw numbers
+	for (int i = 0; i <= 6; i++)
+	{
+		Vector2 pos = Vector2(144, -254);
+		pos.x -= i * 40;
+		Texture* t = mFont->RenderText(std::to_string(mPlayer->GetInv()->GetAmountOfItem(i)), Vector3(1.f, 1.f, 1.f), 16);
+		t->SetActive();
+		if (mPlayer->GetInv()->GetAmountOfItem(i) >= 10)
+		{
+			mVertArrayTwoNum->SetActive();
+		}
+		else
+		{
+			mVertArrayOneNum->SetActive();
+		}
+		ComputeWorldTransform(3.f, pos, mTempWorldTransform);
+		ComputeViewTransform();
+		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		t->Unload();
+		delete t;
+	}
 	// Draw pause menu
 	if (!mGame->GetState())
 	{
