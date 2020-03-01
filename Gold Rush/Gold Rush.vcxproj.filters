@@ -124,5 +124,10 @@
     <None Include="Shaders\Sprite.vert">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="SDL2.dll" />
+    <None Include="SDL2_ttf.dll" />
+    <None Include="zlib1.dll" />
+    <None Include="libfreetype-6.dll" />
+    <None Include="glew32.dll" />
   </ItemGroup>
 </Project>
