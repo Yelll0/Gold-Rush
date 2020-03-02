@@ -32,7 +32,24 @@ bool Renderer::Init()
 	mVertArrayOneNum = new VertexArray(mOneNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayTwoNum = new VertexArray(mTwoNumVerts, 4, mQuadBuffer, 6);
 
-	mPlayerTex = new Texture("Sprites/miner.png", true);
+	// Player textures
+	mPlayerTex = new Texture("Sprites/miner/miner.png", true);
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move1.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move2.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move3.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move4.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move5.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move6.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move7.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move8.png", true));
+	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move9.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s1.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s2.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s3.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s4.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s5.png", true));
+	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s6.png", true));
 
 	mTex.emplace(0, new Texture("Sprites/air.png", true));
 	mTex.emplace(1, new Texture("Sprites/grass.png", true));
@@ -134,10 +151,9 @@ void Renderer::DrawTexture(Shader* shader, Texture* texture, const Vector2& offs
 {
 }
 
-void Renderer::Draw()
+void Renderer::Draw(float deltaTime)
 {
 	// Activate shader program
-	// TODO: Comments
 	mShader->SetActive();
 
 	// Draw world
@@ -162,8 +178,28 @@ void Renderer::Draw()
 	{
 		mVertArrayM->SetActive();
 	}
-	// Activate player texture
-	mPlayerTex->SetActive();
+	mCurrFrame += 830 * deltaTime;
+	if (mPlayer->GetIsWalking())
+	{
+		while (mCurrFrame > mPlayerWalkTex.size())
+		{
+			mCurrFrame = 0;
+		}
+		mPlayerWalkTex[mCurrFrame]->SetActive();
+	}
+	else if (mPlayer->GetIsMining())
+	{
+		while (mCurrFrame > mPlayerMineTex.size())
+		{
+			mCurrFrame = 0;
+		}
+		mPlayerMineTex[mCurrFrame]->SetActive();
+	}
+	else
+	{
+		// Activate player texture
+		mPlayerTex->SetActive();
+	}
 	// Apply matrices
 	ComputeObjViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);

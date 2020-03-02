@@ -12,7 +12,7 @@ public:
 	// Initialize renderer
 	bool Init();
 
-	void Draw();
+	void Draw(float deltaTime);
 
 	void ComputeWorldTransform(float scale, Vector2 pixPos, Matrix4& worldTransform);
 	void ComputeObjViewTransform();
@@ -26,6 +26,9 @@ private:
 	class World* mWorld;
 	class Shader* mShader;
 	class Texture* mPlayerTex;
+	std::vector<class Texture*> mPlayerWalkTex;
+	std::vector<class Texture*> mPlayerMineTex;
+	float mCurrFrame = 0;
 	std::map<int, class Texture*> mTex;
 	class Texture* mPauseMenu;
 	std::map<int, class Texture*> mUITex; 

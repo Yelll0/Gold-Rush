@@ -169,7 +169,7 @@ void Game::GenerateOutput()
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	// Draw scene
-	mRenderer->Draw();
+	mRenderer->Draw((SDL_GetTicks() - mTickCount) / 1000.0f);
 
 	// Swap buffers
 	SDL_GL_SwapWindow(mWindow);

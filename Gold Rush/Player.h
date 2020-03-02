@@ -24,6 +24,8 @@ public:
 	int GetOxygen() const { return mOxygen; }
 	void SetMineSpeed(float mineSpeed) { mMineSpeed = mineSpeed; }
 	bool GetIsAtCheckpoint() const { return mAtCheckpoint; }
+	bool GetIsWalking() const { return mIsWalking; }
+	bool GetIsMining() const { return mIsMining; }
 
 private:
 	// Helper functions
@@ -47,4 +49,6 @@ private:
 	int mGold = 0;
 	float mTime = 0.f;
 	float mMineSpeed; // How many blocks mined in 1 second
+	bool mIsWalking;
+	bool mIsMining;
 };

@@ -68,6 +68,7 @@ void Player::Control(float deltaTime)
 				mGame->GetWorld()->DamageBlock(round(mPos.x + faceN), round(mPos.y - 0.6), mMineSpeed * deltaTime);
 			}
 		}
+		mIsMining = true;
 	}
 	else if (mController->GetKeyValue(mControls['U']))
 	{
@@ -89,6 +90,7 @@ void Player::Control(float deltaTime)
 				}
 			}
 		}
+		mIsMining = true;
 	}
 	else if (mController->GetKeyValue(mControls['R']))
 	{
@@ -99,14 +101,11 @@ void Player::Control(float deltaTime)
 		// Query for block in front of player
 		int rightBlock = mGame->GetWorld()->GetBlock(round(mPos.x + 0.6), mPos.y);
 		float rightBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + 0.6), mPos.y);
-		// Stop moving if it's not air
+
+		// Stop moving and mine block if it's not air
 		if (rightBlock != 0)
 		{
 			mPos.x = round(mPos.x);
-		}
-		// Mine block if it's not air
-		if (rightBlock != 0)
-		{
 			if (rightBlockDamage >= 1.f) {
 				// Add item to inventory
 				mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(rightBlock), 1);
@@ -115,6 +114,13 @@ void Player::Control(float deltaTime)
 			else {
 				mGame->GetWorld()->DamageBlock(mPos.x + 1, mPos.y, mMineSpeed * deltaTime);
 			}
+			mIsWalking = false;
+			mIsMining = true;
+		}
+		else 
+		{ 
+			mIsMining = false;
+			mIsWalking = true;
 		}
 
 		mRecomputeWorldTransform = true;
@@ -128,14 +134,11 @@ void Player::Control(float deltaTime)
 		// Query for block in front of player
 		int leftBlock = mGame->GetWorld()->GetBlock(round(mPos.x - 0.6), mPos.y);
 		float leftBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x - 0.6), mPos.y);
-		// Stop moving if it's not air
+
+		// Stop moving and mine block if it's not air
 		if (leftBlock != 0)
 		{
 			mPos.x = round(mPos.x);
-		}
-		// Mine block if it's not air
-		if (leftBlock != 0)
-		{
 			if (leftBlockDamage >= 1.f) {
 				// Add item to inventory
 				mInventory->AddItem(mGame->GetWorld()->GetItemForBlock(leftBlock), 1);
@@ -144,11 +147,25 @@ void Player::Control(float deltaTime)
 			else {
 				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, mMineSpeed * deltaTime);
 			}
+			mIsWalking = false;
+			mIsMining = true;
+		}
+		else 
+		{
+			mIsMining = false;
+			mIsWalking = true; 
 		}
 		mRecomputeWorldTransform = true;
 	}
+	else 
+	{
+		mIsWalking = false;
+		mIsMining = false;
+	}
 	if (mController->GetKeyState(mControls['P']) == EPressed) { mInventory->UpgradePick(); }
 	if (mController->GetKeyState(mControls['B']) == EPressed) { mInventory->C4Action(); }
+
+	std::cout << mIsMining << " " << mIsWalking << std::endl;
 
 	// Make sure player doens't exit world boundaries
 	if (mPos.x > 204) { mPos.x = 204; }
