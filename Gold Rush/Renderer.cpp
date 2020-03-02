@@ -32,9 +32,14 @@ bool Renderer::Init()
 	mVertArrayHUD = new VertexArray(mHUDVerts, 4, mQuadBuffer, 6);
 	mVertArrayOneNum = new VertexArray(mOneNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayTwoNum = new VertexArray(mTwoNumVerts, 4, mQuadBuffer, 6);
+	mVertArrayThreeNum = new VertexArray(mThreeNumVerts, 4, mQuadBuffer, 6);
+	mVertArrayFourNum = new VertexArray(mFourNumVerts, 4, mQuadBuffer, 6);
+	mVertArrayFiveNum = new VertexArray(mFiveNumVerts, 4, mQuadBuffer, 6);
 
 	// Player textures
 	mPlayerTex = new Texture("Sprites/miner/miner.png", true);
+	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
+	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner-idle.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move1.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner-move2.png", true));
@@ -193,10 +198,12 @@ void Renderer::Draw(float deltaTime)
 	{
 		mVertArrayM->SetActive();
 	}
-	mCurrFrame += 830 * deltaTime;
+
+	mCurrFrame += 16 * deltaTime;
+
 	if (mPlayer->GetIsWalking())
 	{
-		while (mCurrFrame > mPlayerWalkTex.size())
+		while (mCurrFrame > 9)
 		{
 			mCurrFrame = 0;
 		}
@@ -204,7 +211,7 @@ void Renderer::Draw(float deltaTime)
 	}
 	else if (mPlayer->GetIsMining())
 	{
-		while (mCurrFrame > mPlayerMineTex.size())
+		while (mCurrFrame > 5)
 		{
 			mCurrFrame = 0;
 		}
@@ -212,8 +219,11 @@ void Renderer::Draw(float deltaTime)
 	}
 	else
 	{
-		// Activate player texture
-		mPlayerTex->SetActive();
+		while (mCurrFrame > 6)
+		{
+			mCurrFrame = 0;
+		}
+		mPlayerIdleTex[mCurrFrame/3]->SetActive();
 	}
 	// Apply matrices
 	ComputeObjViewTransform();
@@ -285,6 +295,47 @@ void Renderer::Draw(float deltaTime)
 		t->Unload();
 		delete t;
 	}
+	// Draw score
+	// Text
+	Texture* ts = mFont->RenderText("SCORE", Vector3(1.f, 1.f, 1.f), 16);
+	mVertArrayFiveNum->SetActive();
+	ComputeWorldTransform(3.f, Vector2(-186.f, 239.f), mTempWorldTransform);
+	ComputeViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	ts->Unload();
+	// Number
+	int s = mPlayer->GetInv()->GetScore();
+	Texture* tsc = mFont->RenderText(std::to_string(s), Vector3(1.f, 1.f, 1.f), 16);
+	tsc->SetActive();
+	if (s >= 10000)
+	{
+		mVertArrayFiveNum->SetActive();
+	}
+	else if (s >= 1000)
+	{
+		mVertArrayFourNum->SetActive();
+	}
+	else if (s >= 100)
+	{
+		mVertArrayThreeNum->SetActive();
+	}
+	else if (s >= 10)
+	{
+		mVertArrayTwoNum->SetActive();
+	}
+	else
+	{
+		mVertArrayOneNum->SetActive();
+	}
+	ComputeWorldTransform(3.f, Vector2(-186.f, 209.f), mTempWorldTransform);
+	ComputeViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	tsc->Unload();
+
 	// Draw pause menu
 	if (!mGame->GetState())
 	{

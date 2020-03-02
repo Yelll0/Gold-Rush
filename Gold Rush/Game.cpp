@@ -8,7 +8,7 @@ Game::Game()
 	mContext(NULL), 
 	mController(new Controller(this)),
 	mPlayer(new Player(this, mController)),
-	mWorld(new World(this, mPlayer, 101)),
+	mWorld(new World(this, mPlayer, 100)),
 	mRenderer(new Renderer(this, mPlayer)),
 	mHUD(new HUD(this, mController, mPlayer)),
 	mActiveUI(mHUD)
@@ -89,11 +89,13 @@ int Game::Init()
 void Game::RunLoop()
 {
 	// Run game
-	while (mState == 1)
+	while (mState > -1)
 	{
 		ProcessInput();
 		UpdateGame();
 		GenerateOutput();
+		// Update tick count
+		mTickCount = SDL_GetTicks();
 	}
 	// Quit game
 	if (mState == -1) { Quit(); }
@@ -128,16 +130,16 @@ void Game::UpdateGame()
 		// Limit FPS to 62.5
 		while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 		// Calculate delta time
-		double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+		mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
 		// Update tick count
 		mTickCount = SDL_GetTicks();
 		// Limit delta time value
-		if (deltaTime > 0.05)
+		if (mDeltaTime > 0.05)
 		{
-			deltaTime = 0.05;
+			mDeltaTime = 0.05;
 		}
 
-		mActiveUI->Update(deltaTime);
+		mActiveUI->Update(mDeltaTime);
 		GenerateOutput();
 		if (mState) { delete mActiveUI; }
 		mController->SetUI(nullptr);
@@ -148,17 +150,16 @@ void Game::UpdateGame()
 	// Limit FPS to 62.5
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
-	double deltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
-	// Update tick count
-	mTickCount = SDL_GetTicks();
+	double mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+
 	// Limit delta time value
-	if (deltaTime > 0.05)
+	if (mDeltaTime > 0.05)
 	{
-		deltaTime = 0.05;
+		mDeltaTime = 0.05;
 	}
 
-	mActiveUI->Update(deltaTime);
-	mPlayer->Update(deltaTime);
+	mActiveUI->Update(mDeltaTime);
+	mPlayer->Update(mDeltaTime);
 }
 
 void Game::GenerateOutput()
@@ -167,9 +168,10 @@ void Game::GenerateOutput()
 	glClearColor(0.f, 0.f, 0.f, 1.0f);
 	// Clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
-
+	// Recalculate delta time
+	mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.f;
 	// Draw scene
-	mRenderer->Draw((SDL_GetTicks() - mTickCount) / 1000.0f);
+	mRenderer->Draw(mDeltaTime);
 
 	// Swap buffers
 	SDL_GL_SwapWindow(mWindow);

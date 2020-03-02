@@ -26,6 +26,7 @@ private:
 	class World* mWorld;
 	class Shader* mShader;
 	class Texture* mPlayerTex;
+	std::vector<class Texture*> mPlayerIdleTex;
 	std::vector<class Texture*> mPlayerWalkTex;
 	std::vector<class Texture*> mPlayerMineTex;
 	float mCurrFrame = 0;
@@ -43,6 +44,9 @@ private:
 	class VertexArray* mVertArrayHUD;
 	class VertexArray* mVertArrayOneNum;
 	class VertexArray* mVertArrayTwoNum;
+	class VertexArray* mVertArrayThreeNum;
+	class VertexArray* mVertArrayFourNum;
+	class VertexArray* mVertArrayFiveNum;
 	Matrix4 mViewTransform;
 	Matrix4 mTempWorldTransform;
 	// Quad vertex arrays and buffers
@@ -75,6 +79,24 @@ private:
 		 6.f,  4.f, 0.0f, 1.f, 0.f,
 		 6.f, -4.f, 0.0f, 1.f, 1.f,
 		-6.f, -4.f, 0.0f, 0.f, 1.f
+	};
+	float mThreeNumVerts[20] = {
+		-9.f,  4.f, 0.0f, 0.f, 0.f,
+		 9.f,  4.f, 0.0f, 1.f, 0.f,
+		 9.f, -4.f, 0.0f, 1.f, 1.f,
+		-9.f, -4.f, 0.0f, 0.f, 1.f
+	};
+	float mFourNumVerts[20] = {
+		-12.f,  4.f, 0.0f, 0.f, 0.f,
+		 12.f,  4.f, 0.0f, 1.f, 0.f,
+		 12.f, -4.f, 0.0f, 1.f, 1.f,
+		-12.f, -4.f, 0.0f, 0.f, 1.f
+	};
+	float mFiveNumVerts[20] = {
+		-15.f,  4.f, 0.0f, 0.f, 0.f,
+		 15.f,  4.f, 0.0f, 1.f, 0.f,
+		 15.f, -4.f, 0.0f, 1.f, 1.f,
+		-15.f, -4.f, 0.0f, 0.f, 1.f
 	};
 	float mButtonVerts[20] = {
 		-12.f,  12.f, 0.0f, 0.f, 0.f,

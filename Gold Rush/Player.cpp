@@ -42,6 +42,9 @@ void Player::Update(float deltaTime)
 	// Update oxygen stats
 	UpdateOxygen(deltaTime);
 	mTime += deltaTime;
+
+	// Calculate score
+	mInventory->CalcScore();
 }
 
 void Player::Control(float deltaTime)
@@ -166,8 +169,6 @@ void Player::Control(float deltaTime)
 	}
 	if (mController->GetKeyState(mControls['P']) == EPressed) { mInventory->UpgradePick(); }
 	if (mController->GetKeyState(mControls['B']) == EPressed) { mInventory->C4Action(); }
-
-	std::cout << mIsMining << " " << mIsWalking << std::endl;
 
 	// Make sure player doens't exit world boundaries
 	if (mPos.x > 204) { mPos.x = 204; }

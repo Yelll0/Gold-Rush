@@ -40,4 +40,5 @@ private:
 	class World* mWorld;
 	class HUD* mHUD;
 	class UIScreen* mActiveUI;
+	double mDeltaTime;
 };

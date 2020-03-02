@@ -8,6 +8,8 @@ public:
 	Inventory(class Player* player, class Controller* controller, class Game* game);
 	~Inventory();
 
+	void CalcScore();
+	int GetScore() const { return mScore; }
 	int GetTool() { return mTool; }
 	void UpgradePick();
 	void C4Action();
@@ -24,6 +26,8 @@ private:
 	int mTool;
 	// Pickaxe speed reference 
 	std::map<int, int> mPickSpeeds;
+
+	int mScore;
 };
 /*
 0. Gold

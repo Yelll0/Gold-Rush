@@ -4,7 +4,8 @@ Inventory::Inventory(class Player* player, class Controller* controller, class G
 	: mPlayer(player),
 	mController(controller),
 	mGame(game),
-	mTool(1)
+	mTool(1),
+	mScore(0)
 {
 	// Set pickaxe speeds for reference
 	mPickSpeeds.emplace(1, 2);
@@ -70,4 +71,14 @@ void Inventory::C4Action()
 			mInventory[6] -= 1;
 		}
 	}
+}
+
+void Inventory::CalcScore()
+{
+	mScore = mInventory[0] * 100;
+	mScore += mInventory[1] * 2;
+	mScore += mInventory[2] * 5;
+	mScore += mInventory[3] * 10;
+	mScore += mInventory[4] * 20;
+	mScore += mInventory[5] * 30;
 }
