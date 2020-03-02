@@ -4,7 +4,7 @@ Player::Player(class Game* game, class Controller* controller)
 	: mGame(game),
 	mController(controller),
 	mInventory(new Inventory(this, controller, mGame)),
-	mPos(Vector2(105.f, 617.f)),
+	mPos(Vector2(105.f, 616.f)),
 	mVel(Vector2(0.f, 0.f)),
 	mScale(3.f),
 	mFacing(true),

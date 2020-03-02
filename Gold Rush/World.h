@@ -39,9 +39,9 @@ private:
 	// Member variables
 	int mMap[210][621];
 	int mCheckpoints[21];
-	float mDamageMap[210][542];
 	Vector2 mGradVectorGrid[22][62];
 	float mGenerationMap[210][542];
+	float mDamageMap[210][621];
 	class Game* mGame;
 	class Player* mPlayer;
 	float mBlockScale;

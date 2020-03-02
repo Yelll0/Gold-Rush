@@ -52,6 +52,10 @@ bool Renderer::Init()
 	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s5.png", true));
 	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s6.png", true));
 
+	mDamTex.emplace_back(new Texture("Sprites/dam1.png", true));
+	mDamTex.emplace_back(new Texture("Sprites/dam2.png", true));
+	mDamTex.emplace_back(new Texture("Sprites/dam3.png", true));
+
 	mTex.emplace(0, new Texture("Sprites/air.png", true));
 	mTex.emplace(1, new Texture("Sprites/grass.png", true));
 	mTex.emplace(2, new Texture("Sprites/stone.png", true));
@@ -165,12 +169,21 @@ void Renderer::Draw(float deltaTime)
 	{
 		for (int x = playerPos.x - 6; x <= playerPos.x + 6; x++)
 		{
-			mTex[mGame->GetWorld()->GetBlock(x, y)]->SetActive();
-
+			int b = mGame->GetWorld()->GetBlock(x, y);
+			mTex[b]->SetActive();
 			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
 			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+			float d = mGame->GetWorld()->GetBlockDamage(x, y);
+			if (d < 1 && d > 0.25f && b > 0)
+			{
+				mDamTex[d * 4 - 1]->SetActive();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			}
 		}
 	}
 

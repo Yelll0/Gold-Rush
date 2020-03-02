@@ -126,7 +126,7 @@ void World::Generate()
 		lastCheckpointSize = checkpointSize;
 	}
 	// Fill with stone
-	for (int i = 0; i <= 621; i++)
+	for (int i = 0; i <= 620; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
@@ -209,12 +209,11 @@ void World::Generate()
 	}
 
 	// Damage map
-	for (int i = 0; i <= 621; i++)
+	for (int i = 0; i <= 620; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
 			mDamageMap[j][i] = 0.f;
 		}
 	}
-
 }

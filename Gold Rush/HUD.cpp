@@ -5,8 +5,8 @@ HUD::HUD(Game* game, Controller* controller, Player* player) : UIScreen(game, co
 {
 	// Create buttons and icons
 	mButtons.emplace(mButtons.end(), new Button(this, 9, Vector2(239.f, 239.f), Vector2(30.f, 30.f), [this]() { mGame->SetState(0); }));
-	mButtons.emplace(mButtons.end(), new Button(this, 2, Vector2(166.f, -234.f), Vector2(30.f, 30.f), [this]() { mPlayer->GetInv()->UpgradePick(); }));
-	mButtons.emplace(mButtons.end(), new Button(this, 8, Vector2(131.f, -234.f), Vector2(30.f, 30.f), [this]() { mPlayer->GetInv()->C4Action(); }));
+	mButtons.emplace(mButtons.end(), new Button(this, 2, Vector2(168.f, -234.f), Vector2(30.f, 30.f), [this]() { mPlayer->GetInv()->UpgradePick(); }));
+	mButtons.emplace(mButtons.end(), new Button(this, 8, Vector2(133.f, -234.f), Vector2(30.f, 30.f), [this]() { mPlayer->GetInv()->C4Action(); }));
 	mButtons.emplace(mButtons.end(), new Button(this, 10, Vector2(92.f, -214.f), Vector2(0.f, 0.f), NULL));
 	mButtons.emplace(mButtons.end(), new Button(this, 11, Vector2(54.f, -214.f), Vector2(0.f, 0.f), NULL));
 	mButtons.emplace(mButtons.end(), new Button(this, 12, Vector2(14.f, -214.f), Vector2(0.f, 0.f), NULL));

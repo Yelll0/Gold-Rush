@@ -30,6 +30,7 @@ private:
 	std::vector<class Texture*> mPlayerMineTex;
 	float mCurrFrame = 0;
 	std::map<int, class Texture*> mTex;
+	std::vector<class Texture*> mDamTex;
 	class Texture* mPauseMenu;
 	class Texture* mHUDTex;
 	std::map<int, class Texture*> mUITex; 
@@ -88,10 +89,10 @@ private:
 		-43.f, -15.f, 0.0f, 0.f, 1.f
 	};
 	float mHUDVerts[20] = {
-		-67.f,  14.f, 0.0f, 0.f, 0.f,
-		 67.f,  14.f, 0.0f, 1.f, 0.f,
-		 67.f, -14.f, 0.0f, 1.f, 1.f,
-		-67.f, -14.f, 0.0f, 0.f, 1.f
+		-68.f,  14.f, 0.0f, 0.f, 0.f,
+		 68.f,  14.f, 0.0f, 1.f, 0.f,
+		 68.f, -14.f, 0.0f, 1.f, 1.f,
+		-68.f, -14.f, 0.0f, 0.f, 1.f
 	};
 	unsigned int mQuadBuffer[6] = {
 		0, 1, 2,
