@@ -13,9 +13,7 @@ int main ( int argc, char *argv[] )
 	return 0; // 0 = Success, <0 = Error
 }
 
-// TODO: Text to count ores
+// TODO: Finish animating
 // TODO: Main Menu
 // TODO: Website
 // TODO: Playtesting
-// TODO: Game balance
-// TODO: Animate

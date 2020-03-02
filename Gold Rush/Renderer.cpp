@@ -29,6 +29,7 @@ bool Renderer::Init()
 	mVertArrayS = new VertexArray(mSmallQuadVerts, 4, mQuadBuffer, 6);
 	mVertArrayButton = new VertexArray(mButtonVerts, 4, mQuadBuffer, 6);
 	mVertArrayPauseMenu = new VertexArray(mPauseMenuVerts, 4, mQuadBuffer, 6);
+	mVertArrayHUD = new VertexArray(mHUDVerts, 4, mQuadBuffer, 6);
 	mVertArrayOneNum = new VertexArray(mOneNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayTwoNum = new VertexArray(mTwoNumVerts, 4, mQuadBuffer, 6);
 
@@ -119,6 +120,7 @@ bool Renderer::Init()
 	*/
 
 	mPauseMenu = new Texture("Sprites/pause-menu.png", true);
+	mHUDTex = new Texture("Sprites/HUD.png", true);
 
 	mFont = new Font();
 	mFont->Load("Sprites/8_bit_pusab/8-bit-pusab.ttf");
@@ -155,7 +157,7 @@ void Renderer::Draw(float deltaTime)
 {
 	// Activate shader program
 	mShader->SetActive();
-
+	// TODO: Expand world horizontally by 4 blocks
 	// Draw world
 	mVertArray->SetActive();
 	Vector2 playerPos = mPlayer->GetPos();
@@ -208,13 +210,21 @@ void Renderer::Draw(float deltaTime)
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
 	// Draw HUD
+	mVertArrayHUD->SetActive();
+	mHUDTex->SetActive();
+	ComputeWorldTransform(3.f, Vector2(-8.f, -234.f), mTempWorldTransform);
+	ComputeViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 	// Draw oxygen bar
 	mVertArrayS->SetActive();
 	for (int i = floor(mPlayer->GetOxygen() / 5.f); i >= 0; i--)
 	{
 		mUITex[0]->SetActive();
 
-		ComputeWorldTransform(3.f, Vector2(219.f, -174.f + i * 30), mTempWorldTransform);
+		ComputeWorldTransform(3.f, Vector2(239.f, -234.f + i * 30), mTempWorldTransform);
 		ComputeViewTransform();
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
@@ -223,7 +233,7 @@ void Renderer::Draw(float deltaTime)
 	}
 	// Draw oxygen icon
 	mUITex[1]->SetActive();
-	ComputeWorldTransform(3.f, Vector2(219.f, -204.f), mTempWorldTransform);
+	ComputeWorldTransform(3.f, Vector2(239.f, -264.f), mTempWorldTransform);
 	ComputeViewTransform();
 	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
@@ -242,7 +252,7 @@ void Renderer::Draw(float deltaTime)
 	// Draw numbers
 	for (int i = 0; i <= 6; i++)
 	{
-		Vector2 pos = Vector2(144, -254);
+		Vector2 pos = Vector2(94, -254);
 		pos.x -= i * 40;
 		Texture* t = mFont->RenderText(std::to_string(mPlayer->GetInv()->GetAmountOfItem(i)), Vector3(1.f, 1.f, 1.f), 16);
 		t->SetActive();

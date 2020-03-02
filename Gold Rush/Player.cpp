@@ -68,6 +68,7 @@ void Player::Control(float deltaTime)
 				mGame->GetWorld()->DamageBlock(round(mPos.x + faceN), round(mPos.y - 0.6), mMineSpeed * deltaTime);
 			}
 		}
+		mIsWalking = false;
 		mIsMining = true;
 	}
 	else if (mController->GetKeyValue(mControls['U']))
@@ -90,6 +91,7 @@ void Player::Control(float deltaTime)
 				}
 			}
 		}
+		mIsWalking = false;
 		mIsMining = true;
 	}
 	else if (mController->GetKeyValue(mControls['R']))
