@@ -59,7 +59,7 @@ void Player::Control(float deltaTime)
 		float downBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + faceN), round(mPos.y - 0.6));
 
 		// Mine block if it's not air
-		if (downBlock != 0.f)
+		if (downBlock > 0.f && downBlock < 10)
 		{
 			if (downBlockDamage >= 1.f) {
 				// Add item to inventory
@@ -72,6 +72,7 @@ void Player::Control(float deltaTime)
 			}
 		}
 		mIsWalking = false;
+		mIsMiningUp = false;
 		mIsMining = true;
 	}
 	else if (mController->GetKeyValue(mControls['U']))
@@ -82,7 +83,7 @@ void Player::Control(float deltaTime)
 			int upBlock = mGame->GetWorld()->GetBlock(round(mPos.x), round(mPos.y + 0.6));
 			float upBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x), round(mPos.y + 0.6));
 			// Mine block if it's not air
-			if (upBlock != 0.f)
+			if (upBlock > 0 && upBlock < 10)
 			{
 				if (upBlockDamage >= 1.f) {
 					// Add item to inventory
@@ -95,7 +96,8 @@ void Player::Control(float deltaTime)
 			}
 		}
 		mIsWalking = false;
-		mIsMining = true;
+		mIsMining = false;
+		mIsMiningUp = true;
 	}
 	else if (mController->GetKeyValue(mControls['R']))
 	{
@@ -108,7 +110,7 @@ void Player::Control(float deltaTime)
 		float rightBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x + 0.6), mPos.y);
 
 		// Stop moving and mine block if it's not air
-		if (rightBlock != 0)
+		if (rightBlock > 0 && rightBlock < 10)
 		{
 			mPos.x = round(mPos.x);
 			if (rightBlockDamage >= 1.f) {
@@ -120,11 +122,13 @@ void Player::Control(float deltaTime)
 				mGame->GetWorld()->DamageBlock(mPos.x + 1, mPos.y, mMineSpeed * deltaTime);
 			}
 			mIsWalking = false;
+			mIsMiningUp = false;
 			mIsMining = true;
 		}
 		else 
 		{ 
 			mIsMining = false;
+			mIsMiningUp = false;
 			mIsWalking = true;
 		}
 
@@ -141,7 +145,7 @@ void Player::Control(float deltaTime)
 		float leftBlockDamage = mGame->GetWorld()->GetBlockDamage(round(mPos.x - 0.6), mPos.y);
 
 		// Stop moving and mine block if it's not air
-		if (leftBlock != 0)
+		if (leftBlock > 0 && leftBlock < 10)
 		{
 			mPos.x = round(mPos.x);
 			if (leftBlockDamage >= 1.f) {
@@ -153,10 +157,12 @@ void Player::Control(float deltaTime)
 				mGame->GetWorld()->DamageBlock(mPos.x - 1, mPos.y, mMineSpeed * deltaTime);
 			}
 			mIsWalking = false;
+			mIsMiningUp = false;
 			mIsMining = true;
 		}
 		else 
 		{
+			mIsMiningUp = false;
 			mIsMining = false;
 			mIsWalking = true; 
 		}
@@ -164,6 +170,7 @@ void Player::Control(float deltaTime)
 	}
 	else 
 	{
+		mIsMiningUp = false;
 		mIsWalking = false;
 		mIsMining = false;
 	}
@@ -181,7 +188,7 @@ void Player::Gravity(float deltaTime)
 	int underBlockR = mGame->GetWorld()->GetBlock(ceil(mPos.x - 0.1), ceil(mPos.y - 1));
 	int underBlockL = mGame->GetWorld()->GetBlock(floor(mPos.x + 0.1), ceil(mPos.y - 1));
 
-	if (underBlockR == 0 && underBlockL == 0)
+	if ((underBlockR == 0 || underBlockR == 10) && (underBlockL == 0 || underBlockL == 10))
 	{
 		// Accelerate by 2*g until 10m/s (terminal velocity)
 		if (mVel.y < 10.f) {
