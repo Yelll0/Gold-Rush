@@ -29,18 +29,21 @@ private:
 	std::vector<class Texture*> mPlayerIdleTex;
 	std::vector<class Texture*> mPlayerWalkTex;
 	std::vector<class Texture*> mPlayerMineTex;
+	std::vector<class Texture*> mPlayerMineUpTex;
 	float mCurrFrame = 0;
 	std::map<int, class Texture*> mTex;
 	std::vector<class Texture*> mDamTex;
 	class Texture* mPauseMenu;
 	class Texture* mHUDTex;
 	std::map<int, class Texture*> mUITex; 
+	class Texture* mBGTex;
 	class Font* mFont;
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;
 	class VertexArray* mVertArrayS;
 	class VertexArray* mVertArrayButton;
 	class VertexArray* mVertArrayPauseMenu;
+	class VertexArray* mVertArrayWindow;
 	class VertexArray* mVertArrayHUD;
 	class VertexArray* mVertArrayOneNum;
 	class VertexArray* mVertArrayTwoNum;
@@ -115,6 +118,12 @@ private:
 		 68.f,  14.f, 0.0f, 1.f, 0.f,
 		 68.f, -14.f, 0.0f, 1.f, 1.f,
 		-68.f, -14.f, 0.0f, 0.f, 1.f
+	};
+	float mWindowVerts[20] = {
+		-100.f,  100.f, 0.0f, 0.f, 0.f,
+		 100.f,  100.f, 0.0f, 1.f, 0.f,
+		 100.f, -100.f, 0.0f, 1.f, 1.f,
+		-100.f, -100.f, 0.0f, 0.f, 1.f
 	};
 	unsigned int mQuadBuffer[6] = {
 		0, 1, 2,

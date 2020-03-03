@@ -30,6 +30,7 @@ bool Renderer::Init()
 	mVertArrayButton = new VertexArray(mButtonVerts, 4, mQuadBuffer, 6);
 	mVertArrayPauseMenu = new VertexArray(mPauseMenuVerts, 4, mQuadBuffer, 6);
 	mVertArrayHUD = new VertexArray(mHUDVerts, 4, mQuadBuffer, 6);
+	mVertArrayWindow = new VertexArray(mWindowVerts, 4, mQuadBuffer, 6);
 	mVertArrayOneNum = new VertexArray(mOneNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayTwoNum = new VertexArray(mTwoNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayThreeNum = new VertexArray(mThreeNumVerts, 4, mQuadBuffer, 6);
@@ -38,6 +39,7 @@ bool Renderer::Init()
 
 	// Player textures
 	mPlayerTex = new Texture("Sprites/miner/miner.png", true);
+	mBGTex = new Texture("Sprites/bg.png", true);
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner-idle.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
@@ -56,6 +58,14 @@ bool Renderer::Init()
 	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s4.png", true));
 	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s5.png", true));
 	mPlayerMineTex.emplace_back(new Texture("Sprites/miner/miner-mine-s6.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u1.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u2.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u3.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u4.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u5.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u6.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u7.png", true));
+	mPlayerMineUpTex.emplace_back(new Texture("Sprites/miner/miner-mine-u8.png", true));
 
 	mDamTex.emplace_back(new Texture("Sprites/dam1.png", true));
 	mDamTex.emplace_back(new Texture("Sprites/dam2.png", true));
@@ -70,6 +80,7 @@ bool Renderer::Init()
 	mTex.emplace(6, new Texture("Sprites/titanium.png", true));
 	mTex.emplace(7, new Texture("Sprites/mithril.png", true));
 	mTex.emplace(8, new Texture("Sprites/gold.png", true));
+	mTex.emplace(10, new Texture("Sprites/sky.png", true));
 	/*
 	0 = Air
 	1 = Grass/dirt
@@ -174,7 +185,16 @@ void Renderer::Draw(float deltaTime)
 {
 	// Activate shader program
 	mShader->SetActive();
-	// TODO: Expand world horizontally by 4 blocks
+
+	// Draw background
+	mVertArrayWindow->SetActive();
+	mBGTex->SetActive();
+	ComputeWorldTransform(3.f, Vector2(0, 0), mTempWorldTransform);
+	ComputeViewTransform();
+	mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+	mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
 	// Draw world
 	mVertArray->SetActive();
 	Vector2 playerPos = mPlayer->GetPos();
@@ -183,19 +203,23 @@ void Renderer::Draw(float deltaTime)
 		for (int x = playerPos.x - 6; x <= playerPos.x + 6; x++)
 		{
 			int b = mGame->GetWorld()->GetBlock(x, y);
-			mTex[b]->SetActive();
-			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
-			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-			float d = mGame->GetWorld()->GetBlockDamage(x, y);
-			if (d < 1 && d > 0.25f && b > 0)
+			if (b < 10)
 			{
-				mDamTex[d * 4 - 1]->SetActive();
+				mTex[b]->SetActive();
+				ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
+				ComputeObjViewTransform();
 				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+				float d = mGame->GetWorld()->GetBlockDamage(x, y);
+				if (d < 1 && d > 0.25f && b > 0)
+				{
+					mDamTex[d * 4 - 1]->SetActive();
+					mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+					mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+					glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				}
 			}
 		}
 	}
@@ -216,6 +240,14 @@ void Renderer::Draw(float deltaTime)
 			mCurrFrame = 0;
 		}
 		mPlayerWalkTex[mCurrFrame]->SetActive();
+	}
+	else if (mPlayer->GetIsMiningUp())
+	{
+		while (mCurrFrame > 8)
+		{
+			mCurrFrame = 0;
+		}
+		mPlayerMineUpTex[mCurrFrame]->SetActive();
 	}
 	else if (mPlayer->GetIsMining())
 	{

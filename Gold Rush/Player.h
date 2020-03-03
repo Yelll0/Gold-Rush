@@ -26,6 +26,7 @@ public:
 	bool GetIsAtCheckpoint() const { return mAtCheckpoint; }
 	bool GetIsWalking() const { return mIsWalking; }
 	bool GetIsMining() const { return mIsMining; }
+	bool GetIsMiningUp() const { return mIsMiningUp; }
 
 private:
 	// Helper functions
@@ -51,4 +52,5 @@ private:
 	float mMineSpeed; // How many blocks mined in 1 second
 	bool mIsWalking;
 	bool mIsMining;
+	bool mIsMiningUp;
 };

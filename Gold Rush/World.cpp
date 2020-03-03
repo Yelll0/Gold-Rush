@@ -125,12 +125,12 @@ void World::Generate()
 		mCheckpoints[i] = lastCheckpoint - checkpointSize;
 		lastCheckpointSize = checkpointSize;
 	}
-	// Fill with stone
+	// Fill with air
 	for (int i = 0; i <= 620; i++)
 	{
 		for (int j = 0; j <= 209; j++)
 		{
-			SetBlock(j, i, 0);
+			SetBlock(j, i, 10);
 		}
 	}
 
