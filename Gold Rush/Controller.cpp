@@ -25,6 +25,12 @@ void Controller::Update()
 {
 	memcpy(mPreviousState, mCurrentState, SDL_NUM_SCANCODES);
 	SDL_Event event;
+	int x, y;
+	SDL_GetMouseState(&x, &y);
+	// Convert to (0, 0) center coordinates
+	Vector2 mousePos(x, y);
+	mousePos.x -= 288.f;
+	mousePos.y -= 288.f;
 	while (SDL_PollEvent(&event))
 	{
 		switch (event.type)
@@ -35,17 +41,11 @@ void Controller::Update()
 			break;
 		// On click, get position of mouse
 		case SDL_MOUSEBUTTONDOWN:
-			int x, y;
-			SDL_GetMouseState(&x, &y);
-			// Convert to (0, 0) center coordinates
-			Vector2 mousePos(x, y);
-			mousePos.x -= 288.f;
-			mousePos.y -= 288.f;
-			for (int i = 0; i < mUI->GetNumButtons(); i++)
+			for (int j = 0; j < mUI->GetNumButtons(); j++)
 			{
-				if (mUI->GetButton(i)->ContainsPoint(mousePos))
+				if (mUI->GetButton(j)->ContainsPoint(mousePos))
 				{
-					if (mUI->GetButton(i)->mFunction) { mUI->GetButton(i)->mFunction(); }
+					if (mUI->GetButton(j)->mFunction) { mUI->GetButton(j)->mFunction(); }
 				}
 			}
 		}

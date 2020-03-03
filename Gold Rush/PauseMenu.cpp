@@ -10,3 +10,14 @@ PauseMenu::PauseMenu(class Game* game, class Controller* controller) : UIScreen(
 PauseMenu::~PauseMenu()
 {
 }
+
+void PauseMenu::Update(float deltaTime)
+{
+	UIScreen::Update(deltaTime);
+
+	if (mGame->GetMute())
+	{
+		mButtons[1]->SetTexCode(5);
+	}
+	else { mButtons[1]->SetTexCode(4); }
+}

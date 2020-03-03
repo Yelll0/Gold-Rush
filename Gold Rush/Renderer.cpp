@@ -84,19 +84,27 @@ bool Renderer::Init()
 	mUITex.emplace(0, new Texture("Sprites/oxygen.png", true));
 	mUITex.emplace(1, new Texture("Sprites/oxygentxt.png", true));
 	mUITex.emplace(2, new Texture("Sprites/upgrade-pick.png", true));
+	mUITex.emplace(102, new Texture("Sprites/upgrade-pick-hl.png", true));
 	mUITex.emplace(3, new Texture("Sprites/play.png", true));
+	mUITex.emplace(103, new Texture("Sprites/play-hl.png", true));
 	mUITex.emplace(4, new Texture("Sprites/sound.png", true));
+	mUITex.emplace(104, new Texture("Sprites/sound-hl.png", true));
 	mUITex.emplace(5, new Texture("Sprites/mute.png", true));
+	mUITex.emplace(105, new Texture("Sprites/mute-hl.png", true));
 	mUITex.emplace(6, new Texture("Sprites/home.png", true));
+	mUITex.emplace(106, new Texture("Sprites/home-hl.png", true));
 	mUITex.emplace(7, new Texture("Sprites/craft-bomb.png", true));
+	mUITex.emplace(107, new Texture("Sprites/craft-bomb-hl.png", true));
 	mUITex.emplace(8, new Texture("Sprites/use-bomb.png", true));
+	mUITex.emplace(108, new Texture("Sprites/use-bomb-hl.png", true));
 	mUITex.emplace(9, new Texture("Sprites/pause.png", true));
+	mUITex.emplace(109, new Texture("Sprites/pause-hl.png", true));
 	mUITex.emplace(10, new Texture("Sprites/gold-ingot.png", true));
 	mUITex.emplace(11, new Texture("Sprites/coal-frag.png", true));
-	mUITex.emplace(12, new Texture("Sprites/copper-frag.png", true));
+	mUITex.emplace(12, new Texture("Sprites/copper-ingot.png", true));
 	mUITex.emplace(13, new Texture("Sprites/iron-ingot.png", true));
 	mUITex.emplace(14, new Texture("Sprites/titanium-ingot.png", true));
-	mUITex.emplace(15, new Texture("Sprites/mithril-frag.png", true));
+	mUITex.emplace(15, new Texture("Sprites/mithril-ingot.png", true));
 	mUITex.emplace(20, new Texture("Sprites/bomb.png", true));
 	mUITex.emplace(21, new Texture("Sprites/default-pickaxe.png", true));
 	mUITex.emplace(22, new Texture("Sprites/copper-pickaxe.png", true));
@@ -203,7 +211,7 @@ void Renderer::Draw(float deltaTime)
 
 	if (mPlayer->GetIsWalking())
 	{
-		while (mCurrFrame > 9)
+		while (mCurrFrame > 10)
 		{
 			mCurrFrame = 0;
 		}

@@ -16,6 +16,7 @@ public:
 
 	// Getters and setters
 	int GetState() const { return mState; }
+	bool GetMute() const { return mMute; }
 	void SetState(int state) { mState = state; }
 	void ToggleSound() { mMute = !mMute; }
 	class World* GetWorld() const { return mWorld; }

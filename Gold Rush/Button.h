@@ -19,11 +19,14 @@ public:
 	Vector2 GetPos() const { return mPos; }
 	Vector2 GetDimensions() const { return mDimensions; }
 	void SetTexCode(int tex) { mTexCode = tex; }
+	bool GetHL() const { return mHL; }
+	void SetHL(bool hl) { mHL = hl; }
 
 private:
 	class UIScreen* mMenu;
 	int mTexCode;
 	Vector2 mPos;
 	Vector2 mDimensions;
+	bool mHL;
 };
 

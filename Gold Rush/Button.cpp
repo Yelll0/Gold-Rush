@@ -4,7 +4,8 @@ Button::Button(class UIScreen* menu, int texC, const Vector2& pos, const Vector2
 	mTexCode(texC),
 	mPos(pos),
 	mDimensions(dim),
-	mFunction(fun)
+	mFunction(fun),
+	mHL(false)
 {
 }
 
