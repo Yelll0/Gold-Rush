@@ -203,25 +203,22 @@ void Renderer::Draw(float deltaTime)
 		for (int x = playerPos.x - 6; x <= playerPos.x + 6; x++)
 		{
 			int b = mGame->GetWorld()->GetBlock(x, y);
-			if (b < 10)
+			mTex[b]->SetActive();
+			ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
+			ComputeObjViewTransform();
+			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+			float d = mGame->GetWorld()->GetBlockDamage(x, y);
+			if (d < 1 && d > 0.25f && b > 0)
 			{
-				mTex[b]->SetActive();
-				ComputeWorldTransform(3.f, Vector2(x * 60, y * 60), mTempWorldTransform);
-				ComputeObjViewTransform();
+				mDamTex[floor(d * 4 - 1)]->SetActive();
 				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-
-				float d = mGame->GetWorld()->GetBlockDamage(x, y);
-				if (d < 1 && d > 0.25f && b > 0)
-				{
-					mDamTex[d * 4 - 1]->SetActive();
-					mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-					mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
-					glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-				}
 			}
-		}
+		} 
 	}
 
 	// Draw player
