@@ -1,17 +1,17 @@
 #include "stdafx.h"
 
 Game::Game() 
-	: mState(1), 
+	: mState(-1), 
 	mTickCount(0), 
 	mMute(false),
 	mWindow(nullptr), 
 	mContext(NULL), 
 	mController(new Controller(this)),
-	mPlayer(new Player(this, mController)),
-	mWorld(new World(this, mPlayer, 100)),
+	mPlayer(nullptr),
+	mWorld(nullptr),
 	mRenderer(new Renderer(this, mPlayer)),
-	mHUD(new HUD(this, mController, mPlayer)),
-	mActiveUI(mHUD)
+	mHUD(nullptr),
+	mActiveUI(new MainMenu(this, mController, mRenderer))
 {
 }
 
@@ -86,8 +86,34 @@ int Game::Init()
 	return 0;
 }
 
+void Game::RunMenuLoop()
+{
+	while (mState == -1)
+	{
+		ProcessInput();
+		UpdateGame();
+		GenerateOutput();
+	}
+	// Quit game
+	if (mState == -2) { Quit(); }
+}
+
+void Game::InitGame(int seed)
+{
+	mPlayer = new Player(this, mController);
+	mWorld = new World(this, mPlayer, seed);
+	delete mActiveUI;
+	mHUD = new HUD(this, mController, mPlayer);
+	mActiveUI = mHUD;
+}
+
 void Game::RunLoop()
 {
+	// Main menu
+	while (mState < 0)
+	{
+		RunMenuLoop();
+	}
 	// Run game
 	while (mState > -1)
 	{
@@ -98,7 +124,17 @@ void Game::RunLoop()
 		mTickCount = SDL_GetTicks();
 	}
 	// Quit game
-	if (mState == -1) { Quit(); }
+	if (mState == -1) { QuitGame(); }
+	else if (mState == -2) { Quit(); }
+}
+
+void Game::QuitGame()
+{
+	delete mPlayer;
+	delete mWorld;
+	mActiveUI = nullptr;
+	delete mHUD;
+	mActiveUI = new MainMenu(this, mController, mRenderer);
 }
 
 void Game::Quit()
@@ -121,6 +157,22 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+	// Main menu
+	if (mState < 0)
+	{
+		// Limit FPS to 62.5
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
+		// Calculate delta time
+		double mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+		mController->SetUI(mActiveUI);
+		// Limit delta time value
+		if (mDeltaTime > 0.05)
+		{
+			mDeltaTime = 0.05;
+		}
+		mActiveUI->Update(mDeltaTime);
+		return;
+	}
 	// Pause game if paused
 	while (!mState)
 	{
@@ -151,7 +203,6 @@ void Game::UpdateGame()
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
 	double mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
-
 	// Limit delta time value
 	if (mDeltaTime > 0.05)
 	{
@@ -160,6 +211,11 @@ void Game::UpdateGame()
 
 	mActiveUI->Update(mDeltaTime);
 	mPlayer->Update(mDeltaTime);
+}
+
+void Game::UpdateGameMenu()
+{
+
 }
 
 void Game::GenerateOutput()

@@ -11,6 +11,8 @@ public:
 
 	void Update(float deltaTime) override;
 
+	int GetSeed() const { return mSeed; }
+
 private:
 	class Renderer* mRenderer;
 	int mSeed;

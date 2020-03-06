@@ -11,7 +11,10 @@ public:
 
 	// Game loop functions
 	int Init();
+	void RunMenuLoop();
+	void InitGame(int seed);
 	void RunLoop();
+	void QuitGame();
 	void Quit();
 
 	// Getters and setters
@@ -27,10 +30,11 @@ private:
 	// Game loop helper functions
 	void ProcessInput();
 	void UpdateGame();
+	void UpdateGameMenu();
 	void GenerateOutput();
 
 	// Other member variables
-	int mState; // (1 = Active, 0 = Paused, -1 = Quit)
+	int mState; // (1 = Active, 0 = Paused, -1 = Main menu, -2 = Quit)
 	bool mMute;
 	Uint32 mTickCount;
 	SDL_Window* mWindow;
