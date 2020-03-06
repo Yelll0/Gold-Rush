@@ -168,6 +168,7 @@
     <ClCompile Include="Gold Rush.cpp" />
     <ClCompile Include="HUD.cpp" />
     <ClCompile Include="Inventory.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="PauseMenu.cpp" />
     <ClCompile Include="Player.cpp" />
@@ -185,6 +186,7 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="HUD.h" />
     <ClInclude Include="Inventory.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="PauseMenu.h" />
     <ClInclude Include="Renderer.h" />

@@ -45,6 +45,7 @@ private:
 	class VertexArray* mVertArrayPauseMenu;
 	class VertexArray* mVertArrayWindow;
 	class VertexArray* mVertArrayHUD;
+	class VertexArray* mVertArrayLogo;
 	class VertexArray* mVertArrayOneNum;
 	class VertexArray* mVertArrayTwoNum;
 	class VertexArray* mVertArrayThreeNum;
@@ -106,6 +107,12 @@ private:
 		 12.f,  12.f, 0.0f, 1.f, 0.f,
 		 12.f, -12.f, 0.0f, 1.f, 1.f,
 		-12.f, -12.f, 0.0f, 0.f, 1.f
+	};
+	float mLogoVerts[20] = {
+		-46.f,  35.f, 0.0f, 0.f, 0.f,
+		 46.f,  35.f, 0.0f, 1.f, 0.f,
+		 46.f, -35.f, 0.0f, 1.f, 1.f,
+		-46.f, -35.f, 0.0f, 0.f, 1.f
 	};
 	float mPauseMenuVerts[20] = {
 		-43.f,  15.f, 0.0f, 0.f, 0.f,

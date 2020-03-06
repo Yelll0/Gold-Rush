@@ -122,6 +122,7 @@ bool Renderer::Init()
 	mUITex.emplace(23, new Texture("Sprites/iron-pickaxe.png", true));
 	mUITex.emplace(24, new Texture("Sprites/titanium-pickaxe.png", true));
 	mUITex.emplace(25, new Texture("Sprites/mithril-pickaxe.png", true));
+	mUITex.emplace(100, new Texture("Sprites/logo.png", true));
 	/*
 	0 - Oxygen bar
 	1 - Oxygen text
@@ -145,6 +146,7 @@ bool Renderer::Init()
 	23 - Iron pick
 	24 - Titanium pick
 	25 - Mithril pick
+	100 - Logo
 	*/
 
 	mPauseMenu = new Texture("Sprites/pause-menu.png", true);
