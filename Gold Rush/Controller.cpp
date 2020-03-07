@@ -37,7 +37,7 @@ void Controller::Update()
 		{
 		// If we get an SDL_QUIT event, end loop
 		case SDL_QUIT:
-			mGame->SetState(-1);
+			mGame->SetState(-2);
 			break;
 		// On click, get position of mouse
 		case SDL_MOUSEBUTTONDOWN:
@@ -48,18 +48,22 @@ void Controller::Update()
 					if (mUI->GetButton(j)->mFunction) { mUI->GetButton(j)->mFunction(); }
 				}
 			}
+			break;
 		}
 	}
-	// Pause/unpause game when escape is pressed
-	if (GetKeyState(SDL_SCANCODE_ESCAPE) == EPressed)
+	if (mGame->GetState() > -1)
 	{
-		if (mGame->GetState())
+		// Pause/unpause game when escape is pressed
+		if (GetKeyState(SDL_SCANCODE_ESCAPE) == EPressed)
 		{
-			mGame->SetState(0);
-		}
-		else
-		{
-			mGame->SetState(1);
+			if (mGame->GetState())
+			{
+				mGame->SetState(0);
+			}
+			else
+			{
+				mGame->SetState(1);
+			}
 		}
 	}
 }

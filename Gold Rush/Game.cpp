@@ -93,6 +93,8 @@ void Game::RunMenuLoop()
 		ProcessInput();
 		UpdateGame();
 		GenerateOutput();
+		// Update tick count
+		mTickCount = SDL_GetTicks();
 	}
 	// Quit game
 	if (mState == -2) { Quit(); }
@@ -100,8 +102,13 @@ void Game::RunMenuLoop()
 
 void Game::InitGame(int seed)
 {
+	// Create everything
+	mState = 1;
 	mPlayer = new Player(this, mController);
+	mRenderer->SetPlayer(mPlayer);
+	mController->SetPlayer(mPlayer);
 	mWorld = new World(this, mPlayer, seed);
+	mRenderer->SetWorld(mWorld);
 	delete mActiveUI;
 	mHUD = new HUD(this, mController, mPlayer);
 	mActiveUI = mHUD;
@@ -109,23 +116,31 @@ void Game::InitGame(int seed)
 
 void Game::RunLoop()
 {
-	// Main menu
-	while (mState < 0)
+	while (mState > -2)
 	{
-		RunMenuLoop();
+		// Main menu
+		while (mState == -1)
+		{
+			RunMenuLoop();
+		}
+		// Run game
+		while (mState > -1)
+		{
+			ProcessInput();
+			UpdateGame();
+			GenerateOutput();
+			// Update tick count
+			mTickCount = SDL_GetTicks();
+		}
+		// Quit game
+		if (mState == -1) { QuitGame(); }
 	}
-	// Run game
-	while (mState > -1)
-	{
-		ProcessInput();
-		UpdateGame();
-		GenerateOutput();
-		// Update tick count
-		mTickCount = SDL_GetTicks();
+	// Quit application
+	if (mState == -2) 
+	{ 
+		Quit();
+		return;
 	}
-	// Quit game
-	if (mState == -1) { QuitGame(); }
-	else if (mState == -2) { Quit(); }
 }
 
 void Game::QuitGame()
@@ -144,9 +159,6 @@ void Game::Quit()
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 	TTF_Quit();
-	delete mPlayer;
-	delete mRenderer;
-	delete mController;
 	return;
 }
 
@@ -173,12 +185,15 @@ void Game::UpdateGame()
 		mActiveUI->Update(mDeltaTime);
 		return;
 	}
+	// Create pause menu UI
+	if (!mState)
+	{
+		mActiveUI = new PauseMenu(this, mController);
+		mController->SetUI(mActiveUI);
+	}
 	// Pause game if paused
 	while (!mState)
 	{
-		// Create pause menu UI
-		mActiveUI = new PauseMenu(this, mController);
-		mController->SetUI(mActiveUI);
 		// Limit FPS to 62.5
 		while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 		// Calculate delta time
@@ -193,13 +208,46 @@ void Game::UpdateGame()
 
 		mActiveUI->Update(mDeltaTime);
 		GenerateOutput();
-		if (mState) { delete mActiveUI; }
-		mController->SetUI(nullptr);
+		if (mState) 
+		{ 
+			delete mActiveUI; 
+			mController->SetUI(nullptr);
+		}
+	}
+
+	// Create end screen UI
+	if (mState == 2)
+	{
+		mActiveUI = new EndScreen(this, mController, mPlayer);
+		mController->SetUI(mActiveUI);
+	}
+	// End screen
+	while (mState == 2)
+	{
+		// Limit FPS to 62.5
+		while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
+		// Calculate delta time
+		mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;
+		// Update tick count
+		mTickCount = SDL_GetTicks();
+		// Limit delta time value
+		if (mDeltaTime > 0.05)
+		{
+			mDeltaTime = 0.05;
+		}
+
+		mActiveUI->Update(mDeltaTime);
+		GenerateOutput();
+		if (mState < 2)
+		{
+			delete mActiveUI;
+			mController->SetUI(nullptr);
+		}
 	}
 
 	mActiveUI = mHUD;
 	mController->SetUI(mActiveUI);
-	// Limit FPS to 62.5
+	// Limit FPS to 62.5 
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// Calculate delta time
 	double mDeltaTime = (SDL_GetTicks() - mTickCount) / 1000.0f;

@@ -12,7 +12,7 @@ bool Font::Load(const std::string& fileName)
 {
 	// Initialize SDL_ttf
 	if (TTF_Init() != 0)
-	{
+	{ 
 		SDL_Log("Failed to initialize SDL_ttf");
 		return 1;
 	}

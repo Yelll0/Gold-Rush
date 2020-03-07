@@ -34,8 +34,8 @@ private:
 	void GenerateOutput();
 
 	// Other member variables
-	int mState; // (1 = Active, 0 = Paused, -1 = Main menu, -2 = Quit)
-	bool mMute;
+	int mState; // (2 = Finished, 1 = Active, 0 = Paused, -1 = Main menu, -2 = Quit)
+	bool mMute; 
 	Uint32 mTickCount;
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;

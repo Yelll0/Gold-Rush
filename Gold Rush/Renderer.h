@@ -18,6 +18,8 @@ public:
 	void ComputeObjViewTransform();
 	void ComputeViewTransform();
 	void DrawTexture(class Shader* shader, class Texture* texture, const Vector2& offset = Vector2::Zero, float scale = 1.f);
+	void SetPlayer(class Player* player) { mPlayer = player; }
+	void SetWorld(class World* world) { mWorld = world; }
 
 private:
 	// Member variables
@@ -37,6 +39,7 @@ private:
 	class Texture* mHUDTex;
 	std::map<int, class Texture*> mUITex; 
 	class Texture* mBGTex;
+	class Texture* mMBGTex;
 	class Font* mFont;
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;

@@ -28,6 +28,7 @@ public:
 	ButtonState GetKeyState(SDL_Scancode keyCode) const;
 
 	void SetUI(class UIScreen* ui) { mUI = ui; }
+	void SetPlayer(class Player* player) { mPlayer = player; }
 
 private:
 	class Game* mGame;

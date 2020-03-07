@@ -13,5 +13,7 @@ int main ( int argc, char *argv[] )
 	return 0; // 0 = Success, <0 = Error
 }
 
-// TODO: Main Menu
+// TODO: Win/lose screen
+// TODO: Dialogue boxes
+// TODO: SFX??
 // TODO: Website

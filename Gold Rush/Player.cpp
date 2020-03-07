@@ -10,7 +10,8 @@ Player::Player(class Game* game, class Controller* controller)
 	mFacing(true),
 	mRecomputeWorldTransform(true),
 	mOxygen(60.f),
-	mAtCheckpoint(true)
+	mAtCheckpoint(true),
+	mIsDead(false)
 {
 	// Bind default controls
 	mControls.emplace('R', SDL_SCANCODE_RIGHT);
@@ -23,28 +24,32 @@ Player::Player(class Game* game, class Controller* controller)
 
 Player::~Player()
 {
+	delete mInventory;
 }
 
 void Player::Update(float deltaTime)
 {
-	// Update according to controls
-	Control(deltaTime);
-	// Apply gravity
-	Gravity(deltaTime);
-
-	// Calculate world transform
-	mPixPos = mPos * 60.f;
-	if (mRecomputeWorldTransform)
+	if (mGame->GetState() == 1)
 	{
-		ComputeWorldTransform();
+		// Update according to controls
+		Control(deltaTime);
+		// Apply gravity
+		Gravity(deltaTime);
+
+		// Calculate world transform
+		mPixPos = mPos * 60.f;
+		if (mRecomputeWorldTransform)
+		{
+			ComputeWorldTransform();
+		}
+
+		// Update oxygen stats
+		UpdateOxygen(deltaTime);
+		mTime += deltaTime;
+
+		// Calculate score
+		mInventory->CalcScore();
 	}
-
-	// Update oxygen stats
-	UpdateOxygen(deltaTime);
-	mTime += deltaTime;
-
-	// Calculate score
-	mInventory->CalcScore();
 }
 
 void Player::Control(float deltaTime)
@@ -178,8 +183,8 @@ void Player::Control(float deltaTime)
 	if (mController->GetKeyState(mControls['B']) == EPressed) { mInventory->C4Action(); }
 
 	// Make sure player doens't exit world boundaries
-	if (mPos.x > 204) { mPos.x = 204; }
-	else if (mPos.x < 5) { mPos.x = 5; }
+	if (mPos.x > 202) { mPos.x = 202; }
+	else if (mPos.x < 7) { mPos.x = 7; }
 }
 
 void Player::Gravity(float deltaTime)
@@ -217,13 +222,16 @@ void Player::UpdateOxygen(float deltaTime)
 	if (mPos.y < 616.f)
 	{
 		if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; }
-		else { mAtCheckpoint = false; }
+		else { mAtCheckpoint = false; } 
 		if (mAtCheckpoint) { mOxygen = 60.f; }
 		else { mOxygen -= deltaTime; }
 		// Die
-		if (mOxygen <= 0.f) { mGame->SetState(-1); }
+		if (mOxygen <= 0.f) { 
+			mGame->SetState(2);
+			mIsDead = true;
+		}
 		// Win
-		if (mPos.y < 5.f) { mGame->SetState(-1); }
+		if (mPos.y < 5.f) { mGame->SetState(2); }
 
 		if (!mAtCheckpoint) { mTime += deltaTime; }
 	}

@@ -11,6 +11,7 @@
 #include <vector>
 #include <cstdlib>
 #include <functional>
+#include <ctime>
 #include "SDL.h"
 #include "SOIL2.h"
 #include "GL/glew.h"
@@ -32,3 +33,4 @@
 #include "Button.h"
 #include "Font.h"
 #include "MainMenu.h"
+#include "EndScreen.h"

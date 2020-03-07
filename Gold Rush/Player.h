@@ -27,6 +27,7 @@ public:
 	bool GetIsWalking() const { return mIsWalking; }
 	bool GetIsMining() const { return mIsMining; }
 	bool GetIsMiningUp() const { return mIsMiningUp; }
+	bool GetIsDead() const { return mIsDead; }
 
 private:
 	// Helper functions
@@ -53,4 +54,5 @@ private:
 	bool mIsWalking;
 	bool mIsMining;
 	bool mIsMiningUp;
+	bool mIsDead;
 };

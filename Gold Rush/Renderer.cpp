@@ -41,6 +41,7 @@ bool Renderer::Init()
 	// Player textures
 	mPlayerTex = new Texture("Sprites/miner/miner.png", true);
 	mBGTex = new Texture("Sprites/bg.png", true);
+	mMBGTex = new Texture("Sprites/mbg.png", true);
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner-idle.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
@@ -302,18 +303,8 @@ void Renderer::Draw(float deltaTime)
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		// Draw HUD buttons
-		for (int i = 0; i <= 10; i++)
-		{
-			class Button* b = mGame->GetHUD()->GetButton(i);
-			mUITex[b->GetTexCode()]->SetActive();
-			ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
-			ComputeViewTransform();
-			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
-			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
-			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
-		}
-		// Draw numbers
+
+		// Draw numbers 
 		for (int i = 0; i <= 6; i++)
 		{
 			Vector2 pos = Vector2(94, -254);
@@ -335,6 +326,17 @@ void Renderer::Draw(float deltaTime)
 			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 			t->Unload();
 			delete t;
+		}
+		mVertArrayS->SetActive();
+		for (int i = 0; i <= mGame->GetHUD()->GetNumButtons() - 1; i++)
+		{
+			class Button* b = mGame->GetHUD()->GetButton(i);
+			mUITex[b->GetTexCode()]->SetActive();
+			ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
+			ComputeViewTransform();
+			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 		}
 		// Draw score
 		// Text
@@ -399,18 +401,43 @@ void Renderer::Draw(float deltaTime)
 				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 			}
 		}
+		// If game is over 
+		if (mGame->GetState() == 2)
+		{
+			for (int i = 0; i <= 0; i++)
+			{
+				mVertArrayButton->SetActive();
+				class Button* b = mGame->GetUI()->GetButton(i);
+				mUITex[b->GetTexCode()]->SetActive();
+				ComputeWorldTransform(3.f, b->GetPos(), mTempWorldTransform);
+				ComputeViewTransform();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			}
+		}
 		ComputeObjViewTransform();
 	}
+	// Draw main menu
 	else
 	{
-		// Draw logo
-		mVertArrayLogo->SetActive();
-		mUITex[100]->SetActive();
-		ComputeWorldTransform(3.f, Vector2(0.f, 0.f), mTempWorldTransform);
+		// Draw background
+		mVertArrayWindow->SetActive();
+		mMBGTex->SetActive();
+		ComputeWorldTransform(3.f, Vector2(0, 0), mTempWorldTransform);
 		ComputeViewTransform();
 		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
 		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
 		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		// Draw logo
+		mVertArrayLogo->SetActive();
+		mUITex[100]->SetActive();
+		ComputeWorldTransform(3.f, Vector2(0.f, 74.f), mTempWorldTransform);
+		ComputeViewTransform();
+		mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+		mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+		glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+		// Draw buttons
 		for (int i = 0; i <= 0; i++)
 		{
 			mVertArrayButton->SetActive();
