@@ -93,7 +93,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW-2.1.0\include\;$(SolutionDir)Dependencies\SOIL2\include\;$(SolutionDir)Dependencies\SDL2-2.0.10\include\;$(SolutionDir)Dependencies\SDL2_ttf-2.0.15\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)Dependencies\SOIL2\lib\;$(SolutionDir)Dependencies\GLEW-2.1.0\lib\Release\Win32\;$(SolutionDir)Dependencies\SDL2-2.0.10\lib\x86\;$(SolutionDir)Dependencies\SDL2_ttf-2.0.15\lib\x86\</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glew32.lib;SDL2.lib;SDL2main.lib;soil2-debug.lib;SDL2_ttf.lib</AdditionalDependencies>
@@ -130,7 +130,7 @@
       <AdditionalIncludeDirectories>$(SolutionDir)Dependencies\GLEW-2.1.0\include\;$(SolutionDir)Dependencies\SOIL2\include\;$(SolutionDir)Dependencies\SDL2-2.0.10\include\;$(SolutionDir)Dependencies\SDL2_ttf-2.0.15\include\</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
