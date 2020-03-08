@@ -40,6 +40,7 @@ private:
 	std::map<int, class Texture*> mUITex; 
 	class Texture* mBGTex;
 	class Texture* mMBGTex;
+	class Texture* mEBGTex;
 	class Font* mFont;
 	class VertexArray* mVertArray;
 	class VertexArray* mVertArrayM;
@@ -54,6 +55,8 @@ private:
 	class VertexArray* mVertArrayThreeNum;
 	class VertexArray* mVertArrayFourNum;
 	class VertexArray* mVertArrayFiveNum;
+	class VertexArray* mVertArrayGameOver;
+	class VertexArray* mVertArrayYouWin;
 	Matrix4 mViewTransform;
 	Matrix4 mTempWorldTransform;
 	// Quad vertex arrays and buffers
@@ -104,6 +107,18 @@ private:
 		 15.f,  4.f, 0.0f, 1.f, 0.f,
 		 15.f, -4.f, 0.0f, 1.f, 1.f,
 		-15.f, -4.f, 0.0f, 0.f, 1.f
+	};
+	float mGameOverVerts[20] = {
+		-54.f,  8.f, 0.0f, 0.f, 0.f,
+		 54.f,  8.f, 0.0f, 1.f, 0.f,
+		 54.f, -8.f, 0.0f, 1.f, 1.f,
+		-54.f, -8.f, 0.0f, 0.f, 1.f
+	};
+	float mYouWinVerts[20] = {
+		-42.f,  8.f, 0.0f, 0.f, 0.f,
+		 42.f,  8.f, 0.0f, 1.f, 0.f,
+		 42.f, -8.f, 0.0f, 1.f, 1.f,
+		-42.f, -8.f, 0.0f, 0.f, 1.f
 	};
 	float mButtonVerts[20] = {
 		-12.f,  12.f, 0.0f, 0.f, 0.f,

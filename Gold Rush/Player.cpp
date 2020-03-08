@@ -223,7 +223,7 @@ void Player::UpdateOxygen(float deltaTime)
 	{
 		if (mGame->GetWorld()->GetIsCheckpoint(round(mPos.y))) { mAtCheckpoint = true; }
 		else { mAtCheckpoint = false; } 
-		if (mAtCheckpoint) { mOxygen = 60.f; }
+		if (mAtCheckpoint) { mOxygen = 5.f; }
 		else { mOxygen -= deltaTime; }
 		// Die
 		if (mOxygen <= 0.f) { 
@@ -231,7 +231,7 @@ void Player::UpdateOxygen(float deltaTime)
 			mIsDead = true;
 		}
 		// Win
-		if (mPos.y < 5.f) { mGame->SetState(2); }
+		if (mPos.y <= 6.f) { mGame->SetState(2); }
 
 		if (!mAtCheckpoint) { mTime += deltaTime; }
 	}

@@ -37,11 +37,14 @@ bool Renderer::Init()
 	mVertArrayFourNum = new VertexArray(mFourNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayFiveNum = new VertexArray(mFiveNumVerts, 4, mQuadBuffer, 6);
 	mVertArrayLogo = new VertexArray(mLogoVerts, 4, mQuadBuffer, 6);
+	mVertArrayGameOver = new VertexArray(mGameOverVerts, 4, mQuadBuffer, 6);
+	mVertArrayYouWin = new VertexArray(mYouWinVerts, 4, mQuadBuffer, 6);
 
 	// Player textures
 	mPlayerTex = new Texture("Sprites/miner/miner.png", true);
 	mBGTex = new Texture("Sprites/bg.png", true);
 	mMBGTex = new Texture("Sprites/mbg.png", true);
+	mEBGTex = new Texture("Sprites/ebg.png", true);
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
 	mPlayerIdleTex.emplace_back(new Texture("Sprites/miner/miner-idle.png", true));
 	mPlayerWalkTex.emplace_back(new Texture("Sprites/miner/miner.png", true));
@@ -404,6 +407,79 @@ void Renderer::Draw(float deltaTime)
 		// If game is over 
 		if (mGame->GetState() == 2)
 		{
+			// Draw background
+			mVertArrayWindow->SetActive();
+			mEBGTex->SetActive();
+			ComputeWorldTransform(3.f, Vector2(0, 0), mTempWorldTransform);
+			ComputeViewTransform();
+			mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+			mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+			glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+			// Draw score if alive
+			if (!mPlayer->GetIsDead())
+			{
+				// You win text
+				mVertArrayYouWin->SetActive();
+				Texture* go = mFont->RenderText("YOU WIN", Vector3(1.f, 1.f, 1.f), 18);
+				ComputeWorldTransform(3.f, Vector2(0.f, 150.f), mTempWorldTransform);
+				ComputeViewTransform();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				go->Unload();
+				// Score
+				Texture* ts = mFont->RenderText("Score:", Vector3(1.f, 1.f, 1.f), 16);
+				mVertArrayFiveNum->SetActive();
+				ComputeWorldTransform(3.f, Vector2(0.f, 100.f), mTempWorldTransform);
+				ComputeViewTransform();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				ts->Unload();
+				// Score 
+				int s = mPlayer->GetInv()->GetScore();
+				Texture* tsc = mFont->RenderText(std::to_string(s), Vector3(1.f, 1.f, 1.f), 16);
+				tsc->SetActive();
+				if (s >= 10000)
+				{
+					mVertArrayFiveNum->SetActive();
+				}
+				else if (s >= 1000)
+				{
+					mVertArrayFourNum->SetActive();
+				}
+				else if (s >= 100)
+				{
+					mVertArrayThreeNum->SetActive();
+				}
+				else if (s >= 10)
+				{
+					mVertArrayTwoNum->SetActive();
+				}
+				else
+				{
+					mVertArrayOneNum->SetActive();
+				}
+				ComputeWorldTransform(3.f, Vector2(0.f, 70.f), mTempWorldTransform);
+				ComputeViewTransform();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				tsc->Unload();
+			}
+			else
+			{
+				// Text
+				mVertArrayGameOver->SetActive();
+				Texture* go = mFont->RenderText("GAME OVER", Vector3(1.f, 1.f, 1.f), 18);
+				ComputeWorldTransform(3.f, Vector2(0.f, 75.f), mTempWorldTransform);
+				ComputeViewTransform();
+				mShader->SetMatrixUniform("uViewTransform", mViewTransform);
+				mShader->SetMatrixUniform("uWorldTransform", mTempWorldTransform);
+				glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+				go->Unload();
+			}
+			// Draw buttons
 			for (int i = 0; i <= 0; i++)
 			{
 				mVertArrayButton->SetActive();
